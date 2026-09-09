@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12"],
-    "nextGroup": "A13",
-    "clubsFoundThisSession": 65,
+    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12", "A13"],
+    "nextGroup": "A14",
+    "clubsFoundThisSession": 71,
     "clubsNotFoundThisSession": 7
   },
   "clubs": {
@@ -1356,6 +1356,126 @@
         { "name": "Luiz Fernando Sampaio", "positionRaw": "Atacante" }
       ],
       "notes": "A cobertura mais completa encontrada até agora em qualquer grupo -- 27 jogadores nomeados com posição, provavelmente o elenco inteiro ou quase."
+    },
+    "A13::Madureira-RJ": {
+      "clubName": "Madureira-RJ",
+      "groupId": "A13",
+      "status": "press_pending_official",
+      "sources": ["https://www.national-football-teams.com/app.php/club/2026_2/Madureira.html", "cobertura de imprensa esportiva do Rio de Janeiro sobre o elenco 2026"],
+      "players": [
+        { "name": "Yan", "positionRaw": "Goleiro" },
+        { "name": "Celsinho", "positionRaw": "Zagueiro" },
+        { "name": "Daniel Felipe", "positionRaw": "Zagueiro" },
+        { "name": "Eisy", "positionRaw": "Zagueiro" },
+        { "name": "Marcão", "positionRaw": "Zagueiro" },
+        { "name": "Matheus Julião", "positionRaw": "Zagueiro" },
+        { "name": "Raphinha", "positionRaw": "Zagueiro" },
+        { "name": "André Fausto", "positionRaw": "Zagueiro" },
+        { "name": "Capanema", "positionRaw": "Zagueiro" },
+        { "name": "Arthur Santos", "positionRaw": "Meio-campo" },
+        { "name": "J. Gomes Lucio da Silva", "positionRaw": "Meio-campo" },
+        { "name": "Juninho", "positionRaw": "Meio-campo" },
+        { "name": "Lessa", "positionRaw": "Meio-campo" },
+        { "name": "Rodrigo Lindoso", "positionRaw": "Meio-campo" },
+        { "name": "W. dos Santos Leandro", "positionRaw": "Meio-campo" },
+        { "name": "Adriano", "positionRaw": "Meio-campo" },
+        { "name": "Rodrigo Andrade", "positionRaw": "Meio-campo" },
+        { "name": "Guilherme Silva", "positionRaw": "Meio-campo" },
+        { "name": "Lucas Santos", "positionRaw": "Meio-campo" },
+        { "name": "Juan Sánchez", "positionRaw": "Meio-campo" },
+        { "name": "Everton", "positionRaw": "Atacante" },
+        { "name": "Filipe Claudino", "positionRaw": "Atacante" },
+        { "name": "Geovane Maranhão", "positionRaw": "Atacante" },
+        { "name": "Vinicius Balotelli", "positionRaw": "Atacante" },
+        { "name": "Héricles", "positionRaw": "Atacante" },
+        { "name": "Gabriel Alves", "positionRaw": "Atacante" }
+      ],
+      "notes": "Cobertura extensa via base de dados de futebol + imprensa carioca; elenco amplo listado, sem confirmação oficial CBF/BID."
+    },
+    "A13::Portuguesa-RJ": {
+      "clubName": "Portuguesa-RJ",
+      "groupId": "A13",
+      "status": "press_pending_official",
+      "sources": ["cobertura de imprensa sobre o elenco 2026 do Luso-Brasileiro (Portuguesa-RJ)"],
+      "players": [
+        { "name": "Alexandre", "positionRaw": "Goleiro" },
+        { "name": "Bruno", "positionRaw": "Goleiro" },
+        { "name": "Douglas Borges", "positionRaw": "Goleiro" },
+        { "name": "Vinícius Machado", "positionRaw": "Goleiro" },
+        { "name": "Carlos Henrique", "positionRaw": "Zagueiro" },
+        { "name": "Ian", "positionRaw": "Zagueiro" },
+        { "name": "Iran", "positionRaw": "Zagueiro" },
+        { "name": "Joazi", "positionRaw": "Zagueiro" },
+        { "name": "Anderson Rosa", "positionRaw": "Meio-campo" },
+        { "name": "Clayton", "positionRaw": "Meio-campo" },
+        { "name": "Elicley", "positionRaw": "Meio-campo" },
+        { "name": "Henrique Rocha", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Atenção: 'Portuguesa' sem sufixo pode se confundir com a Portuguesa-SP (Associação Portuguesa de Desportos) -- esta busca foi refeita com termos específicos ('Portuguesa-RJ', 'Luso-Brasileiro', 'Rio de Janeiro') para não misturar os dois clubes homônimos. Elenco parcial, sem setor ofensivo confirmado via imprensa até o momento."
+    },
+    "A13::America-RJ": {
+      "clubName": "America-RJ",
+      "groupId": "A13",
+      "status": "press_pending_official",
+      "sources": ["cobertura de imprensa esportiva do Rio de Janeiro sobre o elenco 2026 do América-RJ"],
+      "players": [
+        { "name": "João Gabriel", "positionRaw": "Goleiro" },
+        { "name": "Guilherme Eiras", "positionRaw": "Goleiro" }
+      ],
+      "notes": "Cobertura muito esparsa encontrada via imprensa -- apenas goleiros confirmados nominalmente até o momento; restante do elenco não encontrado nesta rodada de busca."
+    },
+    "A13::Portuguesa-SP": {
+      "clubName": "Portuguesa-SP",
+      "groupId": "A13",
+      "status": "press_pending_official",
+      "sources": ["cobertura de imprensa esportiva de São Paulo sobre o elenco 2026 da Associação Portuguesa de Desportos"],
+      "players": [
+        { "name": "Bruno Bertinato", "positionRaw": "Goleiro" },
+        { "name": "João Paulo", "positionRaw": "Goleiro" },
+        { "name": "Eduardo", "positionRaw": "Goleiro" },
+        { "name": "João Vitor", "positionRaw": "Zagueiro" },
+        { "name": "Gustavo Henrique", "positionRaw": "Zagueiro" },
+        { "name": "Eduardo Biazus", "positionRaw": "Zagueiro" },
+        { "name": "Gustavo Sciencia", "positionRaw": "Zagueiro" }
+      ],
+      "notes": "Não confundir com a Portuguesa-RJ (Luso-Brasileiro), mesmo grupo A13 -- clubes homônimos distintos, tratados separadamente nesta coleta. Elenco parcial, setor ofensivo não encontrado nesta rodada de busca."
+    },
+    "A13::Água Santa-SP": {
+      "clubName": "Água Santa-SP",
+      "groupId": "A13",
+      "status": "press_pending_official",
+      "sources": ["cobertura de imprensa esportiva de São Paulo sobre o elenco 2026 do Água Santa"],
+      "players": [
+        { "name": "João Guilherme", "positionRaw": null },
+        { "name": "Felipinho", "positionRaw": null },
+        { "name": "Villian", "positionRaw": null },
+        { "name": "Bruno Vinicius", "positionRaw": null },
+        { "name": "Rodrigo Carioca", "positionRaw": null }
+      ],
+      "notes": "Nomes citados em matérias sobre gols/atuações, sem posição declarada pela fonte -- mantido positionRaw: null para não inventar posição. Elenco muito incompleto."
+    },
+    "A13::Pouso Alegre-MG": {
+      "clubName": "Pouso Alegre-MG",
+      "groupId": "A13",
+      "status": "press_pending_official",
+      "sources": ["cobertura de imprensa esportiva de Minas Gerais sobre o elenco 2026 do Pouso Alegre FC"],
+      "players": [
+        { "name": "Felipe", "positionRaw": "Goleiro" },
+        { "name": "Anderson", "positionRaw": "Goleiro" },
+        { "name": "Thiago Braga", "positionRaw": "Goleiro" },
+        { "name": "Natan", "positionRaw": "Goleiro" },
+        { "name": "Guilherme Buscarioli", "positionRaw": "Zagueiro" },
+        { "name": "Victor Araújo", "positionRaw": "Zagueiro" },
+        { "name": "Xandão", "positionRaw": "Zagueiro" },
+        { "name": "Matheus Nunes", "positionRaw": "Zagueiro" },
+        { "name": "Vanderley", "positionRaw": "Zagueiro" },
+        { "name": "Da Silva", "positionRaw": "Zagueiro" },
+        { "name": "Diego Porfírio", "positionRaw": "Zagueiro" },
+        { "name": "Samuel Bastos", "positionRaw": "Zagueiro" },
+        { "name": "Ricardo Bueno", "positionRaw": "Atacante" },
+        { "name": "Gabriel Tota", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Ricardo Bueno é atacante veterano mencionado nominalmente pela imprensa; Gabriel Tota mencionado como meio-campo em matéria narrativa. Restante do elenco levantado de listagem de goleiros/zagueiros por posição."
     }
   }
 }
