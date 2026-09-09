@@ -6,10 +6,10 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10"],
-    "nextGroup": "A11",
-    "clubsFoundThisSession": 54,
-    "clubsNotFoundThisSession": 6
+    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11"],
+    "nextGroup": "A12",
+    "clubsFoundThisSession": 59,
+    "clubsNotFoundThisSession": 7
   },
   "clubs": {
     "A01::Nacional-AM": {
@@ -1092,6 +1092,114 @@
         { "name": "Marlon", "positionRaw": null }
       ],
       "notes": "Clube tem 28 jogadores confirmados no elenco (idade média 29 anos); só nomes abreviados encontrados na busca, sem posição. Marlon está emprestado do Fluminense sub-20."
+    },
+    "A11::Uberlândia-MG": {
+      "clubName": "Uberlândia-MG",
+      "groupId": "A11",
+      "status": "press_pending_official",
+      "sources": ["https://diariodeuberlandia.com.br/noticia/39411/uberlandia-esporte-apresenta-elenco-e-inicia-preparacao-para-a-temporada-2026"],
+      "players": [
+        { "name": "Jefferson", "positionRaw": "Goleiro" },
+        { "name": "Renan", "positionRaw": "Zagueiro" },
+        { "name": "Alexandre Lazarini", "positionRaw": "Zagueiro" },
+        { "name": "Yuri Ferraz", "positionRaw": "Lateral-direito" },
+        { "name": "Jonatas Paulista", "positionRaw": "Volante" },
+        { "name": "Ben-Hur", "positionRaw": null },
+        { "name": "Ingro", "positionRaw": null },
+        { "name": "Geovane", "positionRaw": null },
+        { "name": "Tchê Tchê", "positionRaw": null },
+        { "name": "Rayne", "positionRaw": null },
+        { "name": "Diego Fumaça", "positionRaw": null },
+        { "name": "Rafael Conceição", "positionRaw": null },
+        { "name": "Robinho", "positionRaw": "Atacante" },
+        { "name": "Brayan Díaz", "positionRaw": null }
+      ],
+      "notes": "Brayan Díaz é colombiano da base promovido ao profissional. Vários reforços vieram de outros clubes de Série D (Renan ex-Nova Iguaçu-RJ, Alexandre Lazarini ex-Central-SC, Robinho ex-Boavista) -- fora do universo de clubes deste jogo, só registro de origem."
+    },
+    "A11::Betim-MG": {
+      "clubName": "Betim-MG",
+      "groupId": "A11",
+      "status": "press_pending_official",
+      "sources": ["https://www.itatiaia.com.br/esportes/futebol/futebol-nacional/futebol-mineiro/betim-futebol-mg/betim-futebol-no-mineiro-2026-elenco-e-expectativas-do-clube-para-a-competicao"],
+      "players": [
+        { "name": "Denivys Will da Vitória Júnior", "positionRaw": "Goleiro" },
+        { "name": "Jori", "positionRaw": "Goleiro" },
+        { "name": "Paulo Henrique Ribeiro da Silva", "positionRaw": "Atacante" },
+        { "name": "Riquelmy Mendes Araújo", "positionRaw": "Meio-campo" },
+        { "name": "Erick Lender Salles", "positionRaw": "Atacante" },
+        { "name": "Vitinho", "positionRaw": "Meio-campo" },
+        { "name": "Danilo Lisboa", "positionRaw": null },
+        { "name": "Diego Miticov", "positionRaw": null }
+      ],
+      "notes": "Paulo Henrique (PH)/Riquelmy/Erick Lender são retornos de passagens anteriores pelo clube."
+    },
+    "A11::CRAC-GO": {
+      "clubName": "CRAC-GO",
+      "groupId": "A11",
+      "status": "press_pending_official",
+      "sources": ["https://apitoesportivo.com.br/crac-inicia-pre-temporada-com-25-jogadores-e-tres-atletas-da-base-integrados-ao-elenco/"],
+      "players": [
+        { "name": "Cleriston Ferraz", "positionRaw": "Goleiro" },
+        { "name": "Vinicius Almeida", "positionRaw": "Goleiro" },
+        { "name": "Luis Henrique", "positionRaw": "Goleiro" },
+        { "name": "Gustavo Henrique", "positionRaw": "Zagueiro" },
+        { "name": "Danrlei Santos", "positionRaw": "Zagueiro" },
+        { "name": "Jefferson Santos", "positionRaw": "Zagueiro" },
+        { "name": "Miguel de Alcantara", "positionRaw": "Zagueiro" },
+        { "name": "Airton Oliveira", "positionRaw": "Lateral" },
+        { "name": "Léo Azevedo", "positionRaw": "Lateral" },
+        { "name": "Eduardo Menezes", "positionRaw": "Meio-campo" },
+        { "name": "Robson Alemão", "positionRaw": "Meio-campo" },
+        { "name": "Caio Cunha", "positionRaw": "Meio-campo" },
+        { "name": "Luis Gregorio", "positionRaw": "Meio-campo" },
+        { "name": "Talison Barboza", "positionRaw": "Meio-campo" },
+        { "name": "Thiago Alves", "positionRaw": "Atacante" },
+        { "name": "Riquelme Alves", "positionRaw": "Atacante" },
+        { "name": "Iago Martins", "positionRaw": "Atacante" },
+        { "name": "Gustavo Modesto", "positionRaw": "Atacante" },
+        { "name": "Henrique Souza", "positionRaw": "Atacante" },
+        { "name": "João Veras", "positionRaw": "Atacante" },
+        { "name": "Rafhael Lucas", "positionRaw": "Atacante" },
+        { "name": "Raí", "positionRaw": "Lateral-esquerdo/Zagueiro" },
+        { "name": "Arthur", "positionRaw": "Meio-campo" },
+        { "name": "Isaque", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Melhor cobertura da leva -- 25 jogadores anunciados, praticamente todos nomeados com posição pela própria fonte. Só Cleriston/Alemão/Iago Martins/Rafhael Lucas continuam da temporada anterior."
+    },
+    "A11::ABECAT-GO": {
+      "clubName": "ABECAT-GO",
+      "groupId": "A11",
+      "status": "press_pending_official",
+      "sources": ["https://esportegoiano.com.br/angelo-luiz-tecnico-abecat-elenco-definidido-2026-veja-nomes"],
+      "players": [
+        { "name": "Léo Alves", "positionRaw": "Zagueiro" },
+        { "name": "Marcílio Miguel", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Lucas Silva", "positionRaw": "Volante" },
+        { "name": "Lázaro", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Rafinha", "positionRaw": "Volante" },
+        { "name": "Alan Júnior", "positionRaw": "Atacante" }
+      ],
+      "notes": "Clube tem 25 jogadores anunciados no total (19 contratações + 6 renovações); só as 6 renovações foram nomeadas na cobertura encontrada."
+    },
+    "A11::Operário-MS": {
+      "clubName": "Operário-MS",
+      "groupId": "A11",
+      "status": "press_pending_official",
+      "sources": ["https://www.campograndenews.com.br/esportes/de-goleiro-europeu-a-ex-flamengo-operario-apresenta-elenco-para-a-temporada"],
+      "players": [
+        { "name": "Lucas Covolan", "positionRaw": "Goleiro" },
+        { "name": "Jonas", "positionRaw": "Meio-campo" },
+        { "name": "Matheus Galdezani", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Clube apresentou 22 jogadores no total; só os 3 destaques nomeados na cobertura encontrada. Jonas tem passagem por Flamengo e Bahia; Lucas Covolan retorna após 11 anos jogando fora do Brasil."
+    },
+    "A11::Ivinhema-MS": {
+      "clubName": "Ivinhema-MS",
+      "groupId": "A11",
+      "status": "not_found_via_press",
+      "sources": [],
+      "players": [],
+      "notes": "Busca só retornou informação do time SUB-20 (Copinha 2026), não o elenco profissional que disputa a Série D -- não confundir os dois, nenhum nome do profissional foi encontrado."
     }
   }
 }
