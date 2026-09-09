@@ -6,10 +6,10 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02", "A03"],
-    "nextGroup": "A04",
-    "clubsFoundThisSession": 16,
-    "clubsNotFoundThisSession": 2
+    "groupsProcessed": ["A01", "A02", "A03", "A04"],
+    "nextGroup": "A05",
+    "clubsFoundThisSession": 21,
+    "clubsNotFoundThisSession": 3
   },
   "clubs": {
     "A01::Nacional-AM": {
@@ -393,6 +393,108 @@
         { "name": "Arthur Gabriel", "positionRaw": "Atacante" }
       ],
       "notes": "Melhor cobertura encontrada até agora -- elenco completo de 30 nomes divulgado pelo clube, organizado por posição na própria matéria."
+    },
+    "A04::Capital-DF": {
+      "clubName": "Capital-DF",
+      "groupId": "A04",
+      "status": "not_found_via_press",
+      "sources": [],
+      "players": [],
+      "notes": "Só links de agregadores de estatística (ESPN, Flashscore, ogol) retornados, sem nomes de jogadores no conteúdo da busca."
+    },
+    "A04::Ceilândia-DF": {
+      "clubName": "Ceilândia-DF",
+      "groupId": "A04",
+      "status": "press_pending_official",
+      "sources": ["https://distritodoesporte.com/ceilandia-revela-elenco-amplo-e-reforca-ambicao-para-disputar-o-candangao/"],
+      "players": [
+        { "name": "Edmar Sucuri", "positionRaw": "Goleiro" },
+        { "name": "Luan Muniz", "positionRaw": "Goleiro" },
+        { "name": "Paulinho", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Carlos Henrique", "positionRaw": "Zagueiro" },
+        { "name": "Azevedo", "positionRaw": "Zagueiro" },
+        { "name": "Pedro Henrique", "positionRaw": "Zagueiro" },
+        { "name": "Willian Barão", "positionRaw": "Zagueiro" },
+        { "name": "Bosco", "positionRaw": "Volante" },
+        { "name": "Matheuzinho", "positionRaw": "Meio-campo" },
+        { "name": "Fabinho", "positionRaw": "Meio-campo" },
+        { "name": "Vini Torres", "positionRaw": "Meio-campo" },
+        { "name": "Patrikão", "positionRaw": "Atacante" },
+        { "name": "Cebolinha", "positionRaw": "Atacante" }
+      ],
+      "notes": "Matéria diz explicitamente que a lista é 'segundo a CBF' (registro), mas a fonte em si é imprensa local, não a página oficial da CBF -- mantido como press_pending_official, não confundir com CBF-verificado."
+    },
+    "A04::Mixto-MT": {
+      "clubName": "Mixto-MT",
+      "groupId": "A04",
+      "status": "press_pending_official",
+      "sources": [
+        "https://www.gazetadigital.com.br/editorias/esporte/de-olho-na-temporada-2027-mixto-anuncia-mais-4-saidas/853141",
+        "https://www.estadaomatogrosso.com.br/esportes/mixto-dispensa-mais-quatro-nomes/141965"
+      ],
+      "players": [
+        { "name": "Gustavo", "positionRaw": "Goleiro" },
+        { "name": "Gilvan", "positionRaw": null },
+        { "name": "Dionathã", "positionRaw": null },
+        { "name": "Emerson", "positionRaw": null },
+        { "name": "Glaycon", "positionRaw": "Goleiro" },
+        { "name": "Joazi", "positionRaw": "Lateral-direito" },
+        { "name": "Flávio Henrique", "positionRaw": "Meio-campo" },
+        { "name": "Henrique Lordelo", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Cobertura é sobre o FIM da temporada 2026 e início da reformulação pra 2027 -- Glaycon/Joazi/Flávio Henrique/Henrique Lordelo são jogadores DISPENSADOS após 2026, incluídos aqui só como registro de quem estava no elenco durante a temporada, não como elenco atual/permanente. Gilvan/Dionathã/Emerson vieram de artilharia da temporada."
+    },
+    "A04::Operário-MT": {
+      "clubName": "Operário-MT",
+      "groupId": "A04",
+      "status": "press_pending_official",
+      "sources": ["https://www.olhonoesportemt.com.br/novo/noticia.php?codigo=22638"],
+      "players": [
+        { "name": "Danilo Magalhães", "positionRaw": "Meio-atacante" },
+        { "name": "Ivo Mendes", "positionRaw": "Atacante" },
+        { "name": "Miguel Augusto", "positionRaw": "Atacante" }
+      ],
+      "notes": "Clube foi renomeado pra Várzea Grande Esporte Clube (mesmo registro/CNPJ, ainda referido como Operário-MT nos dados do jogo) -- só 3 reforços iniciais nomeados, elenco completo ainda em montagem segundo a fonte."
+    },
+    "A04::União-MT": {
+      "clubName": "União-MT",
+      "groupId": "A04",
+      "status": "press_pending_official",
+      "sources": ["https://www.365scores.com/pt-br/football/team/union-rondonopolis-9196/squad"],
+      "players": [
+        { "name": "Gabriel", "positionRaw": "Atacante" },
+        { "name": "Lucao", "positionRaw": "Atacante" },
+        { "name": "Pablo", "positionRaw": "Meio-campo" },
+        { "name": "Geandro", "positionRaw": "Meio-campo" },
+        { "name": "Gabriel Santana", "positionRaw": "Meio-campo" },
+        { "name": "Joel", "positionRaw": "Meio-campo" },
+        { "name": "Kauã", "positionRaw": "Meio-campo" },
+        { "name": "Vitinho", "positionRaw": "Meio-campo" },
+        { "name": "Italo Tanque", "positionRaw": "Meio-campo" },
+        { "name": "Luiz Gabriel", "positionRaw": "Meio-campo" },
+        { "name": "Miguel", "positionRaw": "Zagueiro" },
+        { "name": "Alan Abdala", "positionRaw": "Zagueiro" },
+        { "name": "Davi Basso", "positionRaw": "Zagueiro" },
+        { "name": "Leo Galon", "positionRaw": "Zagueiro" },
+        { "name": "Benedito", "positionRaw": "Zagueiro" },
+        { "name": "Márcio Luiz", "positionRaw": "Zagueiro" },
+        { "name": "Rodrigo", "positionRaw": "Zagueiro" },
+        { "name": "Lucas", "positionRaw": "Goleiro" },
+        { "name": "Lucão", "positionRaw": "Goleiro" }
+      ],
+      "notes": "Nome 'Lucao'/'Lucão' aparece 2x na fonte (atacante e goleiro) -- provavelmente dois jogadores diferentes com nome parecido, ou duplicidade do agregador; mantido como veio, sem tentar resolver sozinho."
+    },
+    "A04::Goiatuba-GO": {
+      "clubName": "Goiatuba-GO",
+      "groupId": "A04",
+      "status": "press_pending_official",
+      "sources": ["https://esportegoiano.com.br/com-22-atletas-goiatuba-inicia-pre-temporada-2026-confira-atual-elenco"],
+      "players": [
+        { "name": "Andrade", "positionRaw": "Goleiro" },
+        { "name": "Jean Carlos", "positionRaw": "Goleiro" },
+        { "name": "Marcos Daniel", "positionRaw": "Goleiro" }
+      ],
+      "notes": "Clube tem 22 atletas no elenco total (12 renovações + 10 contratações); cobertura encontrada só nomeou os goleiros antes de ser cortada."
     }
   }
 }
