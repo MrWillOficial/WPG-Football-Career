@@ -1,0 +1,117 @@
+{
+  "_meta": {
+    "policy": "Coleta via imprensa/anúncio de clube, NÃO via CBF/BID. Ver README.md nesta pasta. Nunca ativa OFFICIAL_PLAYER_DATABASE.",
+    "generatedAt": "2026-09-09",
+    "tool": "WebSearch (curl/WebFetch confirmados bloqueados pelo proxy de saída deste ambiente nesta data)"
+  },
+  "_progress": {
+    "totalClubs": 20,
+    "clubsProcessed": ["Ferroviária-SP", "Amazonas-AM", "Volta Redonda-RJ", "Paysandu-PA"],
+    "nextClub": "Caxias-RS",
+    "clubsFoundThisSession": 4,
+    "clubsNotFoundThisSession": 0
+  },
+  "clubs": {
+    "Ferroviária-SP": {
+      "clubName": "Ferroviária-SP",
+      "status": "press_pending_official",
+      "sources": ["https://www.futebolinterior.com.br/ferroviaria-22-jogadores-fim-contrato/"],
+      "players": [
+        { "name": "Igor Henrique", "positionRaw": "Meio-campo" },
+        { "name": "Maranhão", "positionRaw": "Atacante" },
+        { "name": "Erik", "positionRaw": null },
+        { "name": "Jhonatan Garcia", "positionRaw": null },
+        { "name": "Raoni", "positionRaw": null },
+        { "name": "Fábio Fau", "positionRaw": null },
+        { "name": "Pedro Estevam", "positionRaw": null }
+      ],
+      "notes": "Cerca de 22 jogadores do elenco anterior ficaram com contrato vencendo em dezembro/2025 (saída esperada em massa) -- elenco 2026 real ainda em formação. Igor Henrique (ex-Atlético-GO) e Maranhão (emprestado do Guarani-SP, que também está na Série C 2026 deste jogo) são as contratações confirmadas; Erik, Jhonatan Garcia, Raoni, Fábio Fau e Pedro Estevam citados como base jovem que deve sustentar o projeto, sem posição individual confirmada pela fonte."
+    },
+    "Amazonas-AM": {
+      "clubName": "Amazonas-AM",
+      "status": "press_pending_official",
+      "sources": ["https://m.aiscore.com/pt/team-amazonas-fc/edq09i0x58h4qxg/squad"],
+      "players": [
+        { "name": "Gustavo Ermel", "positionRaw": "Atacante" },
+        { "name": "Luan Silva", "positionRaw": "Atacante" },
+        { "name": "Henrique Almeida", "positionRaw": "Atacante" },
+        { "name": "Marcelo Cirino", "positionRaw": "Atacante" },
+        { "name": "Nicolás Schiappacasse", "positionRaw": "Atacante" },
+        { "name": "Leonardo Guerra", "positionRaw": "Atacante" },
+        { "name": "William Barbio", "positionRaw": "Atacante" },
+        { "name": "Igor Bolt", "positionRaw": "Atacante" },
+        { "name": "Yuri", "positionRaw": "Meio-campo" },
+        { "name": "Falcao Antonio", "positionRaw": "Meio-campo" },
+        { "name": "E. Varao", "positionRaw": "Meio-campo" },
+        { "name": "Jhonny Lucas", "positionRaw": "Meio-campo" },
+        { "name": "Ignacio Panzariello", "positionRaw": "Meio-campo" },
+        { "name": "Patrício Núñez", "positionRaw": "Meio-campo" },
+        { "name": "Rafael Tavares", "positionRaw": "Meio-campo" },
+        { "name": "Rafael Vitor", "positionRaw": "Defensor" },
+        { "name": "Leonardo Coelho", "positionRaw": "Defensor" },
+        { "name": "Diego Ivo", "positionRaw": "Defensor" },
+        { "name": "Rafael Furlán", "positionRaw": "Defensor" },
+        { "name": "Iury", "positionRaw": "Defensor" },
+        { "name": "Marcondes", "positionRaw": "Defensor" },
+        { "name": "Marcel Scalese", "positionRaw": "Defensor" }
+      ],
+      "notes": "Cobertura ampla via agregador (AiScore) -- técnico Aderbal Lana. Fonte agrupou o elenco em blocos largos (ataque/meio/defesa) sem discriminar sub-posição (lateral vs zagueiro etc.), mantido como veio."
+    },
+    "Volta Redonda-RJ": {
+      "clubName": "Volta Redonda-RJ",
+      "status": "press_pending_official",
+      "sources": ["https://www.tupi.fm/sentinelas/volta-redonda-define-elenco-do-carioca-de-2026-veja-jogadores/"],
+      "players": [
+        { "name": "Deitory", "positionRaw": "Goleiro" },
+        { "name": "Avelino", "positionRaw": "Goleiro" },
+        { "name": "Heitor", "positionRaw": "Goleiro" },
+        { "name": "Guilherme", "positionRaw": "Goleiro" },
+        { "name": "Wellington Silva", "positionRaw": "Lateral" },
+        { "name": "Juninho", "positionRaw": "Lateral" },
+        { "name": "Jean", "positionRaw": "Lateral" },
+        { "name": "Lucas Adell", "positionRaw": "Lateral" },
+        { "name": "Fabrício", "positionRaw": "Zagueiro" },
+        { "name": "Gabriel", "positionRaw": "Zagueiro" },
+        { "name": "Isaque", "positionRaw": "Zagueiro" },
+        { "name": "Rafael Castro", "positionRaw": "Zagueiro" },
+        { "name": "Mizael", "positionRaw": "Zagueiro" },
+        { "name": "Bruno Barra", "positionRaw": "Volante" },
+        { "name": "Adsson", "positionRaw": "Volante" },
+        { "name": "Wagninho", "positionRaw": "Volante" },
+        { "name": "Du Fernandes", "positionRaw": "Volante" },
+        { "name": "Dener", "positionRaw": "Volante" },
+        { "name": "Caetano", "positionRaw": "Volante" },
+        { "name": "Henrique", "positionRaw": "Meia" },
+        { "name": "Dione", "positionRaw": "Meia" },
+        { "name": "Marquinhos", "positionRaw": "Meia" },
+        { "name": "Patrick", "positionRaw": "Meia" },
+        { "name": "Heliardo", "positionRaw": "Atacante" },
+        { "name": "Marcus Vinícius", "positionRaw": "Atacante" },
+        { "name": "Ygor Catatau", "positionRaw": "Atacante" },
+        { "name": "Blanco", "positionRaw": "Atacante" }
+      ],
+      "notes": "Uma das coberturas mais completas encontradas em toda a coleta -- 27 jogadores discriminados por posição (fonte cobre o mesmo elenco que disputa o Carioca 2026, rebaixado da Série B pra Série C). Bruno Barra é o mais experiente (quase 400 jogos pelo clube); Blanco é atacante colombiano vindo do futebol boliviano."
+    },
+    "Paysandu-PA": {
+      "clubName": "Paysandu-PA",
+      "status": "press_pending_official",
+      "sources": ["https://dol.com.br/esporte/paysandu/931618/quem-sao-os-reforcos-do-paysandu-para-a-temporada-2026", "https://www.brasilemfolhas.com.br/2026/09/paysandu-busca-reforcos-para-elenco-antes-de-estreia-na-serie-c/"],
+      "players": [
+        { "name": "Gabriel Mesquita", "positionRaw": "Goleiro" },
+        { "name": "Jean Drosny", "positionRaw": "Goleiro" },
+        { "name": "Bruno Bispo", "positionRaw": "Defensor" },
+        { "name": "Castro", "positionRaw": "Defensor" },
+        { "name": "Edílson", "positionRaw": "Defensor" },
+        { "name": "Facundo Bonifazi", "positionRaw": "Defensor" },
+        { "name": "Luciano Taboca", "positionRaw": "Defensor" },
+        { "name": "Brian Wendell", "positionRaw": "Meia" },
+        { "name": "Caio Mello", "positionRaw": "Meia" },
+        { "name": "Lucas Cardoso", "positionRaw": "Meia" },
+        { "name": "Marcinho", "positionRaw": "Meia" },
+        { "name": "Ítalo", "positionRaw": null },
+        { "name": "JP Galvão", "positionRaw": null }
+      ],
+      "notes": "Confirmado via imprensa que o Paysandu disputa o Grupo B do quadrangular de acesso da Série C 2026 CONTRA O BRUSQUE-SC -- Brusque também está no elenco de clubes da Série C 2026 deste jogo, cruzamento de validação da fase 2 (2 grupos de 4). Diretoria ainda buscava reforços (lateral-esquerdo e atacante de beirada) no momento da matéria -- elenco pode não estar fechado."
+    }
+  }
+}

@@ -45,6 +45,15 @@ seria inventar uma informação que a fonte não confirmou.
 
 ## Progresso
 
-Ver `serieD-press-rosters.json` → campo `_progress`. Ordem de coleta segue a
-ordem dos grupos da Série D 2026 (A01 → A16), do zero — "sempre começa de
-baixo" (pedido explícito do usuário).
+- `serieD-press-rosters.json` — **COMPLETO** (96/96 clubes, grupos A01→A16).
+  Ver campo `_progress` de cada arquivo pro estado exato.
+- `serieC-press-rosters.json` — em andamento (20 clubes, liga única).
+- `serieB-press-rosters.json` — pendente (20 clubes, liga única + playoff).
+- `serieA-press-rosters.json` — pendente (20 clubes, liga única, sem
+  mata-mata).
+
+Ordem de coleta: "sempre começa de baixo" (pedido explícito do usuário) —
+Série D primeiro (concluída), depois C, depois B, depois A, cada uma na
+ordem dos clubes conforme aparece em `SERIE_C_2026_CLUBS` /
+`SERIE_B_2026_CLUBS` / `SERIE_A_2026_CLUBS` no próprio jogo
+(`src/data/competitions/`).
