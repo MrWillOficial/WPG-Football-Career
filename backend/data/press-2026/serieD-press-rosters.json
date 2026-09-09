@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02", "A03", "A04"],
-    "nextGroup": "A05",
-    "clubsFoundThisSession": 21,
+    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05"],
+    "nextGroup": "A06",
+    "clubsFoundThisSession": 27,
     "clubsNotFoundThisSession": 3
   },
   "clubs": {
@@ -495,6 +495,95 @@
         { "name": "Marcos Daniel", "positionRaw": "Goleiro" }
       ],
       "notes": "Clube tem 22 atletas no elenco total (12 renovações + 10 contratações); cobertura encontrada só nomeou os goleiros antes de ser cortada."
+    },
+    "A05::Trem-AP": {
+      "clubName": "Trem-AP",
+      "groupId": "A05",
+      "status": "press_pending_official",
+      "sources": ["https://agenciaamapa.com.br/noticia/34142/com-apoio-do-governo-do-amapa-trem-desportivo-clube-lanca-calendario-esportivo-da-temporada-2026"],
+      "players": [
+        { "name": "Neto", "positionRaw": "Zagueiro" },
+        { "name": "Fernando", "positionRaw": "Goleiro" },
+        { "name": "Victor Lube", "positionRaw": "Goleiro" }
+      ],
+      "notes": "Clube tem 20 jogadores no elenco total; cobertura encontrada só nomeou 3."
+    },
+    "A05::Oratório-AP": {
+      "clubName": "Oratório-AP",
+      "groupId": "A05",
+      "status": "press_pending_official",
+      "sources": ["https://www.diariodoamapa.com.br/cadernos/esportes/oratorio-estreia-fora-de-casa-na-serie-d-apos-mudancas-no-elenco-e-comissao-tecnica/"],
+      "players": [
+        { "name": "Leandro Pires", "positionRaw": "Meia-atacante" },
+        { "name": "Daiverson", "positionRaw": "Meia" },
+        { "name": "Fernando Caixeta", "positionRaw": "Goleiro" }
+      ],
+      "notes": "Fernando Caixeta veio do Trem-AP (mesmo grupo A05) segundo a fonte."
+    },
+    "A05::Tuna Luso-PA": {
+      "clubName": "Tuna Luso-PA",
+      "groupId": "A05",
+      "status": "press_pending_official",
+      "sources": ["https://www.oliberal.com/esportes/futebol/de-olho-em-2026-tuna-luso-contrata-volante-campeao-paraense-com-o-paysandu-1.1058103"],
+      "players": [
+        { "name": "Joanderson", "positionRaw": "Goleiro" },
+        { "name": "Arthur", "positionRaw": "Zagueiro" },
+        { "name": "Marcinho", "positionRaw": "Lateral" },
+        { "name": "Alan Maia", "positionRaw": "Lateral" },
+        { "name": "Felipe Trindade", "positionRaw": "Meio-campo" },
+        { "name": "Paulinho", "positionRaw": "Meio-campo" },
+        { "name": "Adalto", "positionRaw": "Meia-atacante" },
+        { "name": "Allef", "positionRaw": "Meia-atacante" },
+        { "name": "Otávio", "positionRaw": "Meia-atacante" },
+        { "name": "Lucas Serravalle", "positionRaw": "Atacante" }
+      ],
+      "notes": "Paulinho é a 10ª contratação anunciada pra 2026 segundo a fonte -- lista ainda parcial, mais reforços vieram depois."
+    },
+    "A05::Águia de Marabá-PA": {
+      "clubName": "Águia de Marabá-PA",
+      "groupId": "A05",
+      "status": "press_pending_official",
+      "sources": ["https://www.oliberal.com/esportes/aguia-de-maraba-anuncia-mais-tres-jogadores-para-a-temporada-de-2026-1.1039748"],
+      "players": [
+        { "name": "Wendell", "positionRaw": null }
+      ],
+      "notes": "Cobertura encontrada é bem inicial (só o anúncio de uma contratação, 4ª passagem de Wendell pelo clube) -- elenco completo não encontrado."
+    },
+    "A05::Tocantinópolis-TO": {
+      "clubName": "Tocantinópolis-TO",
+      "groupId": "A05",
+      "status": "press_pending_official",
+      "sources": ["https://www.ogol.com.br/equipe/tocantinopolis/3494"],
+      "players": [
+        { "name": "Gianluca Castro Lima", "positionRaw": "Goleiro" },
+        { "name": "Heitor", "positionRaw": "Goleiro" },
+        { "name": "Luciano Alves", "positionRaw": "Goleiro" },
+        { "name": "Gabriel Cassimiro", "positionRaw": null },
+        { "name": "Ailton Júnior Costa de Oliveira", "positionRaw": null },
+        { "name": "Marcos Paulo", "positionRaw": null }
+      ],
+      "notes": "Clube tem 18 jogadores no elenco total; 3 goleiros vieram de listagem de elenco, os outros 3 de estatística de artilharia."
+    },
+    "A05::Imperatriz-MA": {
+      "clubName": "Imperatriz-MA",
+      "groupId": "A05",
+      "status": "press_pending_official",
+      "sources": ["https://imirante.com/esporte/imperatriz/2025/12/02/imperatriz-anuncia-reforcos-e-chega-a-20-jogadores-confirmados-para-temporada-2026"],
+      "players": [
+        { "name": "Junior Conceição", "positionRaw": "Goleiro" },
+        { "name": "Mateus Machado", "positionRaw": "Goleiro" },
+        { "name": "Ronny", "positionRaw": "Zagueiro" },
+        { "name": "Wyldson Lima", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Gleidson", "positionRaw": "Meio-campo" },
+        { "name": "Felipe Macena", "positionRaw": "Meio-campo" },
+        { "name": "Café", "positionRaw": "Atacante" },
+        { "name": "Lucas Daros da Silva", "positionRaw": "Meio-campo/Lateral-direito" },
+        { "name": "Flávio Renê Pereira", "positionRaw": "Centroavante" },
+        { "name": "Mateusão", "positionRaw": "Atacante" },
+        { "name": "Luís Fernando", "positionRaw": "Zagueiro" },
+        { "name": "João Victor", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Clube tem 20 jogadores confirmados no total (renovações + 13 contratações); cobertura encontrada nomeou 12."
     }
   }
 }
