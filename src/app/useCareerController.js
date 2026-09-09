@@ -13,6 +13,7 @@ import { computeClubEffectiveStrength, getMatchContext, historyForCompetition } 
 import { advanceOfficialWorldDivisions } from '../engines/world/officialWorldSeason.js';
 import { appendSystemPost, commentOnSocialPost, createSocialState, publishSocialPost, syncSocialToPlayer } from '../engines/life/socialEngine.js';
 import { createPlayerRegistration } from '../data/players/playerRegistration.js';
+import { generateTransferNews } from '../ui/screens/world.jsx';
 const STORAGE_KEY = 'slice-v2';
 
 export function useCareerController() {
