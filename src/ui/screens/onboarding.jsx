@@ -3,6 +3,8 @@ import { Badge, Card, ClubMonogram, THEME } from '../system.jsx';
 import { DETAILED_POSITIONS, TRAININGS, TRAINING_INTENSITIES } from '../../engines/player/playerEngine.js';
 import { SERIE_D_2026_CLUBS_MAP } from '../../data/competitions/serieD2026.js';
 import { formatDateBrNumeric, getAcademyCalendarDate } from '../../engines/life/lifeCalendarFitness.jsx';
+import { ALL_CLUBS_MAP } from '../../data/competitions/brazil2026.js';
+import { COPINHA_TOTAL_ROUNDS } from '../../engines/competition/copinhaEngine.js';
 /* ============================================================================
    TELAS — Criar / Escolher clube
 ============================================================================ */
@@ -136,4 +138,51 @@ function ClubSelectScreen({ player, onChoose }) {
 }
 
 
-export { AcademyScreen, CreateScreen, ClubSelectScreen };
+/* ============================================================================
+   COPINHA — mata-mata curto antes de escolher o primeiro clube profissional.
+   Ver copinhaEngine.js pro porquê e a lógica de olheiro.
+============================================================================ */
+function CopinhaIntroScreen({ player, onStart }) {
+  return (
+    <div style={{ padding: 24, maxWidth: 420, margin: '0 auto', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <Card elevated style={{ padding: 24, textAlign: 'center' }}>
+        <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase' }}>Antes de escolher seu clube</p>
+        <h1 className="display" style={{ fontSize: 26, fontWeight: 700, margin: '8px 0 12px' }}>Copa São Paulo de Futebol Júnior</h1>
+        <p style={{ color: THEME.textSecondary, fontSize: 13, lineHeight: 1.6 }}>
+          {player.name}, você foi convidado a defender uma seleção de base na Copinha antes de assinar seu primeiro contrato profissional. São {COPINHA_TOTAL_ROUNDS} jogos eliminatórios contra times de todo o país — perder qualquer um encerra sua participação. Um bom torneio pode chamar a atenção de olheiros de divisões maiores; um torneio discreto não muda nada, e você segue normalmente pra escolha de um clube da Série D.
+        </p>
+        <button className="display" onClick={onStart} style={{ marginTop: 20, padding: '15px 0', width: '100%', fontWeight: 700, fontSize: 16, background: THEME.gold, color: THEME.bg, border: 'none' }}>COMEÇAR A COPINHA</button>
+      </Card>
+    </div>
+  );
+}
+
+const COPINHA_TIER_HEADLINES = {
+  normal: 'Sem observadores de peso',
+  serie_d_forte: 'Uma chamada especial!',
+  serie_c: 'Observado para a Série C!',
+  serie_b: 'Observado para a Série B!',
+  serie_a: 'Observado para a Série A!',
+};
+function CopinhaResultScreen({ copinhaState, onContinue }) {
+  const { stats, roundsWon, result } = copinhaState;
+  const avgRating = stats.apps ? (stats.ratingSum / stats.apps).toFixed(1) : '—';
+  const clubName = result.scoutedClub ? (ALL_CLUBS_MAP[result.scoutedClub]?.name || result.scoutedClub) : null;
+  return (
+    <div style={{ padding: 24, maxWidth: 420, margin: '0 auto', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <Card elevated style={{ padding: 24, textAlign: 'center' }}>
+        <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase' }}>Copinha — fim de participação</p>
+        <h1 className="display" style={{ fontSize: 24, fontWeight: 700, margin: '8px 0 6px', color: result.tier === 'normal' ? THEME.text : THEME.gold }}>{COPINHA_TIER_HEADLINES[result.tier]}</h1>
+        <p style={{ color: THEME.textSecondary, fontSize: 13 }}>{roundsWon} de {COPINHA_TOTAL_ROUNDS} rodadas vencidas · {stats.goals} gol(s) · {stats.assists} assistência(s) · nota média {avgRating}</p>
+        {clubName ? (
+          <p style={{ marginTop: 14, fontSize: 14 }}>Você vai assinar direto com o <b style={{ color: THEME.gold }}>{clubName}</b>.</p>
+        ) : (
+          <p style={{ marginTop: 14, fontSize: 14 }}>Nenhum olheiro de peso apareceu — hora de escolher seu primeiro clube na Série D.</p>
+        )}
+        <button className="display" onClick={onContinue} style={{ marginTop: 20, padding: '15px 0', width: '100%', fontWeight: 700, fontSize: 16, background: THEME.gold, color: THEME.bg, border: 'none' }}>CONTINUAR</button>
+      </Card>
+    </div>
+  );
+}
+
+export { AcademyScreen, CreateScreen, ClubSelectScreen, CopinhaIntroScreen, CopinhaResultScreen };

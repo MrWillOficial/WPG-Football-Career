@@ -1,13 +1,14 @@
 import React from 'react';
 import { useCareerController } from './useCareerController.js';
-import { AcademyScreen, CareiraScreen, ClubSelectScreen, ContractDecisionScreen, CreateScreen, GlobalStyle, HomeScreen, LifeEventScreen, MatchScreen, MundoScreen, SeasonEndScreen, SerieA2026ResultScreen, SerieB2026ResultScreen, SerieC2026ResultScreen, SerieD2026ResultScreen, VoceScreen, WPGShell, LifeScreen, PlayerProfileScreen } from '../ui/WPGUI.jsx';
-import { getActiveClubsMap } from '../data/competitions/brazil2026.js';
+import { AcademyScreen, CareiraScreen, ClubSelectScreen, ContractDecisionScreen, CopinhaIntroScreen, CopinhaResultScreen, CreateScreen, GlobalStyle, HomeScreen, LifeEventScreen, MatchScreen, MundoScreen, SeasonEndScreen, SerieA2026ResultScreen, SerieB2026ResultScreen, SerieC2026ResultScreen, SerieD2026ResultScreen, VoceScreen, WPGShell, LifeScreen, PlayerProfileScreen } from '../ui/WPGUI.jsx';
+import { ALL_CLUBS_MAP, getActiveClubsMap } from '../data/competitions/brazil2026.js';
 import { CLUBS_MAP } from '../data/_mock/mockData.js';
 import { buildRoundToDay, getDayType } from '../engines/life/lifeCalendarFitness.jsx';
 import { sortStandings } from '../engines/match/matchEngine.js';
+import { COPINHA_OWN_ID, COPINHA_OWN_NAME } from '../engines/competition/copinhaEngine.js';
 
 export function CareerApp() {
-  const { loaded, setLoaded, academyState, advanceAcademyWeek, phase, setPhase, tab, setTab, player, setPlayer, seasonYear, setSeasonYear, competition, setCompetition, standings, setStandings, fixtures, setFixtures, round, setRound, userClubId, setUserClubId, stats, setStats, log, setLog, promotionResult, setPromotionResult, seasonHistory, setSeasonHistory, seasonStartSnapshot, setSeasonStartSnapshot, trainPick, setTrainPick, showPicker, setShowPicker, pendingWeek, setPendingWeek, lifeState, setLifeState, interviewHistory, setInterviewHistory, pendingLifeEvent, setPendingLifeEvent, dayIndex, setDayIndex, stageDayIndex, setStageDayIndex, fitnessState, setFitnessState, trainingSkipStreak, setTrainingSkipStreak, matchHistory, setMatchHistory, worldState, setWorldState, economyState, setEconomyState, pendingContractDecision, setPendingContractDecision, socialState, handleSocialPublish, handleSocialComment, serieD2026Demo, setSerieD2026Demo, serieC2026State, setSerieC2026State, serieB2026State, setSerieB2026State, serieA2026State, setSerieA2026State, transferNews, setTransferNews, pushLog, startCareer, chooseClub, redrawSerieD2026GroupsForNewSeason, exitSerieD2026Demo, beginSerieD2026Tie, startNewSerieD2026Season, startSerieC2026Season, beginSerieC2026Fase2, beginSerieC2026Final, exitSerieC2026Season, startSerieB2026Season, beginSerieB2026Playoff, exitSerieB2026Season, startSerieA2026Season, exitSerieA2026Season, togglePicker, advanceTrainingDay, advanceRecoveryDay, playWeek, continueAfterMatch, chooseLifePosture, requestTransfer, requestLoan, handleInvest, handleWithdrawInvestments, handleBuyProperty, finalizeNextSeason, continueNextSeason, resolveContractDecision, resetCareer } = useCareerController();
+  const { loaded, setLoaded, academyState, advanceAcademyWeek, phase, setPhase, tab, setTab, player, setPlayer, seasonYear, setSeasonYear, competition, setCompetition, standings, setStandings, fixtures, setFixtures, round, setRound, userClubId, setUserClubId, stats, setStats, log, setLog, promotionResult, setPromotionResult, seasonHistory, setSeasonHistory, seasonStartSnapshot, setSeasonStartSnapshot, trainPick, setTrainPick, showPicker, setShowPicker, pendingWeek, setPendingWeek, lifeState, setLifeState, interviewHistory, setInterviewHistory, pendingLifeEvent, setPendingLifeEvent, dayIndex, setDayIndex, stageDayIndex, setStageDayIndex, fitnessState, setFitnessState, trainingSkipStreak, setTrainingSkipStreak, matchHistory, setMatchHistory, worldState, setWorldState, economyState, setEconomyState, pendingContractDecision, setPendingContractDecision, socialState, handleSocialPublish, handleSocialComment, serieD2026Demo, setSerieD2026Demo, serieC2026State, setSerieC2026State, serieB2026State, setSerieB2026State, serieA2026State, setSerieA2026State, transferNews, setTransferNews, pushLog, startCareer, chooseClub, redrawSerieD2026GroupsForNewSeason, exitSerieD2026Demo, beginSerieD2026Tie, startNewSerieD2026Season, startSerieC2026Season, beginSerieC2026Fase2, beginSerieC2026Final, exitSerieC2026Season, startSerieB2026Season, beginSerieB2026Playoff, exitSerieB2026Season, startSerieA2026Season, exitSerieA2026Season, togglePicker, advanceTrainingDay, advanceRecoveryDay, playWeek, continueAfterMatch, chooseLifePosture, requestTransfer, requestLoan, handleInvest, handleWithdrawInvestments, handleBuyProperty, finalizeNextSeason, continueNextSeason, resolveContractDecision, resetCareer, copinhaState, beginCopinhaMatch, continueCopinhaMatch, finishCopinha } = useCareerController();
   if (!loaded) return null;
   const activeClubsMap = (userClubId && competition) ? getActiveClubsMap(competition, userClubId) : CLUBS_MAP;
   const club = userClubId ? activeClubsMap[userClubId] : null;
@@ -26,6 +27,17 @@ export function CareerApp() {
       {phase === 'create' && <CreateScreen onStart={startCareer} />}
       {phase === 'academy' && player && <AcademyScreen player={player} state={academyState} seasonYear={seasonYear} log={log} showPicker={showPicker} onTogglePicker={togglePicker} onAdvance={advanceAcademyWeek} />}
       {phase === 'club-select' && player && <ClubSelectScreen player={player} onChoose={chooseClub} />}
+      {phase === 'copinha-intro' && player && <CopinhaIntroScreen player={player} onStart={beginCopinhaMatch} />}
+      {phase === 'copinha-match' && copinhaState?.pendingMatch && (
+        <MatchScreen
+          key={`copinha-${copinhaState.round}`}
+          match={copinhaState.pendingMatch.userMatchInfo}
+          clubsMap={{ ...ALL_CLUBS_MAP, [COPINHA_OWN_ID]: { id: COPINHA_OWN_ID, name: COPINHA_OWN_NAME, overall: player.overall } }}
+          preMatchCondition={100}
+          onContinue={continueCopinhaMatch}
+        />
+      )}
+      {phase === 'copinha-result' && copinhaState?.result && <CopinhaResultScreen copinhaState={copinhaState} onContinue={finishCopinha} />}
 
       {phase === 'season' && player && competition && club && (
         <WPGShell active={tab} onChange={setTab} player={player} club={club} seasonYear={seasonYear}>
