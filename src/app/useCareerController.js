@@ -102,6 +102,20 @@ export function useCareerController() {
           setWorldState(d.worldState || { clubDivision: initialClubDivision() });
           setEconomyState({ balance: 0, investments: 0, properties: [], ...(d.economyState || {}) });
           setSocialState(d.socialState || createSocialState(d.player || {}));
+          // Progresso de campanha (Série D/C/B/A) e telas pendentes (partida em
+          // andamento, evento de vida, decisão de contrato) nunca eram salvos —
+          // um recarregamento da aba no meio de qualquer um desses (comum no
+          // navegador do celular: tela apagar, trocar de app) deixava `phase`
+          // restaurado mas o dado que aquela fase precisa vindo `null`, o que
+          // trava a tela (preta, sem nada pra clicar) ou quebra bem no fim do
+          // grupo/mata-mata (acesso a campo de objeto nulo).
+          setSerieD2026Demo(d.serieD2026Demo || null);
+          setSerieC2026State(d.serieC2026State || null);
+          setSerieB2026State(d.serieB2026State || null);
+          setSerieA2026State(d.serieA2026State || null);
+          setPendingWeek(d.pendingWeek || null);
+          setPendingLifeEvent(d.pendingLifeEvent || null);
+          setPendingContractDecision(d.pendingContractDecision || null);
         }
       } catch (e) { /* nada salvo ainda */ }
       setLoaded(true);
@@ -110,9 +124,9 @@ export function useCareerController() {
 
   useEffect(() => {
     if (!loaded) return;
-    const d = { phase, player, seasonYear, competition, standings, fixtures, round, userClubId, stats, log, promotionResult, seasonHistory, seasonStartSnapshot, lifeState, interviewHistory, dayIndex, fitnessState, trainingSkipStreak, matchHistory, economyState, worldState, academyState, socialState };
+    const d = { phase, player, seasonYear, competition, standings, fixtures, round, userClubId, stats, log, promotionResult, seasonHistory, seasonStartSnapshot, lifeState, interviewHistory, dayIndex, fitnessState, trainingSkipStreak, matchHistory, economyState, worldState, academyState, socialState, serieD2026Demo, serieC2026State, serieB2026State, serieA2026State, pendingWeek, pendingLifeEvent, pendingContractDecision };
     appStorage.set(STORAGE_KEY, JSON.stringify(d)).catch(() => {});
-  }, [loaded, phase, player, seasonYear, competition, standings, fixtures, round, userClubId, stats, log, promotionResult, seasonHistory, seasonStartSnapshot, lifeState, interviewHistory, dayIndex, fitnessState, trainingSkipStreak, matchHistory, economyState, worldState, academyState, socialState]);
+  }, [loaded, phase, player, seasonYear, competition, standings, fixtures, round, userClubId, stats, log, promotionResult, seasonHistory, seasonStartSnapshot, lifeState, interviewHistory, dayIndex, fitnessState, trainingSkipStreak, matchHistory, economyState, worldState, academyState, socialState, serieD2026Demo, serieC2026State, serieB2026State, serieA2026State, pendingWeek, pendingLifeEvent, pendingContractDecision]);
 
   const pushLog = useCallback((msg) => setLog(prev => [msg, ...prev].slice(0, 30)), []);
 
@@ -538,14 +552,14 @@ export function useCareerController() {
         setPendingLifeEvent({ event, resumePhase: 'season', resetSkipStreak: true });
         setPhase('life-event');
         if (player.contract && crossesNewMonth(competition.family, seasonYear, dayIndex)) {
-          setEconomyState(e => ({ balance: e.balance + player.contract.salary }));
+          setEconomyState(e => ({ ...e, balance: e.balance + player.contract.salary }));
         }
         setDayIndex(d => d + 1);
         return;
       }
     }
     if (player.contract && crossesNewMonth(competition.family, seasonYear, dayIndex)) {
-      setEconomyState(e => ({ balance: e.balance + player.contract.salary }));
+      setEconomyState(e => ({ ...e, balance: e.balance + player.contract.salary }));
     }
     setDayIndex(d => d + 1);
   }
@@ -556,7 +570,7 @@ export function useCareerController() {
     setFitnessState({ condition: applyRestRecovery(fitnessState.condition) });
     pushLog('Dia de recuperação física após a partida.');
     if (player.contract && crossesNewMonth(competition.family, seasonYear, dayIndex)) {
-      setEconomyState(e => ({ balance: e.balance + player.contract.salary }));
+      setEconomyState(e => ({ ...e, balance: e.balance + player.contract.salary }));
     }
     setDayIndex(d => d + 1);
   }
@@ -617,7 +631,7 @@ export function useCareerController() {
     // Salário é mensal de verdade agora (ver crossesNewMonth) — creditado
     // em qualquer avanço de dia que vire o mês, não mais por rodada.
     if (player.contract && crossesNewMonth(competition.family, seasonYear, dayIndex)) {
-      setEconomyState(e => ({ balance: e.balance + player.contract.salary }));
+      setEconomyState(e => ({ ...e, balance: e.balance + player.contract.salary }));
     }
 
     // matchHistory nasce aqui — resolveRound só devolveu o fato bruto (matchResults);
@@ -1064,7 +1078,7 @@ export function useCareerController() {
       if (offers.length > 0) {
         const offer = offers[0];
         const compensation = computeReleaseCompensation(player.contract, seasonYear);
-        setEconomyState(e => ({ balance: e.balance + compensation }));
+        setEconomyState(e => ({ ...e, balance: e.balance + compensation }));
         const nextPlayer = { ...player, age: player.age + 1, contract: makeContract(offer.clubId, offer.proposedSalary, seasonYear + 1, offer.proposedDuration), wantsTransfer: false, wantsLoan: false };
         finalizeNextSeason(nextPlayer, offer.clubId, offer.family, nextWorldState, `Dispensado pelo ${oldClubName} (compensação recebida). Assinou com o ${offer.clubName}.`);
       } else {

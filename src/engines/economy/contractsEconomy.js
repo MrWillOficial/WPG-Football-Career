@@ -204,10 +204,10 @@ function buyProperty(economyState, propertyId) {
 // rodada). Nunca deixa o saldo ficar negativo por causa de upkeep — se não
 // dá pra pagar tudo, paga o que dá, sem inventar dívida (fora de escopo).
 function applyAnnualEconomyUpdate(economyState) {
-  const totalUpkeep = economyState.properties.reduce((sum, p) => sum + p.upkeep, 0);
-  const newBalance = Math.max(0, economyState.balance - totalUpkeep);
-  const newInvestments = Math.round(economyState.investments * (1 + INVESTMENT_SEASONAL_RETURN));
-  return { ...economyState, balance: newBalance, investments: newInvestments };
+  const totalUpkeep = (economyState.properties || []).reduce((sum, p) => sum + p.upkeep, 0);
+  const newBalance = Math.max(0, (economyState.balance || 0) - totalUpkeep);
+  const newInvestments = Math.round((economyState.investments || 0) * (1 + INVESTMENT_SEASONAL_RETURN));
+  return { ...economyState, balance: newBalance, investments: newInvestments, properties: economyState.properties || [] };
 }
 
 const POSITIONS = [
