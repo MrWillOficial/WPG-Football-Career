@@ -281,6 +281,28 @@ export function useCareerController() {
   // ao clube de origem ao longo de várias temporadas, e não foi o que foi
   // reportado — nunca inventar solução pra um problema que não foi pedido.
   function computeSeasonContractUpdate(family, allowMarket) {
+    // Empréstimo em andamento tem precedência sobre TUDO — mudança de
+    // divisão, pedido do jogador, decisão do clube. É um evento agendado
+    // (returnSeason), não uma decisão desta virada. Duração de empréstimo é
+    // sempre da MESMA family (ver generateLoanOffer: "não sobe de tier"),
+    // então nunca precisa redirecionar pra outra função de início de temporada.
+    if (player.loan) {
+      if (seasonYear + 1 >= player.loan.returnSeason) {
+        return {
+          effectiveClubId: player.loan.parentClubId, targetFamily: player.loan.parentFamily || family, customClubIdsOverride: null,
+          contract: player.loan.parentContract, loan: null, wantsTransfer: false, wantsLoan: false,
+          logMsg: `Fim do empréstimo. Você retorna ao ${ALL_CLUBS_MAP[player.loan.parentClubId]?.name || 'clube de origem'}.`,
+        };
+      }
+      // Ainda no meio do empréstimo — segue jogando pelo clube emprestador,
+      // sem reavaliar mercado nem contrato (o vínculo real é com o clube de
+      // origem, intocado até o retorno).
+      return {
+        effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
+        contract: player.contract, loan: player.loan, wantsTransfer: false, wantsLoan: false, logMsg: null,
+      };
+    }
+
     const participantIds = FAMILY_CLUB_IDS[family] || [];
     const withOverall = participantIds.map(id => ALL_CLUBS_MAP[id]?.overall).filter(v => Number.isFinite(v));
     const avgOverall = withOverall.length ? withOverall.reduce((s, v) => s + v, 0) / withOverall.length : 50;
@@ -294,38 +316,56 @@ export function useCareerController() {
       targetFamily === 'serie_b_2026' ? SERIE_B_2026_CLUBS :
       targetFamily === 'serie_a_2026' ? SERIE_A_2026_CLUBS : null; // serie_d_2026 usa redrawSerieD2026GroupsForNewSeason, não precisa de override
     const findOffer = (requestFlags) => generateTransferOffers(player, status, family, avgOverall, requestFlags).filter(o => o.clubId !== userClubId)[0] || null;
+    const findLoanOffer = () => { const o = generateLoanOffer(family); return o && o.clubId !== userClubId ? o : null; };
     const renewIfExpired = () => {
       const expired = !player.contract || (player.contract.expiresSeason - seasonYear <= 0);
       return expired ? makeContract(userClubId, computeSalary(family, status), seasonYear + 1, 2) : player.contract;
     };
+    const makeLoan = (offer) => ({ parentClubId: userClubId, parentFamily: family, parentContract: contractOnFile, loanClubId: offer.clubId, returnSeason: seasonYear + 1 + offer.durationSeasons });
 
     if (allowMarket) {
-      // Pedido do JOGADOR (botão "PEDIR TRANSFERÊNCIA") tem prioridade sobre a
-      // avaliação do clube — se ele já pediu, é isso que está sendo avaliado.
+      // Pedido do JOGADOR (botões "PEDIR TRANSFERÊNCIA"/"PEDIR EMPRÉSTIMO")
+      // tem prioridade sobre a avaliação do clube. Transferência antes de
+      // empréstimo — mais drástico, é o que o jogador mais provavelmente
+      // quer se pediu os dois.
       if (player.wantsTransfer) {
         const offer = findOffer({ wantsTransfer: true, wantsLoan: false });
         if (offer) {
           return {
             effectiveClubId: offer.clubId, targetFamily: offer.family, customClubIdsOverride: customOverrideFor(offer.family),
             contract: makeContract(offer.clubId, offer.proposedSalary, seasonYear + 1, offer.proposedDuration),
-            wantsTransfer: false,
+            loan: null, wantsTransfer: false, wantsLoan: !!player.wantsLoan,
             logMsg: `Transferência aceita! Você assinou com o ${offer.clubName}.`,
           };
         }
         // Sem proposta desta vez — o pedido segue registrado, tenta de novo na próxima temporada.
         return {
           effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
-          contract: renewIfExpired(), wantsTransfer: true,
+          contract: renewIfExpired(), loan: null, wantsTransfer: true, wantsLoan: !!player.wantsLoan,
           logMsg: 'Você pediu transferência, mas nenhuma proposta chegou desta vez. O pedido continua registrado.',
+        };
+      }
+
+      if (player.wantsLoan) {
+        const offer = findLoanOffer();
+        if (offer) {
+          return {
+            effectiveClubId: offer.clubId, targetFamily: family, customClubIdsOverride: null,
+            contract: contractOnFile, loan: makeLoan(offer), wantsTransfer: false, wantsLoan: false,
+            logMsg: `Empréstimo aceito! Você joga pelo ${offer.clubName} nesta temporada.`,
+          };
+        }
+        return {
+          effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
+          contract: renewIfExpired(), loan: null, wantsTransfer: false, wantsLoan: true,
+          logMsg: 'Você pediu empréstimo, mas nenhuma proposta chegou desta vez. O pedido continua registrado.',
         };
       }
 
       // CLUBE decide primeiro (sem pedido do jogador) — mesmo motor de decisão
       // que já existia isolado em contractsEconomy.js (clubSeasonDecision),
-      // nunca chamado por nenhum fluxo real até agora. Empréstimo (offer_loan)
-      // segue fora de escopo (ver nota no topo do arquivo) — cai no mesmo
-      // tratamento de "renovar se vencido" das temporadas sem novidade.
-      const requestFlags = { wantsTransfer: false, wantsLoan: !!player.wantsLoan };
+      // nunca chamado por nenhum fluxo real até agora.
+      const requestFlags = { wantsTransfer: false, wantsLoan: false };
       const decision = clubSeasonDecision(contractOnFile, status, score, seasonYear, requestFlags, appRate);
 
       if (decision === 'consider_sale') {
@@ -334,7 +374,7 @@ export function useCareerController() {
           return {
             effectiveClubId: offer.clubId, targetFamily: offer.family, customClubIdsOverride: customOverrideFor(offer.family),
             contract: makeContract(offer.clubId, offer.proposedSalary, seasonYear + 1, offer.proposedDuration),
-            wantsTransfer: false,
+            loan: null, wantsTransfer: false, wantsLoan: false,
             logMsg: `O ${ALL_CLUBS_MAP[userClubId]?.name} avaliou negociar sua saída e aceitou uma proposta: você assinou com o ${offer.clubName}.`,
           };
         }
@@ -349,24 +389,37 @@ export function useCareerController() {
           return {
             effectiveClubId: offer.clubId, targetFamily: offer.family, customClubIdsOverride: customOverrideFor(offer.family),
             contract: makeContract(offer.clubId, offer.proposedSalary, seasonYear + 1, offer.proposedDuration),
-            wantsTransfer: false,
+            loan: null, wantsTransfer: false, wantsLoan: false,
             logMsg: `Dispensado pelo ${oldClubName} (compensação de R$ ${compensation.toLocaleString('pt-BR')} recebida). Assinou com o ${offer.clubName}.`,
           };
         }
         // Sem interessados — o clube reconsidera e renova.
         return {
           effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
-          contract: makeContract(userClubId, computeSalary(family, status), seasonYear + 1, 2), wantsTransfer: false,
+          contract: makeContract(userClubId, computeSalary(family, status), seasonYear + 1, 2), loan: null, wantsTransfer: false, wantsLoan: false,
           logMsg: `O ${oldClubName} avaliou dispensar você, mas não houve interessados — contrato renovado.`,
         };
       }
 
-      // decision === 'offer_loan' | 'renew' | 'keep_as_is' — nada de mercado
-      // pra resolver; só garante que o contrato nunca fica com data vencida.
+      if (decision === 'offer_loan') {
+        const offer = findLoanOffer();
+        if (offer) {
+          return {
+            effectiveClubId: offer.clubId, targetFamily: family, customClubIdsOverride: null,
+            contract: contractOnFile, loan: makeLoan(offer), wantsTransfer: false, wantsLoan: false,
+            logMsg: `O ${ALL_CLUBS_MAP[userClubId]?.name} avaliou que você precisa de minutos e fechou um empréstimo: você joga pelo ${offer.clubName} nesta temporada.`,
+          };
+        }
+        // Sem clube interessado em pegar emprestado — cai no fallback abaixo.
+      }
+
+      // decision === 'renew' | 'keep_as_is' (ou 'offer_loan' sem oferta) —
+      // nada de mercado pra resolver; só garante que o contrato nunca fica
+      // com data vencida.
       const nextContract = renewIfExpired();
       return {
         effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
-        contract: nextContract, wantsTransfer: false,
+        contract: nextContract, loan: null, wantsTransfer: false, wantsLoan: false,
         logMsg: nextContract !== player.contract ? `Contrato renovado com o ${ALL_CLUBS_MAP[userClubId]?.name || 'clube'}.` : null,
       };
     }
@@ -374,14 +427,21 @@ export function useCareerController() {
     // Mudança de divisão (promoção/rebaixamento por mérito esportivo) — o
     // mercado não é avaliado neste ciclo (mesma precedência do antigo
     // continueNextSeason), mas o contrato ainda não pode ficar vencido, e um
-    // pedido de transferência pendente não pode ser apagado por uma virada
-    // que nem chegou a avaliá-lo — preserva `wantsTransfer` como está.
+    // pedido pendente não pode ser apagado por uma virada que nem chegou a
+    // avaliá-lo — preserva `wantsTransfer`/`wantsLoan` como estão.
     const divisionChangeContract = renewIfExpired();
     return {
       effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
-      contract: divisionChangeContract, wantsTransfer: !!player.wantsTransfer,
+      contract: divisionChangeContract, loan: null, wantsTransfer: !!player.wantsTransfer, wantsLoan: !!player.wantsLoan,
       logMsg: divisionChangeContract !== player.contract ? `Contrato renovado com o ${ALL_CLUBS_MAP[userClubId]?.name || 'clube'}.` : null,
     };
+  }
+
+  // Empacota o resultado de computeSeasonContractUpdate no formato que as 4
+  // funções startXSeason esperam em `opts` — usado por toda saída de
+  // temporada (Série D/C/B/A), evita repetir a mesma forma 8 vezes.
+  function contractOpts(u) {
+    return { effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, loan: u.loan, wantsTransfer: u.wantsTransfer, wantsLoan: u.wantsLoan }, logMsg: u.logMsg };
   }
 
   // Sai da tela de resultado — sempre continua a carreira pra próxima
@@ -390,13 +450,21 @@ export function useCareerController() {
   // conseguir acesso (Série C real ainda não existe no motor novo — ver
   // startNewSerieD2026Season).
   function exitSerieD2026Demo() {
+    // Empréstimo em andamento tem precedência sobre o resultado esportivo —
+    // o clube emprestador pode até ter conseguido acesso, mas quem está
+    // definindo o destino do jogador é o empréstimo, não a campanha dele.
+    if (player.loan) {
+      const u = computeSeasonContractUpdate('serie_d_2026', false);
+      startNewSerieD2026Season(contractOpts(u));
+      return;
+    }
     if (serieD2026Demo && serieD2026Demo.accessSecured) {
       const u = computeSeasonContractUpdate('serie_d_2026', false); // mudança de divisão — sem mercado
-      startSerieC2026Season(u.customClubIdsOverride, { effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, wantsTransfer: u.wantsTransfer }, logMsg: u.logMsg });
+      startSerieC2026Season(u.customClubIdsOverride, contractOpts(u));
       return;
     }
     const u = computeSeasonContractUpdate('serie_d_2026', true);
-    startNewSerieD2026Season({ effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, wantsTransfer: u.wantsTransfer }, logMsg: u.logMsg });
+    startNewSerieD2026Season(contractOpts(u));
   }
 
   // Monta o confronto de ida e volta de UMA fase de mata-mata — reaproveita
@@ -556,26 +624,30 @@ export function useCareerController() {
   // rebaixado volta pra Série D; promovido (Art. 5 — top2 do grupo, ou
   // campeão/vice) vai pra Série B de verdade; meio de tabela repete a Série C.
   function exitSerieC2026Season() {
+    if (player.loan) {
+      const u = computeSeasonContractUpdate('serie_c_2026', false);
+      startSerieC2026Season(SERIE_C_2026_CLUBS, contractOpts(u));
+      return;
+    }
     const outcome = serieC2026State?.result?.outcomeType;
-    const opts = (u) => ({ effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, wantsTransfer: u.wantsTransfer }, logMsg: u.logMsg });
     if (outcome === 'relegated') {
       const u = computeSeasonContractUpdate('serie_c_2026', false); // mudança de divisão — sem mercado
-      startNewSerieD2026Season(opts(u));
+      startNewSerieD2026Season(contractOpts(u));
       return;
     }
     if (['promoted', 'finalist', 'champion', 'runner_up'].includes(outcome)) {
       const u = computeSeasonContractUpdate('serie_c_2026', false);
-      startSerieB2026Season(u.customClubIdsOverride, opts(u));
+      startSerieB2026Season(u.customClubIdsOverride, contractOpts(u));
       return;
     }
     const u = computeSeasonContractUpdate('serie_c_2026', true);
     if (u.targetFamily === 'serie_b_2026') {
       // Transferência de mercado levou pra um tier acima mesmo sem acesso
       // esportivo (ver generateTransferOffers/computeDemandScore).
-      startSerieB2026Season(u.customClubIdsOverride, opts(u));
+      startSerieB2026Season(u.customClubIdsOverride, contractOpts(u));
       return;
     }
-    startSerieC2026Season(u.customClubIdsOverride, opts(u));
+    startSerieC2026Season(u.customClubIdsOverride, contractOpts(u));
   }
 
   // ---- Série B 2026 — entrada, playoff de acesso, e saída de temporada ----
@@ -631,24 +703,28 @@ export function useCareerController() {
   }
 
   function exitSerieB2026Season() {
+    if (player.loan) {
+      const u = computeSeasonContractUpdate('serie_b_2026', false);
+      startSerieB2026Season(SERIE_B_2026_CLUBS, contractOpts(u));
+      return;
+    }
     const outcome = serieB2026State?.result?.outcomeType;
-    const opts = (u) => ({ effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, wantsTransfer: u.wantsTransfer }, logMsg: u.logMsg });
     if (outcome === 'relegated') {
       const u = computeSeasonContractUpdate('serie_b_2026', false);
-      startSerieC2026Season(u.customClubIdsOverride, opts(u));
+      startSerieC2026Season(u.customClubIdsOverride, contractOpts(u));
       return;
     }
     if (outcome === 'promoted_direct' || outcome === 'promoted_playoff') {
       const u = computeSeasonContractUpdate('serie_b_2026', false);
-      startSerieA2026Season(u.customClubIdsOverride, opts(u));
+      startSerieA2026Season(u.customClubIdsOverride, contractOpts(u));
       return;
     }
     const u = computeSeasonContractUpdate('serie_b_2026', true);
     if (u.targetFamily === 'serie_a_2026') {
-      startSerieA2026Season(u.customClubIdsOverride, opts(u));
+      startSerieA2026Season(u.customClubIdsOverride, contractOpts(u));
       return;
     }
-    startSerieB2026Season(u.customClubIdsOverride, opts(u));
+    startSerieB2026Season(u.customClubIdsOverride, contractOpts(u));
   }
 
   // ---- Série A 2026 — entrada e saída de temporada (topo da pirâmide) ----
@@ -683,16 +759,20 @@ export function useCareerController() {
   }
 
   function exitSerieA2026Season() {
+    if (player.loan) {
+      const u = computeSeasonContractUpdate('serie_a_2026', false);
+      startSerieA2026Season(SERIE_A_2026_CLUBS, contractOpts(u));
+      return;
+    }
     const outcome = serieA2026State?.result?.outcomeType;
-    const opts = (u) => ({ effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, wantsTransfer: u.wantsTransfer }, logMsg: u.logMsg });
     if (outcome === 'relegated') {
       const u = computeSeasonContractUpdate('serie_a_2026', false);
-      startSerieB2026Season(u.customClubIdsOverride, opts(u));
+      startSerieB2026Season(u.customClubIdsOverride, contractOpts(u));
       return;
     }
     // Topo da pirâmide — mercado nunca sobe tier a partir daqui (TIER_ORDER acaba em serie_a_2026).
     const u = computeSeasonContractUpdate('serie_a_2026', true);
-    startSerieA2026Season(u.customClubIdsOverride, opts(u));
+    startSerieA2026Season(u.customClubIdsOverride, contractOpts(u));
   }
 
   function togglePicker() { setShowPicker(s => !s); }
