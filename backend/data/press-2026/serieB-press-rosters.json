@@ -6,10 +6,10 @@
   },
   "_progress": {
     "totalClubs": 20,
-    "clubsProcessed": ["América-MG", "Athletic", "Atlético-GO", "Avaí"],
-    "nextClub": "Botafogo-SP",
-    "clubsFoundThisSession": 4,
-    "clubsNotFoundThisSession": 0
+    "clubsProcessed": ["América-MG", "Athletic", "Atlético-GO", "Avaí", "Botafogo-SP", "Ceará", "CRB", "Criciúma"],
+    "nextClub": "Cuiabá",
+    "clubsFoundThisSession": 7,
+    "clubsNotFoundThisSession": 1
   },
   "clubs": {
     "América-MG": {
@@ -129,6 +129,92 @@
         { "name": "Juan Sousa Rocha Leandro", "positionRaw": "Atacante" }
       ],
       "notes": "Técnico Zé Ricardo, elenco reformulado com grande participação de jovens da base. EXCLUÍDOS deliberadamente do elenco (fonte confirma saída entre janeiro e julho/2026): goleiro Léo Aragão, zagueiro Baldini, laterais Nicolás Cabral (argentino) e Wesley Gasolina, meio-campista Cristiano, atacantes Avenatti, Garcez, Gaspar, Josmar, Rafael Bilu, Talisson e Walace França -- 14º jogador perdido em 2026 segundo a matéria mais recente. Mantidos fora do elenco por confirmação de saída, não por esquecimento."
+    },
+    "Botafogo-SP": {
+      "clubName": "Botafogo-SP",
+      "status": "not_found_via_press",
+      "sources": [],
+      "players": [],
+      "notes": "Três rodadas de busca (incluindo termos específicos pra desambiguar do Botafogo-RJ/FR, que domina os resultados de 'Botafogo' sozinho) não trouxeram nenhum nome individualizado do elenco 2026 do Botafogo de Ribeirão Preto -- só notícias de que o clube esperava até 5 reforços (lateral-esquerdo, zagueiro, volante, duas pontas) pro Paulistão. Fica vazio, sem inventar jogador."
+    },
+    "Ceará": {
+      "clubName": "Ceará",
+      "status": "press_pending_official",
+      "sources": ["https://diariodonordeste.verdesmares.com.br/opiniao/colunistas/alexandre-mota/com-10-reforcos-ceara-define-base-do-elenco-para-a-serie-b-1.3742771", "https://boainformacao.com.br/2026/09/ceara-relaciona-reforcos-diante-do-atletico-go-na-serie-b/"],
+      "players": [
+        { "name": "Richard", "positionRaw": "Goleiro" },
+        { "name": "Caíque França", "positionRaw": "Goleiro" },
+        { "name": "Gustavo Martins", "positionRaw": "Goleiro" },
+        { "name": "Bryan Borges", "positionRaw": "Defensor" },
+        { "name": "Sávio", "positionRaw": "Defensor" },
+        { "name": "Rafael Ramos", "positionRaw": "Defensor" },
+        { "name": "Sanchez", "positionRaw": "Defensor" },
+        { "name": "João Gabriel", "positionRaw": "Meio-campo" },
+        { "name": "Zanocelo", "positionRaw": "Meio-campo" },
+        { "name": "Pavani", "positionRaw": "Meio-campo" },
+        { "name": "Richardson", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Rebaixado da Série A após uma única temporada na elite. Técnico Mozart (anunciado em dezembro/2025). Elenco de 34 jogadores no total (incluindo base), com 10 reforços anunciados pra cobrir pelo menos duas opções por setor. Cruzamento de validação: uma matéria da ESPN confirma explicitamente que Ceará e Fortaleza (também deste jogo na Série B) fecham a lista dos 20 participantes da Série B 2026; outra matéria cita reforços do Ceará relacionados justamente contra o Atlético-GO (já cadastrado neste arquivo)."
+    },
+    "CRB": {
+      "clubName": "CRB",
+      "status": "press_pending_official",
+      "sources": ["https://www.gazetaweb.com/noticias/esportes/alagoano/crb-projeta-2026-com-elenco-enxuto-e-reforcos-bem-encaminhados-afirma-ari-barros-861068"],
+      "players": [
+        { "name": "Vitor Caetano", "positionRaw": "Goleiro" },
+        { "name": "Matheus Albino", "positionRaw": "Goleiro" },
+        { "name": "Fábio Henrique", "positionRaw": "Goleiro" },
+        { "name": "Pablo", "positionRaw": "Goleiro" },
+        { "name": "Bressan", "positionRaw": "Defensor" },
+        { "name": "Darlisson", "positionRaw": "Defensor" },
+        { "name": "Lucas Lovat", "positionRaw": "Defensor" },
+        { "name": "Lyncon", "positionRaw": "Defensor" },
+        { "name": "Ruy", "positionRaw": "Defensor" },
+        { "name": "Maycon", "positionRaw": "Defensor" },
+        { "name": "Fábio Alemão", "positionRaw": "Defensor" },
+        { "name": "Hereda", "positionRaw": "Defensor" },
+        { "name": "Weverton", "positionRaw": "Defensor" },
+        { "name": "Henri", "positionRaw": "Defensor" },
+        { "name": "Mateus Pureza", "positionRaw": "Defensor" },
+        { "name": "Léo Campos", "positionRaw": "Defensor" },
+        { "name": "Wallace", "positionRaw": "Defensor" },
+        { "name": "David Braw", "positionRaw": "Meio-campo" },
+        { "name": "Geovane", "positionRaw": "Meio-campo" },
+        { "name": "Luizão", "positionRaw": "Meio-campo" },
+        { "name": "Pedro Castro", "positionRaw": "Meio-campo" },
+        { "name": "Lucas Kallyel", "positionRaw": "Meio-campo" },
+        { "name": "Danielzinho", "positionRaw": "Meio-campo" },
+        { "name": "Vinicius Barata", "positionRaw": "Meio-campo" },
+        { "name": "Crystopher", "positionRaw": "Meio-campo" },
+        { "name": "Luiz Fernando", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Executivo de futebol Ari Barros: plano de iniciar a temporada com 26 jogadores de linha + 4 goleiros ('elenco enxuto'), objetivo de acesso à Série A. Cobertura ampla de goleiros/defesa/meio-campo (26 nomes), setor ofensivo (atacantes puros) não discriminado nesta rodada de busca."
+    },
+    "Criciúma": {
+      "clubName": "Criciúma",
+      "status": "press_pending_official",
+      "sources": ["https://www.espn.com.br/futebol/time/elenco/_/id/9971/bra.cricima"],
+      "players": [
+        { "name": "Airton", "positionRaw": "Goleiro" },
+        { "name": "Alisson", "positionRaw": "Goleiro" },
+        { "name": "Pedro", "positionRaw": "Goleiro" },
+        { "name": "Bruno Alves", "positionRaw": "Defensor" },
+        { "name": "César Martins", "positionRaw": "Defensor" },
+        { "name": "Heitor Roca", "positionRaw": "Defensor" },
+        { "name": "Hiago", "positionRaw": "Defensor" },
+        { "name": "Leonardo Mana Hernandes", "positionRaw": "Defensor" },
+        { "name": "Luciano Castán", "positionRaw": "Defensor" },
+        { "name": "Marcelo Hermes", "positionRaw": "Defensor" },
+        { "name": "Marcinho", "positionRaw": "Defensor" },
+        { "name": "Rodrigo", "positionRaw": "Defensor" },
+        { "name": "Ruan Carvalho", "positionRaw": "Defensor" },
+        { "name": "Willean Lepo", "positionRaw": "Defensor" },
+        { "name": "Rômulo Júnior", "positionRaw": "Zagueiro" },
+        { "name": "Eduardo", "positionRaw": "Meia" },
+        { "name": "Fellipe Mateus", "positionRaw": "Meia" },
+        { "name": "Guilherme", "positionRaw": "Meia" }
+      ],
+      "notes": "Técnico Eduardo Baptista, estádio Heriberto Hülse. Rômulo Júnior chegou por empréstimo do Atlético (clube não especificado pela fonte -- pode ser Atlético-MG, Atlético-GO ou outro 'Atlético', mantido como 'Atlético' genérico por não haver confirmação de qual). Ataque puro (centroavantes) não discriminado nesta rodada de busca."
     }
   }
 }
