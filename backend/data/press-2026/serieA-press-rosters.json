@@ -6,9 +6,10 @@
   },
   "_progress": {
     "totalClubs": 20,
-    "clubsProcessed": ["Atlético-MG", "Bahia", "Botafogo", "Bragantino", "Corinthians", "Cruzeiro", "Flamengo", "Fluminense", "Grêmio", "Internacional", "Mirassol", "Palmeiras", "Santos", "São Paulo", "Vasco", "Vitória"],
-    "nextClub": "Athletico-PR",
-    "clubsFoundThisSession": 16,
+    "clubsProcessed": ["Atlético-MG", "Bahia", "Botafogo", "Bragantino", "Corinthians", "Cruzeiro", "Flamengo", "Fluminense", "Grêmio", "Internacional", "Mirassol", "Palmeiras", "Santos", "São Paulo", "Vasco", "Vitória", "Athletico-PR", "Chapecoense", "Coritiba", "Remo"],
+    "nextClub": null,
+    "complete": true,
+    "clubsFoundThisSession": 20,
     "clubsNotFoundThisSession": 0
   },
   "clubs": {
@@ -324,6 +325,67 @@
         { "name": "Walace", "positionRaw": "Meia-de-defesa" }
       ],
       "notes": "Técnico Jair Ventura, disputa Baianão + Copa do Brasil + Copa do Nordeste + Série A. Walace veste a 15 e está emprestado pelo Cruzeiro (já cadastrado neste arquivo). Wanderson foi incorporado ao elenco profissional depois de uma lesão de Ramon. CRUZAMENTO DE VALIDAÇÃO: um resultado de busca confirma que Willian Oliveira (ex-Vitória) SAIU do clube em 2026 por motivos pessoais e se transferiu depois pra Coritiba e depois Sport Recife (ambos já cadastrados neste jogo -- Coritiba na Série A, Sport na Série B) -- NÃO incluído no elenco do Vitória por já ter saído."
+    },
+    "Athletico-PR": {
+      "clubName": "Athletico-PR",
+      "status": "press_pending_official",
+      "sources": ["https://www.athletico.com.br/noticia/relacionados-veja-os-jogadores-convocados-para-a-estreia-no-estadual-2026/"],
+      "players": [
+        { "name": "Mycael", "positionRaw": "Goleiro" },
+        { "name": "Lucas Belezi", "positionRaw": "Zagueiro" },
+        { "name": "Habraão", "positionRaw": "Zagueiro" },
+        { "name": "Gilberto", "positionRaw": "Lateral-direito" },
+        { "name": "Alejandro García", "positionRaw": "Meio-campo" },
+        { "name": "Dudu Kogitzki", "positionRaw": "Meio-campo" },
+        { "name": "João Cruz", "positionRaw": "Meio-campo" },
+        { "name": "Renan Peixoto", "positionRaw": "Atacante" }
+      ],
+      "notes": "Técnico Odair Hellmann. A equipe que disputa o Paranaense é majoritariamente sub-20, com peças do elenco principal misturadas -- essa foi a lista encontrada nesta rodada de busca. ATENÇÃO -- possível homônimo não resolvido: 'Lucas Belezi' já aparece cadastrado como defensor do Athletic (Athletic Club-MG, também Série B deste jogo) -- nome idêntico, clube diferente, não investigado (fora de escopo)."
+    },
+    "Chapecoense": {
+      "clubName": "Chapecoense",
+      "status": "press_pending_official",
+      "sources": ["https://africa.espn.com/football/match/_/gameId/401841335/palmeiras-chapecoense"],
+      "players": [
+        { "name": "Walter Clar", "positionRaw": null },
+        { "name": "Jean", "positionRaw": null },
+        { "name": "Eduardo Doma", "positionRaw": null },
+        { "name": "Everton", "positionRaw": null }
+      ],
+      "notes": "Promovida à Série A na última rodada da Série B 2025 (23/11/2025), técnico Rafael Lacerda. Cobertura muito esparsa -- só 4 nomes mencionados em relatos de partida (Palmeiras x Chapecoense, Athletico-PR x Chapecoense) foram encontrados nesta rodada de busca, sem posição discriminada."
+    },
+    "Coritiba": {
+      "clubName": "Coritiba",
+      "status": "press_pending_official",
+      "sources": ["https://www.itatiaia.com.br/esportes/futebol/futebol-nacional/futebol-do-sul/coritiba/coritiba-se-apresenta-para-temporada-2026-veja-lista-completa-do-elenco/", "https://www.bemparana.com.br/esportes/coritiba/coritiba-indica-elenco-com-reforcos-bons-e-baratos-para-2026/"],
+      "players": [
+        { "name": "Gabriel Leite", "positionRaw": "Goleiro" },
+        { "name": "Rodrigo Moledo", "positionRaw": "Defensor" },
+        { "name": "Tinga", "positionRaw": "Lateral-direito" },
+        { "name": "Maicon", "positionRaw": "Defensor" },
+        { "name": "Willian Oliveira", "positionRaw": "Meio-campo" },
+        { "name": "Sebastian Gómez", "positionRaw": "Meio-campo" },
+        { "name": "Josué", "positionRaw": "Meio-campo" },
+        { "name": "Pedro Rocha", "positionRaw": "Atacante" },
+        { "name": "Lavega", "positionRaw": "Atacante" },
+        { "name": "Fabinho", "positionRaw": "Atacante" },
+        { "name": "Breno Lopes", "positionRaw": "Atacante" }
+      ],
+      "notes": "Novo técnico Fernando Seabra. Maicon veio transferido do Vasco (já cadastrado neste arquivo) em 4/jan. CRUZAMENTO DE VALIDAÇÃO CONFIRMADO: Willian Oliveira aparece aqui como reforço do Coritiba, batendo exatamente com o que a entrada do Vitória (também neste arquivo) já registrava -- ele saiu do Vitória e foi pro Coritiba, confirmado por duas fontes independentes. ATENÇÃO -- CONTRADIÇÃO ENTRE FONTES NÃO RESOLVIDA: esta matéria diz que Breno Lopes 'também será oficializado' pelo Coritiba, mas a entrada do Fortaleza neste mesmo arquivo lista 'Breno Lopes (Coritiba)' como reforço do FORTALEZA vindo justamente DO Coritiba -- ou seja, as duas fontes discordam sobre se ele ficou ou saiu do Coritiba. Mantido em ambas as entradas exatamente como cada fonte disse, sem tentar decidir qual está certa (fora de escopo desta coleta)."
+    },
+    "Remo": {
+      "clubName": "Remo",
+      "status": "press_pending_official",
+      "sources": ["https://www.oliberal.com/esportes/remo/perto-da-estreia-na-serie-a-quantos-e-quais-jogadores-o-remo-tem-no-elenco-para-2026-1.1066245", "https://www.itatiaia.com.br/esportes/futebol/futebol-nacional/futebol-do-norte/remo-pa/remo-no-brasileirao-2026-ficha-elenco-ambicoes-e-analise"],
+      "players": [
+        { "name": "Patrick de Paula", "positionRaw": "Meio-campo" },
+        { "name": "Patrick", "positionRaw": "Meio-campo" },
+        { "name": "Zé Ricardo", "positionRaw": "Meio-campo" },
+        { "name": "Alef Manga", "positionRaw": "Atacante" },
+        { "name": "Yago Pikachu", "positionRaw": "Atacante" },
+        { "name": "Leonel Picco", "positionRaw": null }
+      ],
+      "notes": "Estreante na Série A, manteve boa parte da base da campanha de acesso e reforçou com atletas experientes de Série A. A PRÓPRIA FONTE avisa explicitamente que 'Patrick de Paula' (multi-campeão por Palmeiras e Botafogo, ambos já cadastrados neste jogo) e 'Patrick' (passagens por Atlético-MG, Internacional, Santos e São Paulo, todos já cadastrados neste jogo) são dois jogadores DIFERENTES e homônimos -- mantidos como duas entradas separadas exatamente como a fonte distinguiu. Alef Manga veio do Avaí (já Série B deste jogo). Yago Pikachu é ídolo revelado pelo Paysandu (Série C deste jogo) que se transferiu pro Remo, rival regional -- e outra fonte (entrada do Fortaleza, também neste arquivo) registra que ele depois se transferiu do Remo pro Fortaleza -- movimento sequencial, não contraditório. ÚLTIMO CLUBE de toda a coleta de imprensa 2026 (Séries D, C, B e A) -- com esta entrada, os 20 clubes da Série A estão cobertos (20 encontrados, 0 não encontrados)."
     }
   }
 }

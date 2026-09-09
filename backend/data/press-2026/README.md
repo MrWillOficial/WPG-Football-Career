@@ -50,8 +50,17 @@ seria inventar uma informação que a fonte não confirmou.
 - `serieC-press-rosters.json` — **COMPLETO** (20/20 clubes).
 - `serieB-press-rosters.json` — **COMPLETO** (19/20 encontrados, 1 não
   encontrado via imprensa: Botafogo-SP).
-- `serieA-press-rosters.json` — em andamento (20 clubes, liga única, sem
-  mata-mata).
+- `serieA-press-rosters.json` — **COMPLETO** (20/20 clubes).
+
+**Coleta via imprensa das 4 divisões (D, C, B, A) concluída em 2026-09-09**
+-- 156 de 157 clubes com pelo menos alguma cobertura de elenco (só
+Botafogo-SP ficou `not_found_via_press`), profundidade bem variável por
+clube (de um único nome a elencos completos discriminados por posição).
+Vários cruzamentos de validação entre fontes independentes confirmaram
+transferências reais de jogadores entre clubes já cadastrados no próprio
+jogo (documentados nos campos `notes` de cada clube envolvido) e algumas
+contradições entre fontes foram mantidas como estão, sem tentar resolver
+(fora de escopo desta coleta).
 
 Ordem de coleta: "sempre começa de baixo" (pedido explícito do usuário) —
 Série D primeiro (concluída), depois C, depois B, depois A, cada uma na
