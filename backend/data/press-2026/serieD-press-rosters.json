@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12", "A13"],
-    "nextGroup": "A14",
-    "clubsFoundThisSession": 71,
+    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12", "A13", "A14"],
+    "nextGroup": "A15",
+    "clubsFoundThisSession": 77,
     "clubsNotFoundThisSession": 7
   },
   "clubs": {
@@ -1476,6 +1476,156 @@
         { "name": "Gabriel Tota", "positionRaw": "Meio-campo" }
       ],
       "notes": "Ricardo Bueno é atacante veterano mencionado nominalmente pela imprensa; Gabriel Tota mencionado como meio-campo em matéria narrativa. Restante do elenco levantado de listagem de goleiros/zagueiros por posição."
+    },
+    "A14::Nova Iguaçu-RJ": {
+      "clubName": "Nova Iguaçu-RJ",
+      "groupId": "A14",
+      "status": "press_pending_official",
+      "sources": ["https://www.tupi.fm/sentinelas/confira-o-elenco-do-nova-iguacu-para-a-disputa-do-carioca-de-2026/", "https://www.futebolinterior.com.br/nova-iguacu-confirma-primeiros-nomes-do-elenco-para-2026/"],
+      "players": [
+        { "name": "Matheus Miranda", "positionRaw": "Goleiro" },
+        { "name": "Mota", "positionRaw": "Goleiro" },
+        { "name": "Davi", "positionRaw": "Zagueiro" },
+        { "name": "Gabriel Saulo", "positionRaw": "Zagueiro" },
+        { "name": "Patrick", "positionRaw": "Zagueiro" },
+        { "name": "Wender", "positionRaw": "Zagueiro" },
+        { "name": "Zé Gabriel", "positionRaw": "Zagueiro" },
+        { "name": "Sidney Pages", "positionRaw": "Zagueiro" },
+        { "name": "Daniel Zavoli", "positionRaw": "Zagueiro" },
+        { "name": "Guilherme", "positionRaw": "Zagueiro" },
+        { "name": "J. de Souza Corrêa", "positionRaw": "Meio-campo" },
+        { "name": "João Paulo", "positionRaw": "Meio-campo" },
+        { "name": "Pedro Lucas", "positionRaw": "Meio-campo" },
+        { "name": "Rickelme", "positionRaw": "Meio-campo" },
+        { "name": "Bill", "positionRaw": "Atacante" },
+        { "name": "Leonardo David", "positionRaw": "Atacante" },
+        { "name": "Luan Capanni", "positionRaw": "Atacante" },
+        { "name": "Lucas Cruz", "positionRaw": "Atacante" },
+        { "name": "Weverton", "positionRaw": "Atacante" },
+        { "name": "Xandinho", "positionRaw": "Atacante" }
+      ],
+      "notes": "Cobertura carioca completa cruzando elenco anunciado para o Carioca 2026 (mesmo grupo de jogadores disputa Carioca, Copa do Brasil e Série D) com reforços específicos citados (Willis Mota/Mota, Zé Gabriel, Davi, Guilherme, Sidney Pages, Daniel Zavoli, Luan Capanni)."
+    },
+    "A14::Sampaio Corrêa-RJ": {
+      "clubName": "Sampaio Corrêa-RJ",
+      "groupId": "A14",
+      "status": "press_pending_official",
+      "sources": ["cobertura agregada de bases de estatística de futebol sobre o elenco 2026 do Sampaio Corrêa-RJ (Sampaio Corrêa F.E.)"],
+      "players": [
+        { "name": "Alan", "positionRaw": null },
+        { "name": "Alexander Lecaros", "positionRaw": null },
+        { "name": "Alexandre Souza", "positionRaw": null },
+        { "name": "Brayan", "positionRaw": null },
+        { "name": "Caíque", "positionRaw": null },
+        { "name": "Carlos", "positionRaw": null },
+        { "name": "Cauã", "positionRaw": null },
+        { "name": "Cristian", "positionRaw": null },
+        { "name": "Daniel", "positionRaw": null },
+        { "name": "Eduardo", "positionRaw": null },
+        { "name": "Elias", "positionRaw": null },
+        { "name": "Ewerton Potiguar", "positionRaw": null },
+        { "name": "Gabriel Agú", "positionRaw": null },
+        { "name": "Gabriel Almeida", "positionRaw": null },
+        { "name": "Gregory", "positionRaw": null },
+        { "name": "Guilherme", "positionRaw": null },
+        { "name": "Jean Ítalo Gomes Lima", "positionRaw": null },
+        { "name": "João Miguel", "positionRaw": null },
+        { "name": "Jorge Nicollas", "positionRaw": null },
+        { "name": "Kaká", "positionRaw": null },
+        { "name": "Luan Gama", "positionRaw": null },
+        { "name": "Lucas", "positionRaw": null },
+        { "name": "Magno", "positionRaw": null },
+        { "name": "Marreta", "positionRaw": null },
+        { "name": "Martini", "positionRaw": null },
+        { "name": "Natan", "positionRaw": null },
+        { "name": "Octávio", "positionRaw": null },
+        { "name": "Pablo", "positionRaw": null },
+        { "name": "Paulo Henrique", "positionRaw": null },
+        { "name": "Paulo Victor", "positionRaw": null },
+        { "name": "Rodrigo Dantas", "positionRaw": null },
+        { "name": "Ryan Silva", "positionRaw": null },
+        { "name": "Walber", "positionRaw": null },
+        { "name": "Zé", "positionRaw": null },
+        { "name": "Zé Carlos", "positionRaw": null }
+      ],
+      "notes": "Nomes agregados de bases de estatística (elenco amplo, 34 nomes), mas nenhuma fonte encontrada nesta rodada de busca discriminou posição por jogador -- positionRaw mantido null para todos por não haver confirmação da fonte."
+    },
+    "A14::Maricá-RJ": {
+      "clubName": "Maricá-RJ",
+      "groupId": "A14",
+      "status": "press_pending_official",
+      "sources": ["https://www.futebolinterior.com.br/marica-mantem-base-traz-reforcos/"],
+      "players": [
+        { "name": "Allan Vitor", "positionRaw": "Goleiro" },
+        { "name": "Dida", "positionRaw": "Goleiro" },
+        { "name": "Yuri Duarte", "positionRaw": "Goleiro" },
+        { "name": "Felipe Carvalho", "positionRaw": "Zagueiro" },
+        { "name": "Heltton", "positionRaw": "Zagueiro" },
+        { "name": "Magno Nunes", "positionRaw": "Zagueiro" },
+        { "name": "Marcelinho", "positionRaw": "Zagueiro" },
+        { "name": "Paulo Cesar", "positionRaw": "Zagueiro" },
+        { "name": "Paulo Victor", "positionRaw": "Zagueiro" },
+        { "name": "Sandro Silva", "positionRaw": "Zagueiro" },
+        { "name": "Erick", "positionRaw": "Zagueiro" },
+        { "name": "Rafael Carioca", "positionRaw": "Zagueiro" },
+        { "name": "Ronaldo", "positionRaw": "Lateral-direito" },
+        { "name": "Caio Vitor", "positionRaw": "Meio-campo" },
+        { "name": "Isael", "positionRaw": "Meio-campo" },
+        { "name": "Jorge Pedra", "positionRaw": "Meio-campo" },
+        { "name": "Magno Souza", "positionRaw": "Meio-campo" },
+        { "name": "Marcelo", "positionRaw": "Meio-campo" },
+        { "name": "Matheus Lira", "positionRaw": "Meio-campo" },
+        { "name": "Almir", "positionRaw": "Meio-campo" },
+        { "name": "Mauro Silva", "positionRaw": "Meio-campo" },
+        { "name": "Pablo Tomaz", "positionRaw": "Atacante" },
+        { "name": "Oliver", "positionRaw": "Atacante" },
+        { "name": "Lucas Sibito", "positionRaw": "Atacante" },
+        { "name": "Luizinho", "positionRaw": "Atacante" }
+      ],
+      "notes": "Base do elenco que disputou o Carioca 2026 e garantiu a permanência, mais ao menos 8 reforços nomeados para a Série D (Mauro Silva, Jorge Pedra, Ronaldo, Lucas Sibito, Luizinho entre eles). Cobertura das mais completas do grupo A14."
+    },
+    "A14::XV de Novembro-SP": {
+      "clubName": "XV de Novembro-SP",
+      "groupId": "A14",
+      "status": "press_pending_official",
+      "sources": ["https://xvpiracicaba.com.br/noticias/xv-conhece-grupo-para-a-disputa-do-campeonato-brasileiro-serie-d-2026/", "https://xvpiracicaba.com.br/elenco/"],
+      "players": [
+        { "name": "Gustavo Hebling de Aguiar", "positionRaw": null },
+        { "name": "Iago Toscano Lipi Alexandre", "positionRaw": null },
+        { "name": "Richard Almeida de Oliveira", "positionRaw": null },
+        { "name": "Gabriel Chagas de Paula e Silva", "positionRaw": null }
+      ],
+      "notes": "Confirma o grupo A14 exatamente como no jogo (Nova Iguaçu, Sampaio Corrêa, Maricá, Noroeste, Velo Clube) e as datas oficiais 5 de abril a 13 de setembro, 24 rodadas -- mais um cruzamento de validação com os dados já usados pelo jogo. Elenco em si só encontrado de forma parcial e sem posição discriminada nesta rodada de busca; site oficial do clube tem página de elenco completa não acessível via WebSearch/WebFetch neste ambiente."
+    },
+    "A14::Noroeste-SP": {
+      "clubName": "Noroeste-SP",
+      "groupId": "A14",
+      "status": "press_pending_official",
+      "sources": ["https://sampi.net.br/bauru/noticias/2886940/esporte/2025/02/noroeste-garante-vaga-na-serie-d-do-brasileirao-2026"],
+      "players": [
+        { "name": "Diego", "positionRaw": null },
+        { "name": "Maycon", "positionRaw": null },
+        { "name": "Sanchez", "positionRaw": null }
+      ],
+      "notes": "Clube de Bauru-SP estreando na Série D (primeira vez na história, após 13 anos fora de competições da CBF). Apenas 3 nomes mencionados em matérias de desempenho recente, sem confirmação de elenco completo nem posições -- clube anunciou 22 jogadores ao todo, mas a lista nominal completa não foi encontrada nesta rodada de busca."
+    },
+    "A14::Velo Clube-SP": {
+      "clubName": "Velo Clube-SP",
+      "groupId": "A14",
+      "status": "press_pending_official",
+      "sources": ["https://www.futebolinterior.com.br/velo-clube-apresenta-elenco-para-temporada-historica-de-2026/", "https://www.jornalcidade.net/rc/velo-clube-elenco-serie-d-campeonato-brasileiro/288467/"],
+      "players": [
+        { "name": "Paulo Vitor", "positionRaw": "Goleiro" },
+        { "name": "Léo Steffen", "positionRaw": "Goleiro" },
+        { "name": "Gabriel Mancha", "positionRaw": "Zagueiro" },
+        { "name": "Marcelo", "positionRaw": "Zagueiro" },
+        { "name": "Carlos Henrique", "positionRaw": "Zagueiro" },
+        { "name": "Sérgio", "positionRaw": "Zagueiro" },
+        { "name": "Lucas Duni", "positionRaw": "Atacante" },
+        { "name": "Sillas", "positionRaw": "Atacante" },
+        { "name": "Daniel Amorim", "positionRaw": "Atacante" }
+      ],
+      "notes": "Primeira vez do clube em competições nacionais (Copa do Brasil e Série D). Elenco anunciado oficialmente pelo clube via imprensa de Rio Claro-SP; meio-campo não discriminado nas fontes encontradas nesta rodada de busca."
     }
   }
 }
