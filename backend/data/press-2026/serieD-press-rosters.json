@@ -6,10 +6,10 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01"],
-    "nextGroup": "A02",
-    "clubsFoundThisSession": 5,
-    "clubsNotFoundThisSession": 1
+    "groupsProcessed": ["A01", "A02"],
+    "nextGroup": "A03",
+    "clubsFoundThisSession": 10,
+    "clubsNotFoundThisSession": 2
   },
   "clubs": {
     "A01::Nacional-AM": {
@@ -177,6 +177,99 @@
       "sources": [],
       "players": [],
       "notes": "Busca não encontrou matéria de apresentação de elenco nem lista de jogadores para 2026. Páginas com elenco (placardefutebol.com.br, ESPN) foram localizadas mas o conteúdo não veio no resultado da busca -- precisaria de acesso direto à página, que está bloqueado neste ambiente."
+    },
+    "A02::Independência-AC": {
+      "clubName": "Independência-AC",
+      "groupId": "A02",
+      "status": "press_pending_official",
+      "sources": [
+        "https://agencia.ac.gov.br/independencia-vence-galvez-e-se-consagra-campeao-acreano-de-futebol-pelo-segundo-ano-consecutivo/"
+      ],
+      "players": [
+        { "name": "Felipe Ferreira Evangelista", "positionRaw": null },
+        { "name": "Ancelmo", "positionRaw": null },
+        { "name": "Anderson", "positionRaw": null }
+      ],
+      "notes": "Só 3 nomes encontrados, vindos de estatística de artilharia (não de apresentação formal de elenco) -- cobertura bem mais fraca que a do Grupo A01. Elenco completo não encontrado via busca."
+    },
+    "A02::Galvez-AC": {
+      "clubName": "Galvez-AC",
+      "groupId": "A02",
+      "status": "press_pending_official",
+      "sources": [
+        "https://www.futeboldomundo.com.br/clubes/1107/clube"
+      ],
+      "players": [
+        { "name": "Alifi", "positionRaw": "Atacante" },
+        { "name": "Daniego", "positionRaw": "Atacante" },
+        { "name": "Ricardo Rato", "positionRaw": "Atacante" },
+        { "name": "Marcelinho Junior", "positionRaw": "Atacante" },
+        { "name": "Lucas Capixaba", "positionRaw": "Atacante" },
+        { "name": "Matheus Nego", "positionRaw": "Atacante" },
+        { "name": "Caique", "positionRaw": "Atacante" },
+        { "name": "Hiago", "positionRaw": "Atacante" },
+        { "name": "Ricardo", "positionRaw": "Atacante" },
+        { "name": "Marcos Júnior", "positionRaw": "Meio-campo" },
+        { "name": "Patrick Gama", "positionRaw": "Meio-campo" },
+        { "name": "Eduardo", "positionRaw": "Meio-campo" },
+        { "name": "Geovani", "positionRaw": "Meio-campo" },
+        { "name": "Adriano Aparecido", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Lista veio de agregador de estatísticas (futeboldomundo.com.br), não de apresentação oficial do clube -- sem goleiros/zagueiros/laterais citados nominalmente na cobertura encontrada."
+    },
+    "A02::Humaitá-AC": {
+      "clubName": "Humaitá-AC",
+      "groupId": "A02",
+      "status": "not_found_via_press",
+      "sources": [],
+      "players": [],
+      "notes": "Busca não encontrou nenhum nome de jogador para 2026."
+    },
+    "A02::Porto Velho-RO": {
+      "clubName": "Porto Velho-RO",
+      "groupId": "A02",
+      "status": "press_pending_official",
+      "sources": [
+        "https://www.rondoniadinamica.com/noticias/2026/03/gazin-porto-velho-anuncia-cinco-reforcos-para-fortalecer-elenco-na-temporada,241337.shtml"
+      ],
+      "players": [
+        { "name": "Álvaro", "positionRaw": "Meio-campo" },
+        { "name": "Willian", "positionRaw": "Zagueiro" },
+        { "name": "Ismael", "positionRaw": "Lateral-direito" },
+        { "name": "Eduardo", "positionRaw": "Meio-campo" },
+        { "name": "Carlos Eduardo", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Matéria é de março/2026 e cobre só 5 reforços anunciados naquele momento (\"Gazin Porto Velho\"), não o elenco completo da temporada -- pode faltar boa parte do elenco original."
+    },
+    "A02::Guaporé-RO": {
+      "clubName": "Guaporé-RO",
+      "groupId": "A02",
+      "status": "press_pending_official",
+      "sources": [
+        "https://www.rolnews.com.br/noticia/guapore-futebol-clube-apresenta-elenco-para-a-temporada-2026-e-sonho-com-titulo-estadual",
+        "https://www.mediapress.com.br/guapore-apresenta-elenco-reforcado-para-temporada-historica-de-2026/"
+      ],
+      "players": [
+        { "name": "Nathan", "positionRaw": "Zagueiro" },
+        { "name": "Markovic", "positionRaw": "Zagueiro" },
+        { "name": "Andreo", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Caetano", "positionRaw": "Meio-campo" },
+        { "name": "Robinho", "positionRaw": "Meio-campo" },
+        { "name": "Pisika", "positionRaw": "Meio-campo" },
+        { "name": "Mano", "positionRaw": "Atacante" },
+        { "name": "Watthimen", "positionRaw": "Atacante" },
+        { "name": "Will", "positionRaw": "Atacante" },
+        { "name": "Edson", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Apresentação oficial do clube (elenco reforçado 2026), mas a cobertura encontrada só cita os jogadores 'destaque' nominalmente, não a lista completa do elenco."
+    },
+    "A02::Araguaína-TO": {
+      "clubName": "Araguaína-TO",
+      "groupId": "A02",
+      "status": "not_found_via_press",
+      "sources": [],
+      "players": [],
+      "notes": "Busca não encontrou nenhum nome de jogador nominal para o elenco 2026 -- só referências a agregadores de estatística sem conteúdo retornado na busca."
     }
   }
 }
