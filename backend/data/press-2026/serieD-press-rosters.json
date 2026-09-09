@@ -1,0 +1,182 @@
+{
+  "_meta": {
+    "policy": "Coleta via imprensa/anúncio de clube, NÃO via CBF/BID. Ver README.md nesta pasta. Nunca ativa OFFICIAL_PLAYER_DATABASE.",
+    "generatedAt": "2026-09-09",
+    "tool": "WebSearch (curl/WebFetch confirmados bloqueados pelo proxy de saída deste ambiente nesta data)"
+  },
+  "_progress": {
+    "totalClubsSerieD": 96,
+    "groupsProcessed": ["A01"],
+    "nextGroup": "A02",
+    "clubsFoundThisSession": 5,
+    "clubsNotFoundThisSession": 1
+  },
+  "clubs": {
+    "A01::Nacional-AM": {
+      "clubName": "Nacional-AM",
+      "groupId": "A01",
+      "status": "press_pending_official",
+      "sources": [
+        "https://www.acritica.com/esportes/nacional-apresenta-jogadores-e-comiss-o-tecnica-para-a-temporada-2026-1.392005",
+        "https://amazonasatual.com.br/nacional-forma-elenco-para-disputar-tres-competicoes-em-2026/",
+        "https://portalesportemanaus.com.br/com-calendario-cheio-nacional-apresenta-elenco-de-24-atletas-e-comissao-tecnica-para-a-temporada-2026/"
+      ],
+      "players": [
+        { "name": "Roballo", "positionRaw": "Goleiro" },
+        { "name": "Caio Alan", "positionRaw": "Goleiro" },
+        { "name": "Rayan", "positionRaw": "Goleiro" },
+        { "name": "Caio Kalyman", "positionRaw": "Lateral-direito" },
+        { "name": "Barbieri", "positionRaw": "Lateral-direito" },
+        { "name": "Wendel Nery", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Miliano", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Alisson Santos", "positionRaw": "Zagueiro" },
+        { "name": "Alagoano", "positionRaw": "Zagueiro" },
+        { "name": "Wallace", "positionRaw": "Volante" },
+        { "name": "Mardley", "positionRaw": "Volante" },
+        { "name": "Ícaro", "positionRaw": "Volante" },
+        { "name": "Rodrigo", "positionRaw": "Volante" },
+        { "name": "Adenilson", "positionRaw": "Volante" },
+        { "name": "Silas", "positionRaw": "Meia" },
+        { "name": "Kaio Wilker", "positionRaw": "Meia" },
+        { "name": "Ícaro Souza", "positionRaw": "Meia" },
+        { "name": "Vitinho", "positionRaw": "Atacante" },
+        { "name": "Stefano", "positionRaw": "Atacante" },
+        { "name": "Ryan Luka", "positionRaw": "Atacante" },
+        { "name": "Renan", "positionRaw": "Atacante" },
+        { "name": "Rafa Marcos", "positionRaw": "Atacante" },
+        { "name": "Kevin", "positionRaw": "Atacante" },
+        { "name": "Joãozinho", "positionRaw": "Atacante" }
+      ],
+      "notes": "Clube anunciou 24 atletas no total; lista acima é o que as matérias citaram nominalmente (pode não somar 24 -- algumas posições/nomes podem faltar por não terem sido citados nominalmente na cobertura encontrada)."
+    },
+    "A01::Manaus-AM": {
+      "clubName": "Manaus-AM",
+      "groupId": "A01",
+      "status": "press_pending_official",
+      "sources": [
+        "https://www.acritica.com/esportes/manaus-anuncia-elenco-com-30-jogadores-e-objetivo-de-ser-protagonista-no-barez-o-1.391538",
+        "https://portalesportemanaus.com.br/manaus-fc-apresenta-elenco-e-comissao-tecnica-para-a-temporada-de-2026/",
+        "https://www.fafamazonas.com.br/site/noticia/manaus-fc-gaviao-apresenta-elenco-para-a-temporada-2026/"
+      ],
+      "players": [
+        { "name": "William Menezes", "positionRaw": "Goleiro" },
+        { "name": "Eugênio Neto", "positionRaw": "Goleiro" },
+        { "name": "Holliwer", "positionRaw": "Goleiro" },
+        { "name": "Manicoré", "positionRaw": "Goleiro" },
+        { "name": "Gutierrez", "positionRaw": "Zagueiro" },
+        { "name": "Augustine Uche", "positionRaw": "Zagueiro" },
+        { "name": "Handerson", "positionRaw": "Zagueiro" },
+        { "name": "Diego Mota", "positionRaw": "Zagueiro" },
+        { "name": "Raphá Lasmar", "positionRaw": "Zagueiro" },
+        { "name": "Vivico", "positionRaw": "Lateral" },
+        { "name": "David Luis", "positionRaw": "Lateral" },
+        { "name": "Henrique", "positionRaw": "Lateral" },
+        { "name": "Nicolas Feri", "positionRaw": "Lateral" },
+        { "name": "Tico", "positionRaw": "Atacante" },
+        { "name": "Jonas", "positionRaw": "Atacante" },
+        { "name": "Railan", "positionRaw": "Atacante" },
+        { "name": "João Tataccioli", "positionRaw": "Atacante" },
+        { "name": "Pedro Marinho", "positionRaw": "Atacante" },
+        { "name": "Dodô", "positionRaw": "Atacante" },
+        { "name": "Leo Bahia", "positionRaw": "Atacante" },
+        { "name": "Leonardo Reis", "positionRaw": "Atacante" },
+        { "name": "Thierry", "positionRaw": "Atacante" },
+        { "name": "Anderson", "positionRaw": "Atacante" }
+      ],
+      "notes": "Clube anunciou 30 jogadores no total (6 remanescentes + 4 da base + 20 contratados); lista acima é só o que foi citado nominalmente por posição na cobertura encontrada -- sem meio-campistas citados nominalmente nas fontes usadas."
+    },
+    "A01::Manauara-AM": {
+      "clubName": "Manauara-AM",
+      "groupId": "A01",
+      "status": "press_pending_official",
+      "sources": [
+        "https://portalvoce.com/manauara-anuncia-elenco-para-a-temporada-2026/",
+        "https://www.banzeironews.com/manauara-apresenta-elenco-comissao-tecnica-e-uniformes-para-a-temporada-2026/"
+      ],
+      "players": [
+        { "name": "David Becker", "positionRaw": "Goleiro" },
+        { "name": "Matheus Vinicius", "positionRaw": "Goleiro" },
+        { "name": "Fabrício", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Maicon", "positionRaw": "Zagueiro" },
+        { "name": "Juninho", "positionRaw": "Meio-campo" },
+        { "name": "Falcão", "positionRaw": "Meio-campo" },
+        { "name": "Gui Campana", "positionRaw": "Meio-campo" },
+        { "name": "Mike", "positionRaw": "Meio-campo" },
+        { "name": "David Luis", "positionRaw": "Atacante" },
+        { "name": "Adriano Klein", "positionRaw": "Atacante" },
+        { "name": "João Guilherme", "positionRaw": "Atacante" },
+        { "name": "Wesley", "positionRaw": "Atacante" },
+        { "name": "Rafael Ibiapino", "positionRaw": null },
+        { "name": "Igo Cuadrado", "positionRaw": null },
+        { "name": "Allefe", "positionRaw": null },
+        { "name": "Paulinho", "positionRaw": null },
+        { "name": "Everson", "positionRaw": null },
+        { "name": "Diego Clemente", "positionRaw": null },
+        { "name": "Giba", "positionRaw": null },
+        { "name": "Luís Fernando", "positionRaw": null },
+        { "name": "Colina", "positionRaw": null },
+        { "name": "Marinho", "positionRaw": null },
+        { "name": "Jhonathan Moc", "positionRaw": null },
+        { "name": "Caio Ribeiro", "positionRaw": null },
+        { "name": "Vitinho", "positionRaw": null },
+        { "name": "Arthur", "positionRaw": null },
+        { "name": "Neto", "positionRaw": null },
+        { "name": "Dudu", "positionRaw": null },
+        { "name": "Paulo Galvão", "positionRaw": null }
+      ],
+      "notes": "31 jogadores confirmados pelo clube no total (renovações + promovidos da base + reforços). Os 14 renovados e os 4 promovidos da base foram citados só pelo nome, sem posição, na cobertura encontrada -- positionRaw fica null em vez de adivinhado."
+    },
+    "A01::GAS-RR": {
+      "clubName": "GAS-RR",
+      "groupId": "A01",
+      "status": "press_pending_official",
+      "sources": [
+        "https://www.folhabv.com.br/esporte/gas-apresenta-elenco-para-2026-e-mantem-base-do-bicampeonato-roraimense/",
+        "https://roraimaemtempo.com.br/esporte/gas-mira-2026-com-elenco-majoritariamente-roraimense-apos-bicampeonato/"
+      ],
+      "players": [
+        { "name": "KT", "positionRaw": "Goleiro" },
+        { "name": "Railson Queiroz", "positionRaw": "Volante" },
+        { "name": "Chapa", "positionRaw": "Volante" },
+        { "name": "Raylson", "positionRaw": "Volante" },
+        { "name": "Elmi", "positionRaw": "Atacante" },
+        { "name": "Vanílson", "positionRaw": "Atacante" },
+        { "name": "Werick", "positionRaw": "Zagueiro" },
+        { "name": "Rodolfo", "positionRaw": null },
+        { "name": "Felipe Tiririca", "positionRaw": null },
+        { "name": "Lucas Martins", "positionRaw": null },
+        { "name": "Eric Santos", "positionRaw": null }
+      ],
+      "notes": "Clube começou a pré-temporada com 28 jogadores no total; lista acima é só quem foi citado nominalmente. Rodolfo/Felipe Tiririca/Lucas Martins/Eric Santos vieram do Monte Roraima-RR (mesmo grupo A01) segundo a fonte -- posição não informada na cobertura encontrada."
+    },
+    "A01::Monte Roraima-RR": {
+      "clubName": "Monte Roraima-RR",
+      "groupId": "A01",
+      "status": "press_pending_official",
+      "sources": [
+        "https://www.folhabv.com.br/esporte/monte-roraima-traca-metas-para-2026-e-apresenta-novo-jogador/",
+        "https://www.oliberal.com/esportes/lance-a-lance/2026/remo-x-monte-roraima"
+      ],
+      "players": [
+        { "name": "Felipe Brisola", "positionRaw": "Atacante" },
+        { "name": "André Junio", "positionRaw": null },
+        { "name": "Romailson", "positionRaw": null },
+        { "name": "Felipe", "positionRaw": null },
+        { "name": "Bruno Costa", "positionRaw": null },
+        { "name": "Luisinho", "positionRaw": null },
+        { "name": "Nalbert", "positionRaw": null },
+        { "name": "Geovani", "positionRaw": null },
+        { "name": "Matheus", "positionRaw": null }
+      ],
+      "notes": "A maior parte destes nomes veio de uma súmula de partida (Remo x Monte Roraima), não de uma apresentação formal de elenco -- ainda mais preliminar que os outros clubes desta lista. Só Felipe Brisola teve posição confirmada na cobertura encontrada."
+    },
+    "A01::São Raimundo-RR": {
+      "clubName": "São Raimundo-RR",
+      "groupId": "A01",
+      "status": "not_found_via_press",
+      "sources": [],
+      "players": [],
+      "notes": "Busca não encontrou matéria de apresentação de elenco nem lista de jogadores para 2026. Páginas com elenco (placardefutebol.com.br, ESPN) foram localizadas mas o conteúdo não veio no resultado da busca -- precisaria de acesso direto à página, que está bloqueado neste ambiente."
+    }
+  }
+}
