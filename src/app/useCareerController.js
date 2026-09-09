@@ -14,7 +14,7 @@ import { advanceOfficialWorldDivisions } from '../engines/world/officialWorldSea
 import { appendSystemPost, commentOnSocialPost, createSocialState, publishSocialPost, syncSocialToPlayer } from '../engines/life/socialEngine.js';
 import { createPlayerRegistration } from '../data/players/playerRegistration.js';
 import { generateTransferNews } from '../ui/screens/world.jsx';
-const STORAGE_KEY = 'slice-v2';
+export const STORAGE_KEY = 'slice-v2';
 
 export function useCareerController() {
   const [loaded, setLoaded] = useState(false);
