@@ -54,9 +54,20 @@ export function useCareerController() {
   const [interviewHistory, setInterviewHistory] = useState([]); // personalidade emerge daqui, nunca vira número
   const [pendingLifeEvent, setPendingLifeEvent] = useState(null); // { event, resumePhase }
 
-  // Calendar + Fitness Engine — dayIndex é a única fonte de tempo; roundToDay
-  // nunca é persistido, é sempre derivado de competition.calendar_pattern.
+  // Calendar + Fitness Engine — dayIndex é a única fonte de tempo (data de
+  // calendário, salário mensal) e NUNCA reseta dentro da mesma temporada —
+  // só assim o mês vira de verdade entre fase de grupo e mata-mata (ver
+  // crossesNewMonth). Mas detectar "hoje é dia de jogo" (getDayType) precisa
+  // de uma contagem relativa ao INÍCIO DA FASE ATUAL, não ao calendário
+  // absoluto — roundToDay é sempre construído do zero pra cada fase nova
+  // (fixtures.length daquela fase, dia 0 = primeiro dia dela). Por isso
+  // stageDayIndex existe separado: reseta em toda troca de fase (mesmo as
+  // que não resetam dayIndex), incrementa junto com ele. Sem essa separação,
+  // um dayIndex acumulado de 25+ nunca mais bate com um roundToDay que só
+  // conhece os dias 3 e 7 da fase nova — treino vira looping infinito porque
+  // getDayType nunca mais retorna 'match'.
   const [dayIndex, setDayIndex] = useState(0);
+  const [stageDayIndex, setStageDayIndex] = useState(0);
   const [fitnessState, setFitnessState] = useState({ condition: 100 });
   const [trainingSkipStreak, setTrainingSkipStreak] = useState(0); // decisão comportamental, não física
 
@@ -107,6 +118,7 @@ export function useCareerController() {
           setLifeState(d.lifeState || { relations: { coach: 50, crowd: 50, media: 50 }, fans: 100 });
           setInterviewHistory(d.interviewHistory || []);
           setDayIndex(d.dayIndex || 0);
+          setStageDayIndex(d.stageDayIndex || 0);
           setFitnessState(d.fitnessState || { condition: 100 });
           setTrainingSkipStreak(d.trainingSkipStreak || 0);
           setMatchHistory(d.matchHistory || {});
@@ -135,9 +147,9 @@ export function useCareerController() {
 
   useEffect(() => {
     if (!loaded) return;
-    const d = { phase, player, seasonYear, competition, standings, fixtures, round, userClubId, stats, log, promotionResult, seasonHistory, seasonStartSnapshot, lifeState, interviewHistory, dayIndex, fitnessState, trainingSkipStreak, matchHistory, economyState, worldState, academyState, socialState, serieD2026Demo, serieC2026State, serieB2026State, serieA2026State, pendingWeek, pendingLifeEvent, pendingContractDecision };
+    const d = { phase, player, seasonYear, competition, standings, fixtures, round, userClubId, stats, log, promotionResult, seasonHistory, seasonStartSnapshot, lifeState, interviewHistory, dayIndex, stageDayIndex, fitnessState, trainingSkipStreak, matchHistory, economyState, worldState, academyState, socialState, serieD2026Demo, serieC2026State, serieB2026State, serieA2026State, pendingWeek, pendingLifeEvent, pendingContractDecision };
     appStorage.set(STORAGE_KEY, JSON.stringify(d)).catch(() => {});
-  }, [loaded, phase, player, seasonYear, competition, standings, fixtures, round, userClubId, stats, log, promotionResult, seasonHistory, seasonStartSnapshot, lifeState, interviewHistory, dayIndex, fitnessState, trainingSkipStreak, matchHistory, economyState, worldState, academyState, socialState, serieD2026Demo, serieC2026State, serieB2026State, serieA2026State, pendingWeek, pendingLifeEvent, pendingContractDecision]);
+  }, [loaded, phase, player, seasonYear, competition, standings, fixtures, round, userClubId, stats, log, promotionResult, seasonHistory, seasonStartSnapshot, lifeState, interviewHistory, dayIndex, stageDayIndex, fitnessState, trainingSkipStreak, matchHistory, economyState, worldState, academyState, socialState, serieD2026Demo, serieC2026State, serieB2026State, serieA2026State, pendingWeek, pendingLifeEvent, pendingContractDecision]);
 
   const pushLog = useCallback((msg) => setLog(prev => [msg, ...prev].slice(0, 30)), []);
 
@@ -236,6 +248,7 @@ export function useCareerController() {
     setFixtures(CompetitionEngineV2.buildLeagueFixtures(groupClubIds, true));
     setRound(0);
     setDayIndex(0);
+    setStageDayIndex(0); // temporada nova de verdade -- reseta os dois
     setFitnessState({ condition: 100 });
     setUserClubId(clubId);
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
@@ -488,6 +501,12 @@ export function useCareerController() {
     // início fixo da family a cada troca de fase (grupo → mata-mata) fazia o
     // salário mensal quase nunca cair: cada mata-mata é curto demais (poucos
     // dias) pra cruzar um mês sozinho contando do zero (ver crossesNewMonth).
+    // stageDayIndex SIM reseta — getDayType precisa contar os dias desta
+    // fase nova a partir do zero pra saber quando é dia de jogo (roundToDay
+    // é sempre construído do zero também). Sem isso, "hoje é dia de jogo"
+    // nunca mais batia contra um dayIndex que já vinha lá de trás — treino
+    // virava um loop infinito bem no dia em que devia ser partida.
+    setStageDayIndex(0);
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setSerieD2026Demo(prev => ({ ...prev, stageId, currentOpponentId: opponentId, hostsSecondLeg, matchResults: [], result: null }));
@@ -519,6 +538,7 @@ export function useCareerController() {
     setFixtures(CompetitionEngineV2.buildLeagueFixtures(groupClubIds, true));
     setRound(0);
     setDayIndex(0);
+    setStageDayIndex(0); // temporada nova de verdade -- reseta os dois
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setPlayer(p => ({ ...p, age: p.age + 1, ...(contractPatch || {}) }));
@@ -563,6 +583,7 @@ export function useCareerController() {
     setFixtures(CompetitionEngineV2.buildLeagueFixtures(customClubIds, false)); // Art. 14 — turno único
     setRound(0);
     setDayIndex(0);
+    setStageDayIndex(0); // temporada nova de verdade -- reseta os dois
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setPlayer(p => ({ ...p, age: p.age + 1, ...(contractPatch || {}) }));
@@ -591,6 +612,7 @@ export function useCareerController() {
     setRound(0);
     // dayIndex NÃO reseta — mesma temporada da 1ª fase que acabou de terminar
     // (ver comentário equivalente em beginSerieD2026Tie sobre o salário mensal).
+    setStageDayIndex(0); // fase nova -- getDayType precisa contar do zero (ver beginSerieD2026Tie)
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setSerieC2026State(prev => ({ ...prev, stageId: 'fase2', groupClubIds, matchResults: [], result: null }));
@@ -613,6 +635,7 @@ export function useCareerController() {
     setFixtures([[[homeLeg1, awayLeg1]], [[awayLeg1, homeLeg1]]]);
     setRound(0);
     // dayIndex NÃO reseta — mesma temporada da 2ª fase que acabou de terminar.
+    setStageDayIndex(0); // fase nova -- getDayType precisa contar do zero (ver beginSerieD2026Tie)
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setSerieC2026State(prev => ({ ...prev, stageId: 'fase3_final', currentOpponentId: opponentId, hostsSecondLeg, matchResults: [], result: null }));
@@ -673,6 +696,7 @@ export function useCareerController() {
     setFixtures(CompetitionEngineV2.buildLeagueFixtures(customClubIds, true));
     setRound(0);
     setDayIndex(0);
+    setStageDayIndex(0); // temporada nova de verdade -- reseta os dois
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setPlayer(p => ({ ...p, age: p.age + 1, ...(contractPatch || {}) }));
@@ -695,6 +719,7 @@ export function useCareerController() {
     setFixtures([[[homeLeg1, awayLeg1]], [[awayLeg1, homeLeg1]]]);
     setRound(0);
     // dayIndex NÃO reseta — mesma temporada da fase de liga que acabou de terminar.
+    setStageDayIndex(0); // fase nova -- getDayType precisa contar do zero (ver beginSerieD2026Tie)
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setSerieB2026State(prev => ({ ...prev, playoffOpponentId: opponentId, playoffHostsSecondLeg: hostsSecondLeg, playoffAmIBetterSeed: amIBetterSeed, playoffMatchResults: [], result: null }));
@@ -750,6 +775,7 @@ export function useCareerController() {
     setFixtures(CompetitionEngineV2.buildLeagueFixtures(customClubIds, true));
     setRound(0);
     setDayIndex(0);
+    setStageDayIndex(0); // temporada nova de verdade -- reseta os dois
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setPlayer(p => ({ ...p, age: p.age + 1, ...(contractPatch || {}) }));
@@ -836,6 +862,7 @@ export function useCareerController() {
           setEconomyState(e => ({ ...e, balance: e.balance + player.contract.salary }));
         }
         setDayIndex(d => d + 1);
+        setStageDayIndex(d => d + 1);
         return;
       }
     }
@@ -843,6 +870,7 @@ export function useCareerController() {
       setEconomyState(e => ({ ...e, balance: e.balance + player.contract.salary }));
     }
     setDayIndex(d => d + 1);
+    setStageDayIndex(d => d + 1);
   }
 
   // Dia de recuperação (o seguinte a uma partida): recuperação automática, sem
@@ -854,6 +882,7 @@ export function useCareerController() {
       setEconomyState(e => ({ ...e, balance: e.balance + player.contract.salary }));
     }
     setDayIndex(d => d + 1);
+    setStageDayIndex(d => d + 1);
   }
 
   function playWeek() {
@@ -912,6 +941,7 @@ export function useCareerController() {
     setRound(nextRound);
     setFitnessState({ condition: matchCondition });
     setDayIndex(d => d + 1);
+    setStageDayIndex(d => d + 1);
     setPendingWeek(null);
 
     // Salário é mensal de verdade agora (ver crossesNewMonth) — creditado
@@ -1289,6 +1319,7 @@ export function useCareerController() {
     setFixtures(generateFixtures(cfg));
     setRound(0);
     setDayIndex(0);
+    setStageDayIndex(0); // temporada nova de verdade -- reseta os dois
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setSeasonYear(y => y + 1);
@@ -1447,7 +1478,7 @@ export function useCareerController() {
     setSeasonHistory([]); setSeasonStartSnapshot(null); setAcademyState({ week: 0, totalWeeks: 26, matches: 0, goals: 0, assists: 0 }); setTrainPick(null); setShowPicker(false); setPendingWeek(null);
     setLifeState({ relations: { coach: 50, crowd: 50, media: 50 }, fans: 100 });
     setInterviewHistory([]); setPendingLifeEvent(null);
-    setDayIndex(0); setFitnessState({ condition: 100 }); setTrainingSkipStreak(0);
+    setDayIndex(0); setStageDayIndex(0); setFitnessState({ condition: 100 }); setTrainingSkipStreak(0);
     setMatchHistory({});
     setEconomyState({ balance: 0, investments: 0, properties: [] }); setPendingContractDecision(null);
     setWorldState({ clubDivision: initialClubDivision() });
@@ -1459,7 +1490,7 @@ export function useCareerController() {
   const activeClubsMap = (userClubId && competition) ? getActiveClubsMap(competition, userClubId) : CLUBS_MAP;
   const club = userClubId ? activeClubsMap[userClubId] : null;
   const roundToDay = competition ? buildRoundToDay(fixtures.length, competition.calendar_pattern) : {};
-  const dayType = competition ? getDayType(dayIndex, roundToDay) : null;
+  const dayType = competition ? getDayType(stageDayIndex, roundToDay) : null;
 
-  return { loaded, setLoaded, socialState, handleSocialPublish, handleSocialComment, academyState, advanceAcademyWeek, phase, setPhase, tab, setTab, player, setPlayer, seasonYear, setSeasonYear, competition, setCompetition, standings, setStandings, fixtures, setFixtures, round, setRound, userClubId, setUserClubId, stats, setStats, log, setLog, promotionResult, setPromotionResult, seasonHistory, setSeasonHistory, seasonStartSnapshot, setSeasonStartSnapshot, trainPick, setTrainPick, showPicker, setShowPicker, pendingWeek, setPendingWeek, lifeState, setLifeState, interviewHistory, setInterviewHistory, pendingLifeEvent, setPendingLifeEvent, dayIndex, setDayIndex, fitnessState, setFitnessState, trainingSkipStreak, setTrainingSkipStreak, matchHistory, setMatchHistory, worldState, setWorldState, economyState, setEconomyState, pendingContractDecision, setPendingContractDecision, serieD2026Demo, setSerieD2026Demo, serieC2026State, setSerieC2026State, serieB2026State, setSerieB2026State, serieA2026State, setSerieA2026State, transferNews, setTransferNews, pushLog, startCareer, chooseClub, redrawSerieD2026GroupsForNewSeason, exitSerieD2026Demo, beginSerieD2026Tie, startNewSerieD2026Season, startSerieC2026Season, beginSerieC2026Fase2, beginSerieC2026Final, exitSerieC2026Season, startSerieB2026Season, beginSerieB2026Playoff, exitSerieB2026Season, startSerieA2026Season, exitSerieA2026Season, togglePicker, advanceTrainingDay, advanceRecoveryDay, playWeek, continueAfterMatch, chooseLifePosture, requestTransfer, requestLoan, handleInvest, handleWithdrawInvestments, handleBuyProperty, finalizeNextSeason, continueNextSeason, resolveContractDecision, resetCareer };
+  return { loaded, setLoaded, socialState, handleSocialPublish, handleSocialComment, academyState, advanceAcademyWeek, phase, setPhase, tab, setTab, player, setPlayer, seasonYear, setSeasonYear, competition, setCompetition, standings, setStandings, fixtures, setFixtures, round, setRound, userClubId, setUserClubId, stats, setStats, log, setLog, promotionResult, setPromotionResult, seasonHistory, setSeasonHistory, seasonStartSnapshot, setSeasonStartSnapshot, trainPick, setTrainPick, showPicker, setShowPicker, pendingWeek, setPendingWeek, lifeState, setLifeState, interviewHistory, setInterviewHistory, pendingLifeEvent, setPendingLifeEvent, dayIndex, setDayIndex, stageDayIndex, setStageDayIndex, fitnessState, setFitnessState, trainingSkipStreak, setTrainingSkipStreak, matchHistory, setMatchHistory, worldState, setWorldState, economyState, setEconomyState, pendingContractDecision, setPendingContractDecision, serieD2026Demo, setSerieD2026Demo, serieC2026State, setSerieC2026State, serieB2026State, setSerieB2026State, serieA2026State, setSerieA2026State, transferNews, setTransferNews, pushLog, startCareer, chooseClub, redrawSerieD2026GroupsForNewSeason, exitSerieD2026Demo, beginSerieD2026Tie, startNewSerieD2026Season, startSerieC2026Season, beginSerieC2026Fase2, beginSerieC2026Final, exitSerieC2026Season, startSerieB2026Season, beginSerieB2026Playoff, exitSerieB2026Season, startSerieA2026Season, exitSerieA2026Season, togglePicker, advanceTrainingDay, advanceRecoveryDay, playWeek, continueAfterMatch, chooseLifePosture, requestTransfer, requestLoan, handleInvest, handleWithdrawInvestments, handleBuyProperty, finalizeNextSeason, continueNextSeason, resolveContractDecision, resetCareer };
 }
