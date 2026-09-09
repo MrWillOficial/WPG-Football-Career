@@ -129,7 +129,10 @@ const LIFE_EVENTS = [
 // significa esse gatilho" fica aqui, pronta pra crescer sem tocar em LIFE_EVENTS.
 const LIFE_CONDITION_EVALUATORS = {
   decisive_goal: (ctx) => ctx.type === 'match_performance' && ctx.goals > 0 && ctx.matchWon,
-  bad_rating: (ctx) => ctx.type === 'match_performance' && ctx.rating < 4.5,
+  // -1.0 em relação à base da nota de partida (MATCH_RATING_BASELINE em
+  // matchEngine.js) — mesma distância relativa de antes, só reancorada na
+  // base nova (6.5), senão esse gatilho quase nunca mais dispararia.
+  bad_rating: (ctx) => ctx.type === 'match_performance' && ctx.rating < 5.5,
   hat_trick: (ctx) => ctx.type === 'match_performance' && ctx.goals >= 3,
   playmaker: (ctx) => ctx.type === 'match_performance' && ctx.assists >= 2,
   first_goal: (ctx) => ctx.type === 'match_performance' && ctx.isFirstCareerGoal,

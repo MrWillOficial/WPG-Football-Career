@@ -25,12 +25,18 @@ function simulateScore(strA, strB) {
 // Engine, que era propositalmente protegido até aqui). O resto da função
 // (fórmula de probabilidade/nota) continua absolutamente idêntico ao que
 // já estava validado.
+// Nota calibrada contra referência real (WhoScored/FotMob partem de 6.0,
+// SofaScore de 6.5, Football Manager considera 6.5–6.9 "média" e a maioria
+// das notas cai entre 6–8) — a base 5.5 anterior, com variação de ±1.5,
+// jogava a maioria dos jogos pra faixa que qualquer uma dessas referências
+// chamaria de atuação ruim, mesmo sem nada de errado ter acontecido.
+const MATCH_RATING_BASELINE = 6.5;
 function resolveUserInvolvement(player, clubOverall, condition) {
   if (condition !== undefined && condition <= FITNESS_AVAILABILITY_FLOOR) return { calledUp: false };
   const prob = clamp(0.35 + (player.overall - clubOverall) / 80, 0.15, 0.95);
   const calledUp = Math.random() < prob;
   if (!calledUp) return { calledUp: false };
-  const rating = clamp(5.5 + (player.overall - clubOverall) / 20 + (Math.random() - 0.5) * 3, 1, 10);
+  const rating = clamp(MATCH_RATING_BASELINE + (player.overall - clubOverall) / 25 + (Math.random() - 0.5) * 2, 2, 10);
   return { calledUp: true, rating };
 }
 function resolvePlayerGoalsAssists(player, teamGoals) {
@@ -100,8 +106,8 @@ function resolveRound(roundFixtures, clubsMap, standingsMap, userClubId, player,
 
     let strHome = clubsMap[homeId].overall;
     let strAway = clubsMap[awayId].overall;
-    if (isUserHome && involvement.calledUp) strHome += (involvement.rating - 6) * 1.5;
-    if (isUserAway && involvement.calledUp) strAway += (involvement.rating - 6) * 1.5;
+    if (isUserHome && involvement.calledUp) strHome += (involvement.rating - MATCH_RATING_BASELINE) * 1.5;
+    if (isUserAway && involvement.calledUp) strAway += (involvement.rating - MATCH_RATING_BASELINE) * 1.5;
 
     const [gh, ga] = simulateScore(strHome, strAway);
     matchResults.push({ homeId, awayId, gh, ga, round, competitionId });
@@ -109,8 +115,13 @@ function resolveRound(roundFixtures, clubsMap, standingsMap, userClubId, player,
     if ((isUserHome || isUserAway) && involvement.calledUp) {
       const teamGoals = isUserHome ? gh : ga;
       const { goals, assists } = resolvePlayerGoalsAssists(player, teamGoals);
-      userMatchInfo = { home: clubsMap[homeId].name, away: clubsMap[awayId].name, homeId, awayId, gh, ga, isUserHome, calledUp: true, rating: involvement.rating, goals, assists };
-      playerDelta = { goals, assists, rating: involvement.rating };
+      // Gol/assistência sobem a nota FINAL exibida — não realimentam o sorteio
+      // de força/placar acima (isso já aconteceu), só corrigem a leitura pro
+      // jogador: hoje marcar gol não mudava a nota em nada, o que também
+      // contribuía pra sensação de nota descolada da atuação.
+      const finalRating = clamp(involvement.rating + goals * 0.35 + assists * 0.15, 2, 10);
+      userMatchInfo = { home: clubsMap[homeId].name, away: clubsMap[awayId].name, homeId, awayId, gh, ga, isUserHome, calledUp: true, rating: finalRating, goals, assists };
+      playerDelta = { goals, assists, rating: finalRating };
     } else if (isUserHome || isUserAway) {
       userMatchInfo = { home: clubsMap[homeId].name, away: clubsMap[awayId].name, homeId, awayId, gh, ga, isUserHome, calledUp: false };
     }
