@@ -1,0 +1,173 @@
+{
+  "seasonYear": 2026,
+  "generatedAt": "2026-09-09T03:02:09.775300+00:00",
+  "policy": "Raw CBF roster observations only; no loan inference; individual player activation remains blocked until full identity/position/transfer validation.",
+  "totalObservations": 177,
+  "serieA": {
+    "athletico_paranaense": {
+      "club": "Athletico-PR",
+      "observations": 0
+    },
+    "atletico_mineiro": {
+      "club": "Atlético-MG",
+      "observations": 0
+    },
+    "bahia": {
+      "club": "Bahia",
+      "observations": 2
+    },
+    "botafogo": {
+      "club": "Botafogo",
+      "observations": 3
+    },
+    "chapecoense": {
+      "club": "Chapecoense",
+      "observations": 56
+    },
+    "corinthians": {
+      "club": "Corinthians",
+      "observations": 2
+    },
+    "coritiba": {
+      "club": "Coritiba",
+      "observations": 3
+    },
+    "cruzeiro": {
+      "club": "Cruzeiro",
+      "observations": 1
+    },
+    "flamengo": {
+      "club": "Flamengo",
+      "observations": 0
+    },
+    "fluminense": {
+      "club": "Fluminense",
+      "observations": 2
+    },
+    "gremio": {
+      "club": "Grêmio",
+      "observations": 3
+    },
+    "internacional": {
+      "club": "Internacional",
+      "observations": 2
+    },
+    "mirassol": {
+      "club": "Mirassol",
+      "observations": 43
+    },
+    "palmeiras": {
+      "club": "Palmeiras",
+      "observations": 2
+    },
+    "red_bull_bragantino": {
+      "club": "Bragantino",
+      "observations": 0
+    },
+    "remo": {
+      "club": "Remo",
+      "observations": 0
+    },
+    "santos": {
+      "club": "Santos",
+      "observations": 4
+    },
+    "sao_paulo": {
+      "club": "São Paulo",
+      "observations": 0
+    },
+    "vasco": {
+      "club": "Vasco",
+      "observations": 0
+    },
+    "vitoria": {
+      "club": "Vitória",
+      "observations": 3
+    }
+  },
+  "serieB": {
+    "america-mg": {
+      "club": "América-MG",
+      "observations": 0
+    },
+    "athletic": {
+      "club": "Athletic",
+      "observations": 0
+    },
+    "atletico-go": {
+      "club": "Atlético-GO",
+      "observations": 0
+    },
+    "avai": {
+      "club": "Avaí",
+      "observations": 0
+    },
+    "botafogo-sp": {
+      "club": "Botafogo-SP",
+      "observations": 0
+    },
+    "ceara": {
+      "club": "Ceará",
+      "observations": 0
+    },
+    "crb": {
+      "club": "CRB",
+      "observations": 0
+    },
+    "criciuma": {
+      "club": "Criciúma",
+      "observations": 0
+    },
+    "cuiaba": {
+      "club": "Cuiabá",
+      "observations": 0
+    },
+    "fortaleza": {
+      "club": "Fortaleza",
+      "observations": 0
+    },
+    "goias": {
+      "club": "Goiás",
+      "observations": 0
+    },
+    "juventude": {
+      "club": "Juventude",
+      "observations": 0
+    },
+    "londrina": {
+      "club": "Londrina",
+      "observations": 0
+    },
+    "nautico": {
+      "club": "Náutico",
+      "observations": 0
+    },
+    "novorizontino": {
+      "club": "Novorizontino",
+      "observations": 0
+    },
+    "operario-pr": {
+      "club": "Operário-PR",
+      "observations": 0
+    },
+    "ponte-preta": {
+      "club": "Ponte Preta",
+      "observations": 0
+    },
+    "sao-bernardo": {
+      "club": "São Bernardo",
+      "observations": 0
+    },
+    "sport": {
+      "club": "Sport",
+      "observations": 0
+    },
+    "vila-nova": {
+      "club": "Vila Nova",
+      "observations": 0
+    }
+  },
+  "lastAction": "Official CBF Grêmio 2026 roster collected and staged",
+  "gremioOfficialCbfRows": 51,
+  "gremioUniquePlayers": 50
+}

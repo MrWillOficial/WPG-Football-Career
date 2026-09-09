@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-09-09T02:04:44.256Z",
+  "source": "CBF",
+  "seasonYear": 2026,
+  "totalClubs": 156,
+  "competitions": {
+    "serie_a_2026": {
+      "clubs": 20,
+      "collectedClubs": 0,
+      "observedPlayers": 0
+    },
+    "serie_b_2026": {
+      "clubs": 20,
+      "collectedClubs": 0,
+      "observedPlayers": 0
+    },
+    "serie_c_2026": {
+      "clubs": 20,
+      "collectedClubs": 0,
+      "observedPlayers": 0
+    },
+    "serie_d_2026": {
+      "clubs": 96,
+      "collectedClubs": 0,
+      "observedPlayers": 0
+    }
+  },
+  "collectedClubs": 0,
+  "pendingClubs": 156,
+  "totalObservedPlayers": 0,
+  "activationSafe": false,
+  "rule": "Observed CBF rows are staging-only until complete club coverage and identity/position validation are closed. Registered→Current never implies loan by itself."
+}

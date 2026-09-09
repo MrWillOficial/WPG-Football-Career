@@ -1,0 +1,21 @@
+{
+  "id": "ceara",
+  "name": "Ceará",
+  "competition": "serie_b_2026",
+  "seasonYear": 2026,
+  "dataStatus": "official_competition_membership_verified_pending_full_official_club_profile",
+  "officialSource": {
+    "provider": "CBF",
+    "competition": "CAMPEONATO_BRASILEIRO_SERIE_B",
+    "seasonYear": 2026,
+    "teamId": 20031,
+    "url": "https://www.cbf.com.br/futebol-brasileiro/times/campeonato-brasileiro/serie-b/2026/20031"
+  },
+  "officialCompetitionSource": {
+    "provider": "CBF",
+    "url": "https://www.cbf.com.br/futebol-brasileiro/tabelas/campeonato-brasileiro/serie-b/2026",
+    "seasonYear": 2026,
+    "scope": "competition_membership",
+    "status": "official"
+  }
+}

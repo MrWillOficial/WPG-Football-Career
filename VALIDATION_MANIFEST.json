@@ -1,0 +1,114 @@
+{
+  "project": "WPG-Football-Career",
+  "snapshot": "A-B-C-D-2026 + national-world integration + Copa do Brasil 2026 + WPG Life/Social foundation + player registration",
+  "validationDate": "2026-09-08",
+  "singleDeliverablePolicy": true,
+  "competitionStructure": {
+    "serieA2026": {
+      "clubs": 20,
+      "officialFormat": true
+    },
+    "serieB2026": {
+      "clubs": 20,
+      "officialFormat": true,
+      "directPromotion": 2,
+      "playoffPromotion": 2,
+      "relegation": 4
+    },
+    "serieC2026": {
+      "clubs": 20,
+      "officialFormat": true,
+      "promotion": 4,
+      "relegation": 2
+    },
+    "serieD2026": {
+      "clubs": 96,
+      "groups": 16,
+      "promotion": 6,
+      "relegation": 0
+    },
+    "copaDoBrasil2026": {
+      "participants": 126,
+      "phases": 9,
+      "finalSingleMatch": true,
+      "officialCalendarAnchorsOnly": true
+    }
+  },
+  "worldIntegration": {
+    "officialCompetitionSimulation": true,
+    "persistentDivisionMap": true,
+    "multiOutcomePromotionSupported": true,
+    "combinedStageParticipantsSupported": true,
+    "serieD2027Replenishment": "pending_official_qualification_data"
+  },
+  "academy": {
+    "baseSeason": true,
+    "startsAt16": true,
+    "graduatesAt17": true,
+    "clubInterestRestricted": true
+  },
+  "playerData": {
+    "officialSourcesRegistered": [
+      "serie_a_2026",
+      "serie_b_2026",
+      "serie_c_2026",
+      "serie_d_2026"
+    ],
+    "fullProfessionalRosterImport": false,
+    "reason": "Individual official CBF roster coverage is not activated until complete, source-verifiable player records exist; no attributes/OVR/potential/salary are invented.",
+    "newValidationLayer": {
+      "serieBOfficialTeamPages": 20,
+      "serieCOfficialTeamPages": 20,
+      "fieldsValidatedAtTeamPage": [
+        "name",
+        "nickname",
+        "currentClub"
+      ],
+      "individualNormalizationPending": true,
+      "shirtNumberPolicy": "club-season-registration; never permanent identity field; official-only activation"
+    }
+  },
+  "salary": {
+    "individualOfficialRegistry": false,
+    "gameEconomyFallback": true
+  },
+  "staticChecks": {
+    "javascriptSyntax": "all .js files pass node --check",
+    "jsonSyntax": "all project JSON files parse successfully",
+    "jsxSyntax": "all 12 JSX files parse successfully through TypeScript JSX parser; full Vite build not executed because dependency install timed out in offline runtime",
+    "relativeImports": "all relative JS/JSX imports resolve to existing project files"
+  },
+  "previousPackages": "Do not use previous intermediate ZIPs; this manifest belongs only to the final package.",
+  "lifeSocial": {
+    "socialEngine": true,
+    "postTones": 10,
+    "commentEngine": true,
+    "persistentHistory": true,
+    "reputationMetrics": [
+      "reputation",
+      "popularity",
+      "engagement",
+      "controversy",
+      "respect"
+    ],
+    "relationships": [
+      "crowd",
+      "coach",
+      "dressingRoom",
+      "media",
+      "board"
+    ]
+  },
+  "visual": {
+    "primaryReference": "WPG clean profile shell",
+    "sidebarGroups": [
+      "CARREIRA",
+      "COMPETIÇÕES",
+      "MUNDO",
+      "LIFE",
+      "DADOS"
+    ],
+    "lifeUsesSameShell": true,
+    "shieldPolicy": "do not require licensed club crests; monogram fallback remains default"
+  }
+}

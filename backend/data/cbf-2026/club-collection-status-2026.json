@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-09-09T02:17:50Z",
+  "seasonYear": 2026,
+  "source": "CBF",
+  "clubsTotal": 156,
+  "clubsObservedStaging": 16,
+  "clubsPending": 144,
+  "observedRows": 39,
+  "activationSafe": false,
+  "rule": "Staging only. Registered->Current is a relationship observation; loan/transfer type requires official transfer evidence."
+}

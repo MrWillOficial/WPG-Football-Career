@@ -1,0 +1,106 @@
+{
+  "generatedAt": "2026-09-09T01:25:59.116Z",
+  "competitions": [
+    {
+      "competition": "serie_a_2026",
+      "clubs": 20,
+      "unique_clubs": 20
+    },
+    {
+      "competition": "serie_b_2026",
+      "clubs": 20,
+      "unique_clubs": 20
+    },
+    {
+      "competition": "serie_c_2026",
+      "clubs": 20,
+      "unique_clubs": 20
+    },
+    {
+      "competition": "serie_d_2026",
+      "clubs": 96,
+      "unique_clubs": 96
+    }
+  ],
+  "targets": [
+    {
+      "competition": "serie_a_2026",
+      "provider": "API-Football",
+      "status": "pending_api_key",
+      "n": 20
+    },
+    {
+      "competition": "serie_a_2026",
+      "provider": "CBF",
+      "status": "source_verified",
+      "n": 20
+    },
+    {
+      "competition": "serie_a_2026",
+      "provider": "FootyStats",
+      "status": "auxiliary_available",
+      "n": 20
+    },
+    {
+      "competition": "serie_b_2026",
+      "provider": "API-Football",
+      "status": "pending_api_key",
+      "n": 20
+    },
+    {
+      "competition": "serie_b_2026",
+      "provider": "CBF",
+      "status": "source_verified",
+      "n": 20
+    },
+    {
+      "competition": "serie_b_2026",
+      "provider": "FootyStats",
+      "status": "auxiliary_available",
+      "n": 20
+    },
+    {
+      "competition": "serie_c_2026",
+      "provider": "API-Football",
+      "status": "pending_api_key",
+      "n": 20
+    },
+    {
+      "competition": "serie_c_2026",
+      "provider": "CBF",
+      "status": "source_verified",
+      "n": 20
+    },
+    {
+      "competition": "serie_c_2026",
+      "provider": "FootyStats",
+      "status": "auxiliary_available",
+      "n": 20
+    },
+    {
+      "competition": "serie_d_2026",
+      "provider": "API-Football",
+      "status": "pending_api_key",
+      "n": 96
+    },
+    {
+      "competition": "serie_d_2026",
+      "provider": "CBF",
+      "status": "source_verified",
+      "n": 96
+    },
+    {
+      "competition": "serie_d_2026",
+      "provider": "FootyStats",
+      "status": "not_covered_for_player_stats",
+      "n": 96
+    }
+  ],
+  "players": 0,
+  "registrations": 0,
+  "validation": {
+    "errors": [],
+    "valid": true,
+    "playerActivationSafe": false
+  }
+}

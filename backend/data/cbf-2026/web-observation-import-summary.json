@@ -1,0 +1,8 @@
+{
+  "inserted": 309,
+  "skipped": 415,
+  "totalRows": 738,
+  "differentCurrentClub": 405,
+  "loansConfirmed": 0,
+  "rule": "Current club difference is an observation only; transfer history must confirm loan/permanent relationship."
+}

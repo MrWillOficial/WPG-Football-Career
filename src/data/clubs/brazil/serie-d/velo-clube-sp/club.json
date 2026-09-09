@@ -1,0 +1,15 @@
+{
+  "id": "velo-clube-sp",
+  "name": "Velo Clube-SP",
+  "competition": "serie_d_2026",
+  "seasonYear": 2026,
+  "dataStatus": "official_competition_membership_verified_pending_full_official_club_profile",
+  "group": "A14",
+  "officialCompetitionSource": {
+    "provider": "CBF",
+    "url": "https://www.cbf.com.br/futebol-brasileiro/tabelas/campeonato-brasileiro/serie-d/2026",
+    "seasonYear": 2026,
+    "scope": "competition_membership",
+    "status": "official"
+  }
+}

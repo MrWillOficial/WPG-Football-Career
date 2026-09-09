@@ -1,0 +1,11 @@
+{
+  "source": "CBF",
+  "seasonYear": 2026,
+  "observations": 39,
+  "duplicates": 0,
+  "malformed": 0,
+  "currentClubDifferent": 31,
+  "activationSafe": false,
+  "loanConfirmed": 0,
+  "loanClassificationRule": "currentClub difference alone never confirms a loan"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "sao-bernardo",
+  "name": "São Bernardo",
+  "competition": "serie_b_2026",
+  "seasonYear": 2026,
+  "dataStatus": "official_competition_membership_verified_pending_full_official_club_profile",
+  "officialSource": {
+    "provider": "CBF",
+    "competition": "CAMPEONATO_BRASILEIRO_SERIE_B",
+    "seasonYear": 2026,
+    "teamId": 31790,
+    "url": "https://www.cbf.com.br/futebol-brasileiro/times/campeonato-brasileiro/serie-b/2026/31790"
+  },
+  "officialCompetitionSource": {
+    "provider": "CBF",
+    "url": "https://www.cbf.com.br/futebol-brasileiro/tabelas/campeonato-brasileiro/serie-b/2026",
+    "seasonYear": 2026,
+    "scope": "competition_membership",
+    "status": "official"
+  }
+}

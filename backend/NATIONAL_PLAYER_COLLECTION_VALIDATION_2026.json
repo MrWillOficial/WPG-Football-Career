@@ -1,0 +1,58 @@
+{
+  "seasonYear": 2026,
+  "clubCoverage": {
+    "serie_a_2026": {
+      "expected": 20,
+      "actual": 20,
+      "ok": true
+    },
+    "serie_b_2026": {
+      "expected": 20,
+      "actual": 20,
+      "ok": true
+    },
+    "serie_c_2026": {
+      "expected": 20,
+      "actual": 20,
+      "ok": true
+    },
+    "serie_d_2026": {
+      "expected": 96,
+      "actual": 96,
+      "ok": true
+    }
+  },
+  "collectionTargets": {
+    "serie_a_2026": {
+      "expected": 20,
+      "actual": 20,
+      "ok": true
+    },
+    "serie_b_2026": {
+      "expected": 20,
+      "actual": 20,
+      "ok": true
+    },
+    "serie_c_2026": {
+      "expected": 20,
+      "actual": 20,
+      "ok": true
+    },
+    "serie_d_2026": {
+      "expected": 96,
+      "actual": 96,
+      "ok": true
+    }
+  },
+  "cbfWebObservations": {
+    "rows": 738,
+    "malformed": 0,
+    "duplicates": 0,
+    "ok": true
+  },
+  "playersInOfficialDb": 0,
+  "confirmedLoans": 0,
+  "playerActivationSafe": false,
+  "policy": "CBF is primary. API-Football is enrichment only. Registered→Current never auto-classifies a loan; transfer evidence is required.",
+  "ok": true
+}

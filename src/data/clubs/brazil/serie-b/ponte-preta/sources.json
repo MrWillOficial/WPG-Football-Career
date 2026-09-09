@@ -1,0 +1,13 @@
+{
+  "status": "official_source_verified",
+  "records": [
+    {
+      "provider": "CBF",
+      "url": "https://www.cbf.com.br/futebol-brasileiro/tabelas/campeonato-brasileiro/serie-b/2026",
+      "retrievedAt": "2026-09-08",
+      "status": "official",
+      "scope": "competition_membership",
+      "note": "Official CBF competition table/source; full club profile and player roster remain separately gated."
+    }
+  ]
+}

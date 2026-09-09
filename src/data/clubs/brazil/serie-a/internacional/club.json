@@ -1,0 +1,14 @@
+{
+  "id": "internacional",
+  "name": "Internacional",
+  "competition": "serie_a_2026",
+  "seasonYear": 2026,
+  "dataStatus": "official_competition_membership_verified_pending_full_official_club_profile",
+  "officialCompetitionSource": {
+    "provider": "CBF",
+    "url": "https://www.cbf.com.br/futebol-brasileiro/tabelas/campeonato-brasileiro/serie-a/2026",
+    "seasonYear": 2026,
+    "scope": "competition_membership",
+    "status": "official"
+  }
+}
