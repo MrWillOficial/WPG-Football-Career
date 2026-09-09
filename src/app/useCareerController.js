@@ -7,7 +7,7 @@ import { SERIE_D_2026_ASSIGNMENT, SERIE_D_2026_CLUB_IDS, SERIE_D_2026_NEXT_STAGE
 import { TIER_ORDER, applyAnnualEconomyUpdate, buyProperty, clubSeasonDecision, computeBuyoutClause, computeReleaseCompensation, computeSalary, evaluatePlayerStatus, generateLoanOffer, generateTransferOffers, investAmount, makeContract, resolvePlayerSalary, withdrawAllInvestments } from '../engines/economy/contractsEconomy.js';
 import { CompetitionEngineV2 } from '../engines/competition/CompetitionEngineV2.js';
 import { SERIE_C_2026_CLUBS, SERIE_C_2026_FASE1_TIEBREAK_CHAIN, SERIE_C_2026_FASE2_TIEBREAK_CHAIN, resolveSerieC2026UpTo } from '../data/competitions/serieC2026.js';
-import { applyLifeChoice, applyMatchCost, applyRestRecovery, applyTrainingCost, buildRoundToDay, crossesNewMonth, findEligibleLifeEvent, getDayType, matchModifier } from '../engines/life/lifeCalendarFitness.jsx';
+import { applyLifeChoice, applyMatchCost, applyRestRecovery, applyTrainingCost, buildRoundToDay, crossesNewMonth, describeMatchPerformance, findEligibleLifeEvent, getDayType, matchModifier } from '../engines/life/lifeCalendarFitness.jsx';
 import { CLUBS_MAP } from '../data/_mock/mockData.js';
 import { computeClubEffectiveStrength, getMatchContext, historyForCompetition } from '../engines/match/matchState.js';
 import { advanceOfficialWorldDivisions } from '../engines/world/officialWorldSeason.js';
@@ -606,13 +606,18 @@ export function useCareerController() {
     let finalPlayer = player;
     let finalStats = stats;
 
+    // Usado tanto no log/rede social (texto corrido) quanto no LIFE_EVENT
+    // elegível (entrevista) logo abaixo — mesmo fato, calculado uma vez só.
+    const matchWon = userMatchInfo ? (userMatchInfo.isUserHome ? userMatchInfo.gh > userMatchInfo.ga : userMatchInfo.ga > userMatchInfo.gh) : false;
+
     if (userMatchInfo) {
       if (userMatchInfo.calledUp) {
         finalStats = { apps: stats.apps + 1, goals: stats.goals + playerDelta.goals, assists: stats.assists + playerDelta.assists, ratingSum: stats.ratingSum + playerDelta.rating };
         const repDelta = playerDelta.rating >= 7.5 ? 2 : playerDelta.rating <= 4.5 ? -1 : 0;
         finalPlayer = { ...finalPlayer, reputation: clamp(finalPlayer.reputation + repDelta, 1, 30) };
-        pushLog(`Rodada ${round + 1}: ${userMatchInfo.home} ${userMatchInfo.gh}x${userMatchInfo.ga} ${userMatchInfo.away} — nota ${userMatchInfo.rating.toFixed(1)}${playerDelta.goals ? `, ${playerDelta.goals} gol(s)` : ''}${playerDelta.assists ? `, ${playerDelta.assists} assist.` : ''}.`);
-        const socialText = `${userMatchInfo.home} ${userMatchInfo.gh} x ${userMatchInfo.ga} ${userMatchInfo.away}. ${playerDelta.goals ? `${player.name} marcou e chamou a atenção. ` : ''}${playerDelta.assists ? `${player.name} ainda participou com assistência. ` : ''}Mais um capítulo da temporada.`;
+        const flavor = describeMatchPerformance({ goals: playerDelta.goals, assists: playerDelta.assists, rating: playerDelta.rating, matchWon, started: userMatchInfo.started, enteredMinute: userMatchInfo.enteredMinute });
+        pushLog(`Rodada ${round + 1}: ${userMatchInfo.home} ${userMatchInfo.gh}x${userMatchInfo.ga} ${userMatchInfo.away} — nota ${userMatchInfo.rating.toFixed(1)}.${flavor ? ` ${flavor}` : ''}`);
+        const socialText = `${userMatchInfo.home} ${userMatchInfo.gh} x ${userMatchInfo.ga} ${userMatchInfo.away}. ${flavor || 'Mais um capítulo da temporada.'}`;
         setSocialState(prev => appendSystemPost(prev, { authorId: 'wpg-match', authorName: 'WPG Sports', text: socialText, context: 'Resultado da rodada' }));
       } else {
         pushLog(`Rodada ${round + 1}: ${userMatchInfo.home} ${userMatchInfo.gh}x${userMatchInfo.ga} ${userMatchInfo.away} — você ficou no banco.`);
@@ -920,13 +925,19 @@ export function useCareerController() {
     // resolveRound/playWeek nunca sabem que isso existe.
     const lifeContext = (userMatchInfo && userMatchInfo.calledUp)
       ? { type: 'match_performance', goals: playerDelta.goals, assists: playerDelta.assists, rating: playerDelta.rating,
-          matchWon: userMatchInfo.isUserHome ? userMatchInfo.gh > userMatchInfo.ga : userMatchInfo.ga > userMatchInfo.gh,
+          matchWon, started: userMatchInfo.started, enteredMinute: userMatchInfo.enteredMinute,
           isFirstCareerGoal: stats.goals === 0 && playerDelta.goals > 0 }
       : null;
     const eligibleEvent = lifeContext ? findEligibleLifeEvent(lifeContext) : null;
+    // Alguns eventos têm prompt dinâmico (função do que aconteceu no jogo);
+    // resolve pra string aqui, já que é o único lugar com o contexto em mãos —
+    // a tela de entrevista só sabe renderizar texto.
+    const resolvedEvent = eligibleEvent
+      ? { ...eligibleEvent, prompt: typeof eligibleEvent.prompt === 'function' ? eligibleEvent.prompt(lifeContext) : eligibleEvent.prompt }
+      : null;
 
-    if (eligibleEvent) {
-      setPendingLifeEvent({ event: eligibleEvent, resumePhase: nextPhase });
+    if (resolvedEvent) {
+      setPendingLifeEvent({ event: resolvedEvent, resumePhase: nextPhase });
       setPhase('life-event');
     } else {
       setPhase(nextPhase);

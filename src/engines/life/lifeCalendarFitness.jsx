@@ -36,14 +36,58 @@ function HonorsList({ honors }) {
 
 const LIFE_EVENTS = [
   {
+    id: 'hat_trick_glory',
+    trigger: { type: 'match_performance', condition: 'hat_trick' },
+    prompt: (ctx) => `${ctx.goals} gols na partida! A imprensa quer saber o segredo do dia inspirado.`,
+    options: [
+      { posture: 'agressivo', label: 'Dizer que merece ser titular absoluto', effects: { relations: { coach: -2, crowd: 3, media: 3 }, fans: 8 } },
+      { posture: 'confiante', label: 'Agradecer e prometer mais', effects: { relations: { coach: 1, crowd: 3, media: 2 }, fans: 6 } },
+      { posture: 'sossegado', label: 'Dividir o mérito com o time', effects: { relations: { coach: 3, crowd: 2, media: 1 }, fans: 4 } },
+      { posture: 'desleixado', label: 'Brincar que "tava de sorte"', effects: { relations: { coach: 0, crowd: 2, media: 2 }, fans: 7 } },
+    ],
+  },
+  {
+    id: 'first_pro_goal',
+    trigger: { type: 'match_performance', condition: 'first_goal' },
+    prompt: 'Seu primeiro gol da temporada! Um repórter pede uma declaração.',
+    options: [
+      { posture: 'agressivo', label: 'Dizer que é só o começo', effects: { relations: { coach: -1, crowd: 2, media: 1 }, fans: 5 } },
+      { posture: 'confiante', label: 'Dedicar à família e ao trabalho duro', effects: { relations: { coach: 1, crowd: 2, media: 1 }, fans: 5 } },
+      { posture: 'sossegado', label: 'Agradecer ao clube pela oportunidade', effects: { relations: { coach: 3, crowd: 1, media: 0 }, fans: 3 } },
+      { posture: 'desleixado', label: 'Rir e dizer que nem esperava', effects: { relations: { coach: 0, crowd: 1, media: 1 }, fans: 4 } },
+    ],
+  },
+  {
+    id: 'assist_playmaker',
+    trigger: { type: 'match_performance', condition: 'playmaker' },
+    prompt: (ctx) => `${ctx.assists} assistências na partida — te chamam de "cérebro" do time.`,
+    options: [
+      { posture: 'agressivo', label: 'Cobrar mais protagonismo nas jogadas', effects: { relations: { coach: -2, crowd: 1, media: 1 }, fans: 2 } },
+      { posture: 'confiante', label: 'Falar que gosta de fazer o time jogar', effects: { relations: { coach: 1, crowd: 1, media: 1 }, fans: 2 } },
+      { posture: 'sossegado', label: 'Elogiar quem converteu os passes', effects: { relations: { coach: 2, crowd: 1, media: 0 }, fans: 1 } },
+      { posture: 'desleixado', label: 'Dizer que só "estava no dia"', effects: { relations: { coach: 0, crowd: 0, media: 1 }, fans: 2 } },
+    ],
+  },
+  {
     id: 'interview_decisive_goal',
     trigger: { type: 'match_performance', condition: 'decisive_goal' },
-    prompt: 'A imprensa quer sua reação após o gol decisivo.',
+    prompt: 'Parabéns — seu desempenho hoje ajudou a equipe a vencer. A imprensa quer sua reação após o gol decisivo.',
     options: [
       { posture: 'agressivo', label: 'Cobrar mais espaço no time', effects: { relations: { coach: -3, crowd: 2, media: 2 }, fans: 4 } },
       { posture: 'confiante', label: 'Mostrar ambição, sem criar caso', effects: { relations: { coach: 0, crowd: 2, media: 1 }, fans: 2 } },
       { posture: 'sossegado', label: 'Elogiar o grupo, evitar o holofote', effects: { relations: { coach: 2, crowd: 1, media: 0 }, fans: 1 } },
       { posture: 'desleixado', label: 'Brincar com a pergunta', effects: { relations: { coach: -1, crowd: 1, media: 1 }, fans: 5 } },
+    ],
+  },
+  {
+    id: 'late_cameo_scrutiny',
+    trigger: { type: 'match_performance', condition: 'late_entry' },
+    prompt: (ctx) => `Você só entrou aos ${ctx.enteredMinute}min hoje. Um repórter pergunta como foi acompanhar boa parte do jogo do banco.`,
+    options: [
+      { posture: 'agressivo', label: 'Dizer que merece mais minutos', effects: { relations: { coach: -3, crowd: 1, media: 0 }, fans: 1 } },
+      { posture: 'confiante', label: 'Dizer que está pronto quando for chamado', effects: { relations: { coach: 2, crowd: 1, media: 1 }, fans: 1 } },
+      { posture: 'sossegado', label: 'Respeitar a decisão do treinador', effects: { relations: { coach: 3, crowd: 0, media: 0 }, fans: 0 } },
+      { posture: 'desleixado', label: 'Dizer que "seja lá quando for, tá bom"', effects: { relations: { coach: -1, crowd: -1, media: 0 }, fans: 0 } },
     ],
   },
   {
@@ -82,45 +126,17 @@ const LIFE_EVENTS = [
   {
     id: 'bad_rating_criticized',
     trigger: { type: 'match_performance', condition: 'bad_rating' },
-    prompt: 'A imprensa questiona sua atuação fraca: "O que houve hoje em campo?"',
+    // Duas leituras diferentes pro mesmo "jogo ruim": sem nenhuma participação
+    // (marcação apertou, não sobrou espaço) vs. teve chance e não converteu —
+    // usa só o que a partida já calculou (gols/assist./nota), nada novo.
+    prompt: (ctx) => ctx.goals === 0 && ctx.assists === 0
+      ? 'A imprensa questiona sua atuação: "Hoje o jogo estava bem marcado, o adversário não te deixou jogar. O que houve?"'
+      : 'A imprensa questiona sua atuação fraca: "Não foi dessa vez hoje — teve chances e não fez. O que houve?"',
     options: [
       { posture: 'agressivo', label: 'Culpar o esquema tático', effects: { relations: { coach: -5, crowd: -1, media: -1 }, fans: -1 } },
       { posture: 'confiante', label: 'Dizer que vai melhorar', effects: { relations: { coach: 1, crowd: 0, media: 0 }, fans: 0 } },
       { posture: 'sossegado', label: 'Assumir o dia ruim, sem drama', effects: { relations: { coach: 2, crowd: 0, media: 1 }, fans: 0 } },
       { posture: 'desleixado', label: 'Minimizar, "foi só um jogo"', effects: { relations: { coach: -2, crowd: -2, media: 0 }, fans: -1 } },
-    ],
-  },
-  {
-    id: 'hat_trick_glory',
-    trigger: { type: 'match_performance', condition: 'hat_trick' },
-    prompt: 'Três gols na partida! A imprensa quer saber o segredo do dia inspirado.',
-    options: [
-      { posture: 'agressivo', label: 'Dizer que merece ser titular absoluto', effects: { relations: { coach: -2, crowd: 3, media: 3 }, fans: 8 } },
-      { posture: 'confiante', label: 'Agradecer e prometer mais', effects: { relations: { coach: 1, crowd: 3, media: 2 }, fans: 6 } },
-      { posture: 'sossegado', label: 'Dividir o mérito com o time', effects: { relations: { coach: 3, crowd: 2, media: 1 }, fans: 4 } },
-      { posture: 'desleixado', label: 'Brincar que "tava de sorte"', effects: { relations: { coach: 0, crowd: 2, media: 2 }, fans: 7 } },
-    ],
-  },
-  {
-    id: 'assist_playmaker',
-    trigger: { type: 'match_performance', condition: 'playmaker' },
-    prompt: 'Duas assistências na partida — te chamam de "cérebro" do time.',
-    options: [
-      { posture: 'agressivo', label: 'Cobrar mais protagonismo nas jogadas', effects: { relations: { coach: -2, crowd: 1, media: 1 }, fans: 2 } },
-      { posture: 'confiante', label: 'Falar que gosta de fazer o time jogar', effects: { relations: { coach: 1, crowd: 1, media: 1 }, fans: 2 } },
-      { posture: 'sossegado', label: 'Elogiar quem converteu os passes', effects: { relations: { coach: 2, crowd: 1, media: 0 }, fans: 1 } },
-      { posture: 'desleixado', label: 'Dizer que só "estava no dia"', effects: { relations: { coach: 0, crowd: 0, media: 1 }, fans: 2 } },
-    ],
-  },
-  {
-    id: 'first_pro_goal',
-    trigger: { type: 'match_performance', condition: 'first_goal' },
-    prompt: 'Seu primeiro gol da temporada! Um repórter pede uma declaração.',
-    options: [
-      { posture: 'agressivo', label: 'Dizer que é só o começo', effects: { relations: { coach: -1, crowd: 2, media: 1 }, fans: 5 } },
-      { posture: 'confiante', label: 'Dedicar à família e ao trabalho duro', effects: { relations: { coach: 1, crowd: 2, media: 1 }, fans: 5 } },
-      { posture: 'sossegado', label: 'Agradecer ao clube pela oportunidade', effects: { relations: { coach: 3, crowd: 1, media: 0 }, fans: 3 } },
-      { posture: 'desleixado', label: 'Rir e dizer que nem esperava', effects: { relations: { coach: 0, crowd: 1, media: 1 }, fans: 4 } },
     ],
   },
 ];
@@ -136,10 +152,35 @@ const LIFE_CONDITION_EVALUATORS = {
   hat_trick: (ctx) => ctx.type === 'match_performance' && ctx.goals >= 3,
   playmaker: (ctx) => ctx.type === 'match_performance' && ctx.assists >= 2,
   first_goal: (ctx) => ctx.type === 'match_performance' && ctx.isFirstCareerGoal,
+  late_entry: (ctx) => ctx.type === 'match_performance' && ctx.started === false,
   training_skip_streak: (ctx) => ctx.type === 'behavior' && ctx.skipStreak >= 3,
   transfer_request: (ctx) => ctx.type === 'behavior' && ctx.action === 'transfer_request',
   loan_request: (ctx) => ctx.type === 'behavior' && ctx.action === 'loan_request',
 };
+
+// Frase de resumo da partida pro log/feed — mesmos fatos que já alimentam
+// LIFE_EVENTS (gols, assistências, nota, vitória, titular/reserva), só que
+// aqui virando texto corrido em vez de decisão de entrevista. Sempre que
+// nenhuma condição bate, devolve string vazia (nunca inventa elogio/crítica
+// sem base no que aconteceu).
+function describeMatchPerformance(ctx) {
+  const { goals = 0, assists = 0, rating, matchWon, started, enteredMinute } = ctx;
+  const lines = [];
+  if (started === false && enteredMinute != null) lines.push(`Entrou só aos ${enteredMinute}min.`);
+  if (goals > 0) lines.push(goals === 1 ? 'Balançou a rede.' : `Marcou ${goals} gols.`);
+  if (assists > 0) lines.push(assists === 1 ? 'Deu uma assistência.' : `Deu ${assists} assistências.`);
+  const wonWell = matchWon && rating >= 7;
+  if (goals === 0 && assists === 0) {
+    // "Ajudou a vencer" e "teve chance e não fez" seriam contraditórios juntos
+    // (nota alta + vitória já é elogio suficiente) — uma linha, não as duas.
+    if (wonWell) lines.push('Sem participar diretamente do gol, mas ajudou a equipe a vencer.');
+    else if (rating >= 6.5) lines.push('Não foi dessa vez hoje — teve chances de gol e não fez.');
+    else if (rating < 5.5) lines.push('Hoje o jogo estava bem marcado, o adversário não deixou você jogar.');
+  } else if (wonWell) {
+    lines.push('Seu desempenho ajudou a equipe a vencer.');
+  }
+  return lines.join(' ');
+}
 
 // Recebe um fato puro (nunca o player/estado inteiro) e devolve o evento elegível.
 function findEligibleLifeEvent(context) {
@@ -251,4 +292,4 @@ function matchModifier(condition) {
 }
 
 
-export { HONOR_DEFINITIONS, computeSeasonHonors, HonorsList, LIFE_EVENTS, LIFE_CONDITION_EVALUATORS, findEligibleLifeEvent, applyLifeChoice, SEASON_START_MONTHDAY, getCalendarDate, formatDateBr, formatDateBrNumeric, ACADEMY_START_MONTHDAY, getAcademyCalendarDate, crossesNewMonth, buildRoundToDay, getDayType, FITNESS_TRAIN_COST, FITNESS_MATCH_COST, FITNESS_REST_RECOVERY, FITNESS_AVAILABILITY_FLOOR, applyTrainingCost, applyMatchCost, applyRestRecovery, matchModifier };
+export { HONOR_DEFINITIONS, computeSeasonHonors, HonorsList, LIFE_EVENTS, LIFE_CONDITION_EVALUATORS, findEligibleLifeEvent, describeMatchPerformance, applyLifeChoice, SEASON_START_MONTHDAY, getCalendarDate, formatDateBr, formatDateBrNumeric, ACADEMY_START_MONTHDAY, getAcademyCalendarDate, crossesNewMonth, buildRoundToDay, getDayType, FITNESS_TRAIN_COST, FITNESS_MATCH_COST, FITNESS_REST_RECOVERY, FITNESS_AVAILABILITY_FLOOR, applyTrainingCost, applyMatchCost, applyRestRecovery, matchModifier };

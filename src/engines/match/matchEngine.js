@@ -37,7 +37,12 @@ function resolveUserInvolvement(player, clubOverall, condition) {
   const calledUp = Math.random() < prob;
   if (!calledUp) return { calledUp: false };
   const rating = clamp(MATCH_RATING_BASELINE + (player.overall - clubOverall) / 25 + (Math.random() - 0.5) * 2, 2, 10);
-  return { calledUp: true, rating };
+  // Titular na maioria das escalações; quando não é, entra como substituto em
+  // algum momento do 2º tempo — dá contexto real pra "jogou pouco hoje" em
+  // vez de só um número de nota solto.
+  const started = Math.random() < 0.75;
+  const enteredMinute = started ? null : Math.floor(45 + Math.random() * 40);
+  return { calledUp: true, rating, started, enteredMinute };
 }
 function resolvePlayerGoalsAssists(player, teamGoals) {
   const goalChance = player.position === 'ATA' ? 0.4 : player.position === 'MEI' ? 0.18 : 0.04;
@@ -120,7 +125,7 @@ function resolveRound(roundFixtures, clubsMap, standingsMap, userClubId, player,
       // jogador: hoje marcar gol não mudava a nota em nada, o que também
       // contribuía pra sensação de nota descolada da atuação.
       const finalRating = clamp(involvement.rating + goals * 0.35 + assists * 0.15, 2, 10);
-      userMatchInfo = { home: clubsMap[homeId].name, away: clubsMap[awayId].name, homeId, awayId, gh, ga, isUserHome, calledUp: true, rating: finalRating, goals, assists };
+      userMatchInfo = { home: clubsMap[homeId].name, away: clubsMap[awayId].name, homeId, awayId, gh, ga, isUserHome, calledUp: true, rating: finalRating, goals, assists, started: involvement.started, enteredMinute: involvement.enteredMinute };
       playerDelta = { goals, assists, rating: finalRating };
     } else if (isUserHome || isUserAway) {
       userMatchInfo = { home: clubsMap[homeId].name, away: clubsMap[awayId].name, homeId, awayId, gh, ga, isUserHome, calledUp: false };
