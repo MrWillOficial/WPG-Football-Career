@@ -343,6 +343,38 @@ const TRAININGS = [
 
 const BASE_TRAINING_GAIN = 0.9; // "pontos de treino" totais distribuídos por sessão, antes da desaceleração
 
+/* ============================================================================
+   INTENSIDADE / CARGA SEMANAL — MVP do sistema de treinamento profissional
+   (proposta validada em conversa, seções 8/10/16 do documento de referência):
+   intensidade real por sessão, ganho probabilístico (variância individual) e
+   carga acumulada que reduz o aproveitamento quando alta. Tudo entra pelo
+   `modifiers` que applyTraining já aceitava — decelerate/applyTraining/
+   TRAININGS continuam exatamente como estavam.
+============================================================================ */
+const TRAINING_INTENSITIES = [
+  { id: 'conservador', label: 'Conservador', gainMultiplier: 0.7, conditionMultiplier: 0.6, loadMultiplier: 0.6 },
+  { id: 'equilibrado', label: 'Equilibrado', gainMultiplier: 1.0, conditionMultiplier: 1.0, loadMultiplier: 1.0 },
+  { id: 'intensivo', label: 'Intensivo', gainMultiplier: 1.4, conditionMultiplier: 1.6, loadMultiplier: 1.6 },
+];
+const WEEKLY_LOAD_PER_SESSION = 18; // intensivo satura a carga em ~4 sessões seguidas sem descanso
+const WEEKLY_LOAD_REST_DECAY = 22;
+const WEEKLY_LOAD_SAFE_THRESHOLD = 45; // abaixo disso, carga acumulada não penaliza o ganho
+
+// Dois jogadores no mesmo plano não evoluem exatamente igual.
+function individualVarianceModifier() { return (v) => v * (0.8 + Math.random() * 0.4); }
+// Carga alta reduz o quanto a sessão rende — fadiga real reduzindo resposta ao
+// treino, além (não em vez) da condição física do dia.
+function trainingLoadPenalty(weeklyLoad) {
+  const over = Math.max(0, (weeklyLoad || 0) - WEEKLY_LOAD_SAFE_THRESHOLD);
+  return clamp(1 - over / 80, 0.35, 1);
+}
+function applyWeeklyLoad(weeklyLoad, intensity) {
+  return clamp((weeklyLoad || 0) + WEEKLY_LOAD_PER_SESSION * intensity.loadMultiplier, 0, 100);
+}
+function decayWeeklyLoad(weeklyLoad) {
+  return clamp((weeklyLoad || 0) - WEEKLY_LOAD_REST_DECAY, 0, 100);
+}
+
 // Curva de desaceleração: quanto mais perto do potencial, menor o ganho.
 function decelerate(current, potential, rawGain) {
   if (potential <= current) return 0;
@@ -383,4 +415,4 @@ function applyTraining(player, trainingId, modifiers = []) {
 }
 
 
-export { POSITIONS, DETAILED_POSITIONS, DETAILED_POSITION_MAP, detailedPositionToLegacy, POSITION_FUNCTIONS, ARCHETYPE_PROFILES, derivePlayerProfile, makePlayerId, normalizeRegisteredPlayer, getRosterPlayerName, validateRegisteredPlayerRecord, validateRegisteredPlayerDatabase, PLAYER_DATABASE_SOURCE, OFFICIAL_PLAYER_DATABASE, OFFICIAL_ACADEMY_PLAYER_DATABASE, OFFICIAL_ACADEMY_DATABASE_COMPLETE, validateAcademyDatabase, getAcademyPlayers, ACADEMY_DATABASE_SELF_CHECK, resolveAcademyCompensation, OFFICIAL_PLAYER_DATABASE_COMPLETE, PLAYER_DATABASE_EXPECTED_CLUBS, validateOfficialCoverage, PLAYER_DATA_MODEL_VERSION, PLAYER_DATA_MODEL_CHECK, PLAYER_DATABASE_COVERAGE_CHECK, PLAYER_DATABASE_COVERAGE_BY_COMPETITION_CHECK, validateOfficialCoverageByCompetition, normalizeClubRoster, getClubRosterPlayers, validatePlayerModelSelfCheck, PLAYER_DATABASE_SELF_CHECK, WEIGHTS, ATTR_LABELS, clamp, computeOverall, TRAININGS, BASE_TRAINING_GAIN, decelerate, composeModifiers, applyTraining };
+export { POSITIONS, DETAILED_POSITIONS, DETAILED_POSITION_MAP, detailedPositionToLegacy, POSITION_FUNCTIONS, ARCHETYPE_PROFILES, derivePlayerProfile, makePlayerId, normalizeRegisteredPlayer, getRosterPlayerName, validateRegisteredPlayerRecord, validateRegisteredPlayerDatabase, PLAYER_DATABASE_SOURCE, OFFICIAL_PLAYER_DATABASE, OFFICIAL_ACADEMY_PLAYER_DATABASE, OFFICIAL_ACADEMY_DATABASE_COMPLETE, validateAcademyDatabase, getAcademyPlayers, ACADEMY_DATABASE_SELF_CHECK, resolveAcademyCompensation, OFFICIAL_PLAYER_DATABASE_COMPLETE, PLAYER_DATABASE_EXPECTED_CLUBS, validateOfficialCoverage, PLAYER_DATA_MODEL_VERSION, PLAYER_DATA_MODEL_CHECK, PLAYER_DATABASE_COVERAGE_CHECK, PLAYER_DATABASE_COVERAGE_BY_COMPETITION_CHECK, validateOfficialCoverageByCompetition, normalizeClubRoster, getClubRosterPlayers, validatePlayerModelSelfCheck, PLAYER_DATABASE_SELF_CHECK, WEIGHTS, ATTR_LABELS, clamp, computeOverall, TRAININGS, BASE_TRAINING_GAIN, decelerate, composeModifiers, applyTraining, TRAINING_INTENSITIES, individualVarianceModifier, trainingLoadPenalty, applyWeeklyLoad, decayWeeklyLoad };

@@ -29,7 +29,7 @@ export function CareerApp() {
               fixtures={fixtures} log={log} dayType={dayType} condition={fitnessState.condition} matchHistory={matchHistory} clubsMap={activeClubsMap}
               trainPick={trainPick} showPicker={showPicker}
               onTogglePicker={togglePicker}
-              onSelectTrainingActivity={(id) => advanceTrainingDay('train', id)}
+              onSelectTrainingActivity={(id, intensityId) => advanceTrainingDay('train', id, intensityId)}
               onRest={() => advanceTrainingDay('rest')}
               onSkipTraining={() => advanceTrainingDay('skip')}
               onAdvanceRecovery={advanceRecoveryDay}

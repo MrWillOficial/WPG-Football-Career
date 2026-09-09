@@ -278,7 +278,9 @@ const FITNESS_MATCH_COST = 15;
 const FITNESS_REST_RECOVERY = 12;
 const FITNESS_AVAILABILITY_FLOOR = 25;
 
-function applyTrainingCost(condition) { return clamp(condition - FITNESS_TRAIN_COST, 0, 100); }
+// multiplier opcional (default 1 = comportamento antigo, intacto) — dá pra
+// intensidade de treino custar mais/menos condição sem duplicar a função.
+function applyTrainingCost(condition, multiplier = 1) { return clamp(condition - FITNESS_TRAIN_COST * multiplier, 0, 100); }
 function applyMatchCost(condition) { return clamp(condition - FITNESS_MATCH_COST, 0, 100); }
 function applyRestRecovery(condition) { return clamp(condition + FITNESS_REST_RECOVERY, 0, 100); }
 

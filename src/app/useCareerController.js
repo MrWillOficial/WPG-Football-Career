@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { appStorage } from '../core/storage.js';
 import { advanceOtherDivisions, applyDivisionResult, computePromotionRelegation, freshStandings, generateFixtures, resolveRound, sortStandings } from '../engines/match/matchEngine.js';
 import { ALL_CLUBS_MAP, BRASILEIRAO_TIEBREAK_CHAIN, COMPETITION_TEMPLATES, SERIE_A_2026_CLUBS, SERIE_B_2026_CLUBS, getActiveClubsMap, initialClubDivision } from '../data/competitions/brazil2026.js';
-import { ATTR_LABELS, DETAILED_POSITION_MAP, TRAININGS, applyTraining, clamp, computeOverall, derivePlayerProfile, detailedPositionToLegacy } from '../engines/player/playerEngine.js';
+import { ATTR_LABELS, DETAILED_POSITION_MAP, TRAININGS, TRAINING_INTENSITIES, applyTraining, applyWeeklyLoad, clamp, computeOverall, decayWeeklyLoad, derivePlayerProfile, detailedPositionToLegacy, individualVarianceModifier, trainingLoadPenalty } from '../engines/player/playerEngine.js';
 import { SERIE_D_2026_ASSIGNMENT, SERIE_D_2026_CLUB_IDS, SERIE_D_2026_NEXT_STAGE, SERIE_D_2026_STAGE_LABELS, SERIE_D_2026_TIEBREAK_CHAIN, resolveSerieD2026UpTo } from '../data/competitions/serieD2026.js';
 import { TIER_ORDER, applyAnnualEconomyUpdate, buyProperty, clubSeasonDecision, computeBuyoutClause, computeReleaseCompensation, computeSalary, evaluatePlayerStatus, generateLoanOffer, generateTransferOffers, investAmount, makeContract, resolvePlayerSalary, withdrawAllInvestments } from '../engines/economy/contractsEconomy.js';
 import { CompetitionEngineV2 } from '../engines/competition/CompetitionEngineV2.js';
@@ -135,22 +135,27 @@ export function useCareerController() {
   // rodízio e nunca narrava nada, então toda semana parecia igual e vazia.
   // Reaproveita exatamente o mesmo TRAININGS/applyTraining do profissional,
   // nenhuma mecânica nova.
-  function advanceAcademyWeek(decision, trainingId) {
+  function advanceAcademyWeek(decision, trainingId, intensityId) {
     if (!player || phase !== 'academy') return;
     const nextWeek = academyState.week + 1;
     let finalPlayer = player;
     let weekMsg;
 
     if (decision === 'train' && trainingId) {
-      finalPlayer = applyTraining(player, trainingId);
+      const intensity = TRAINING_INTENSITIES.find(i => i.id === intensityId) || TRAINING_INTENSITIES[1];
+      const modifiers = [{ multiplier: intensity.gainMultiplier }, individualVarianceModifier(), (v) => v * trainingLoadPenalty(player.weeklyLoad)];
+      const trained = applyTraining(player, trainingId, modifiers);
+      finalPlayer = { ...trained, weeklyLoad: applyWeeklyLoad(player.weeklyLoad, intensity) };
       const training = TRAININGS.find(t => t.id === trainingId);
       const deltas = Object.keys(training.effects)
         .map(attr => ({ label: ATTR_LABELS[attr], delta: finalPlayer.attrs[attr] - player.attrs[attr] }))
         .filter(d => d.delta > 0.01);
-      weekMsg = deltas.length
-        ? `Base, semana ${nextWeek} — treino de ${training.name}: ${deltas.map(d => `${d.label} +${d.delta.toFixed(2)}`).join(', ')}.`
-        : `Base, semana ${nextWeek} — treino de ${training.name}.`;
+      const overtrained = finalPlayer.weeklyLoad > 70 ? ' Carga alta — considere descansar.' : '';
+      weekMsg = (deltas.length
+        ? `Base, semana ${nextWeek} — treino de ${training.name} (${intensity.label}): ${deltas.map(d => `${d.label} +${d.delta.toFixed(2)}`).join(', ')}.`
+        : `Base, semana ${nextWeek} — treino de ${training.name} (${intensity.label}).`) + overtrained;
     } else {
+      finalPlayer = { ...finalPlayer, weeklyLoad: decayWeeklyLoad(player.weeklyLoad) };
       weekMsg = `Base, semana ${nextWeek} — descanso.`;
     }
 
@@ -195,7 +200,7 @@ export function useCareerController() {
       id: `career-${Date.now()}`, name, displayName: name, position: legacyPosition, detailedPosition,
       functions: profile.functions, archetype: profile.archetype, specialization: profile.specialization,
       registeredClub: null, currentClub: null, playerSource: 'career_created',
-      attrs, potential, overall, age: 16, careerPhase: 'academy', academyStatus: 'youth_player', salarySource: 'pending_official', salaryStatus: 'pending_official', reputation: 5, shirtNumber: null, registration: createPlayerRegistration({ shirtNumberStatus: 'pending_official' }), contract: null, loan: null, wantsTransfer: false, wantsLoan: false,
+      attrs, potential, overall, age: 16, careerPhase: 'academy', academyStatus: 'youth_player', salarySource: 'pending_official', salaryStatus: 'pending_official', reputation: 5, weeklyLoad: 0, shirtNumber: null, registration: createPlayerRegistration({ shirtNumberStatus: 'pending_official' }), contract: null, loan: null, wantsTransfer: false, wantsLoan: false,
     });
     setAcademyState({ week: 0, totalWeeks: 26, matches: 0, goals: 0, assists: 0 });
     const freshSocial = createSocialState({ reputation: 5 });
@@ -504,30 +509,36 @@ export function useCareerController() {
 
   // Dia de treino: Treinar / Descansar / Não quero treinar são três decisões
   // com significados diferentes — nunca a mesma coisa por baixo.
-  function advanceTrainingDay(decision, trainingId) {
+  function advanceTrainingDay(decision, trainingId, intensityId) {
     let finalPlayer = player;
     let newCondition = fitnessState.condition;
     let newSkipStreak = trainingSkipStreak;
     let logMsg = '';
 
     if (decision === 'train') {
-      finalPlayer = applyTraining(player, trainingId);
-      newCondition = applyTrainingCost(fitnessState.condition);
+      const intensity = TRAINING_INTENSITIES.find(i => i.id === intensityId) || TRAINING_INTENSITIES[1];
+      const modifiers = [{ multiplier: intensity.gainMultiplier }, individualVarianceModifier(), (v) => v * trainingLoadPenalty(player.weeklyLoad)];
+      const trained = applyTraining(player, trainingId, modifiers);
+      finalPlayer = { ...trained, weeklyLoad: applyWeeklyLoad(player.weeklyLoad, intensity) };
+      newCondition = applyTrainingCost(fitnessState.condition, intensity.conditionMultiplier);
       newSkipStreak = 0;
       const training = TRAININGS.find(t => t.id === trainingId);
       const deltas = Object.keys(training.effects)
         .map(attr => ({ label: ATTR_LABELS[attr], delta: finalPlayer.attrs[attr] - player.attrs[attr] }))
         .filter(d => d.delta > 0.01);
-      logMsg = deltas.length
-        ? `Treino (${training.name}): ${deltas.map(d => `${d.label} +${d.delta.toFixed(2)}`).join(', ')}.`
-        : `Treino (${training.name}) concluído.`;
+      const overtrained = finalPlayer.weeklyLoad > 70 ? ' Carga alta — considere descansar.' : '';
+      logMsg = (deltas.length
+        ? `Treino (${training.name}, ${intensity.label}): ${deltas.map(d => `${d.label} +${d.delta.toFixed(2)}`).join(', ')}.`
+        : `Treino (${training.name}, ${intensity.label}) concluído.`) + overtrained;
     } else if (decision === 'rest') {
       newCondition = applyRestRecovery(fitnessState.condition);
       newSkipStreak = 0;
+      finalPlayer = { ...finalPlayer, weeklyLoad: decayWeeklyLoad(player.weeklyLoad) };
       logMsg = 'Você optou por descansar e recuperar a condição física.';
     } else if (decision === 'skip') {
       // Fisicamente tratado como descanso — a diferença é comportamental, não física.
       newCondition = applyRestRecovery(fitnessState.condition);
+      finalPlayer = { ...finalPlayer, weeklyLoad: decayWeeklyLoad(player.weeklyLoad) };
       newSkipStreak = trainingSkipStreak + 1;
       const wasFatigued = fitnessState.condition < 50;
       const penalty = wasFatigued ? -1 : -3; // desgastado recentemente = mais compreensível

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Badge, Card, ClubMonogram, FormaDots, THEME } from '../system.jsx';
 import { getMatchContext, historyForCompetition } from '../../engines/match/matchState.js';
 import { formatDateBr, getCalendarDate } from '../../engines/life/lifeCalendarFitness.jsx';
-import { TRAININGS } from '../../engines/player/playerEngine.js';
+import { TRAININGS, TRAINING_INTENSITIES } from '../../engines/player/playerEngine.js';
 /* ============================================================================
    TELA — Início (Home)
 ============================================================================ */
@@ -12,6 +12,7 @@ import { TRAININGS } from '../../engines/player/playerEngine.js';
 const NEXT_TIER_LABELS = { serie_d: 'SÉRIE D', serie_c: 'SÉRIE C', serie_b: 'SÉRIE B', serie_a: 'SÉRIE A' };
 
 function HomeScreen({ player, club, competition, round, totalRounds, fixtures, log, dayType, condition, matchHistory, clubsMap, trainPick, onTogglePicker, showPicker, onSelectTrainingActivity, onRest, onSkipTraining, onPlay, onAdvanceRecovery, dayIndex, seasonYear }) {
+  const [intensity, setIntensity] = useState('equilibrado');
   const nextFixture = fixtures[round] ? fixtures[round].find(([h, a]) => h === club.id || a === club.id) : null;
   const opponentId = nextFixture ? (nextFixture[0] === club.id ? nextFixture[1] : nextFixture[0]) : null;
   const isHome = nextFixture ? nextFixture[0] === club.id : null;
@@ -90,13 +91,23 @@ function HomeScreen({ player, club, competition, round, totalRounds, fixtures, l
         )}
 
         {dayType === 'training' && showPicker && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 14 }}>
-            {TRAININGS.map(t => (
-              <button key={t.id} onClick={() => onSelectTrainingActivity(t.id)}
-                style={{ padding: '10px 0', fontSize: 13, fontWeight: 600, border: `1px solid ${THEME.card}`, background: THEME.card, color: THEME.text }}>
-                {t.name}
-              </button>
-            ))}
+          <div style={{ marginTop: 14 }}>
+            <div style={{ display: 'flex', gap: 6, marginBottom: 8 }}>
+              {TRAINING_INTENSITIES.map(i => (
+                <button key={i.id} onClick={() => setIntensity(i.id)}
+                  style={{ flex: 1, padding: '7px 0', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', border: `1px solid ${intensity === i.id ? THEME.gold : THEME.cardElevated}`, background: intensity === i.id ? THEME.gold : 'transparent', color: intensity === i.id ? THEME.bg : THEME.textSecondary }}>
+                  {i.label}
+                </button>
+              ))}
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              {TRAININGS.map(t => (
+                <button key={t.id} onClick={() => onSelectTrainingActivity(t.id, intensity)}
+                  style={{ padding: '10px 0', fontSize: 13, fontWeight: 600, border: `1px solid ${THEME.card}`, background: THEME.card, color: THEME.text }}>
+                  {t.name}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </Card>

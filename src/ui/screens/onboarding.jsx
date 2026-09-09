@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Badge, Card, ClubMonogram, THEME } from '../system.jsx';
-import { DETAILED_POSITIONS, TRAININGS } from '../../engines/player/playerEngine.js';
+import { DETAILED_POSITIONS, TRAININGS, TRAINING_INTENSITIES } from '../../engines/player/playerEngine.js';
 import { SERIE_D_2026_CLUBS_MAP } from '../../data/competitions/serieD2026.js';
 import { formatDateBrNumeric, getAcademyCalendarDate } from '../../engines/life/lifeCalendarFitness.jsx';
 /* ============================================================================
@@ -43,6 +43,7 @@ function CreateScreen({ onStart }) {
 
 
 function AcademyScreen({ player, state, seasonYear, log, showPicker, onTogglePicker, onAdvance }) {
+  const [intensity, setIntensity] = useState('equilibrado');
   const pct = Math.round((state.week / state.totalWeeks) * 100);
   const academyDate = formatDateBrNumeric(getAcademyCalendarDate(seasonYear, state.week));
   const isLastWeek = state.week + 1 >= state.totalWeeks;
@@ -69,13 +70,23 @@ function AcademyScreen({ player, state, seasonYear, log, showPicker, onTogglePic
         </div>
       )}
       {showPicker && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-          {TRAININGS.map(t => (
-            <button key={t.id} onClick={() => onAdvance('train', t.id)}
-              style={{ padding: '12px 0', fontSize: 13, fontWeight: 600, border: `1px solid ${THEME.cardElevated}`, background: THEME.card, color: THEME.text }}>
-              {t.name}
-            </button>
-          ))}
+        <div>
+          <div style={{ display: 'flex', gap: 6, marginBottom: 8 }}>
+            {TRAINING_INTENSITIES.map(i => (
+              <button key={i.id} onClick={() => setIntensity(i.id)}
+                style={{ flex: 1, padding: '7px 0', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', border: `1px solid ${intensity === i.id ? THEME.gold : THEME.cardElevated}`, background: intensity === i.id ? THEME.gold : 'transparent', color: intensity === i.id ? THEME.bg : THEME.textSecondary }}>
+                {i.label}
+              </button>
+            ))}
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            {TRAININGS.map(t => (
+              <button key={t.id} onClick={() => onAdvance('train', t.id, intensity)}
+                style={{ padding: '12px 0', fontSize: 13, fontWeight: 600, border: `1px solid ${THEME.cardElevated}`, background: THEME.card, color: THEME.text }}>
+                {t.name}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
