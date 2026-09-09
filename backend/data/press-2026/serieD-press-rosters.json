@@ -6,9 +6,10 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12", "A13", "A14", "A15"],
-    "nextGroup": "A16",
-    "clubsFoundThisSession": 83,
+    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12", "A13", "A14", "A15", "A16"],
+    "nextGroup": null,
+    "complete": true,
+    "clubsFoundThisSession": 89,
     "clubsNotFoundThisSession": 7
   },
   "clubs": {
@@ -1737,6 +1738,131 @@
         { "name": "Tiago André", "positionRaw": "Atacante" }
       ],
       "notes": "Um resultado de busca listou explicitamente um jogo real 'São Luiz x Velo Clube' na Série D 2026 via CBF.com.br (Velo Clube também está no grupo A14 deste jogo) -- forte cruzamento de validação. Clube de Ijuí-RS, disputa também o Gauchão Série A."
+    },
+    "A16::Blumenau-SC": {
+      "clubName": "Blumenau-SC",
+      "groupId": "A16",
+      "status": "press_pending_official",
+      "sources": ["https://www.mesorregional.com.br/ex-atletico-mg-e-mais-dois-sao-contratados-pelo-blumenau/", "https://www.bluesportes.com/noticia/128329/serie-d-definidos-os-96-clubes-na-disputa-2026-com-a-presenca-do-blumenau-esporte-clube"],
+      "players": [
+        { "name": "Marcão", "positionRaw": "Zagueiro" },
+        { "name": "Júnior Sergipano", "positionRaw": "Zagueiro" },
+        { "name": "Gustavo Brandão", "positionRaw": "Zagueiro" },
+        { "name": "Zé Mendes", "positionRaw": "Zagueiro" },
+        { "name": "Lucas Reis", "positionRaw": "Zagueiro" },
+        { "name": "Josué", "positionRaw": "Atacante" },
+        { "name": "Vinicius Jaú", "positionRaw": "Atacante" },
+        { "name": "Welves", "positionRaw": "Atacante" },
+        { "name": "Brown", "positionRaw": "Atacante" },
+        { "name": "Wellisson", "positionRaw": "Atacante" },
+        { "name": "Caio Mota", "positionRaw": "Atacante" },
+        { "name": "Juliano", "positionRaw": "Atacante" }
+      ],
+      "notes": "Elenco de 27 jogadores no total (confirmado por matéria), mas apenas o setor defensivo e ofensivo foram nominalmente listados pela imprensa nesta rodada de busca -- meio-campo não discriminado. Confirmada participação oficial nos 96 clubes da Série D 2026."
+    },
+    "A16::Marcílio Dias-SC": {
+      "clubName": "Marcílio Dias-SC",
+      "groupId": "A16",
+      "status": "press_pending_official",
+      "sources": ["https://www.futebolinterior.com.br/marcilio-dias-reforcos-estreia-catarinense-2026-guilherme-gehring/", "https://bandfmitajai.com.br/esporte/marcilio-dias-estreia-em-casa-na-serie-d-do-brasileirao-2026-contra-o-sao-joseense-pr/"],
+      "players": [
+        { "name": "Matheus Cavichioli", "positionRaw": "Goleiro" },
+        { "name": "Rafael Martins", "positionRaw": "Goleiro" },
+        { "name": "Angelo", "positionRaw": "Zagueiro" },
+        { "name": "Claudinho", "positionRaw": "Zagueiro" },
+        { "name": "L. Rodrigues", "positionRaw": "Zagueiro" },
+        { "name": "Lucas Mazetti", "positionRaw": "Zagueiro" },
+        { "name": "Reginaldo", "positionRaw": "Zagueiro" },
+        { "name": "Kevin Kesley de Souza", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Cesinha", "positionRaw": "Meio-campo" },
+        { "name": "Davi Torres", "positionRaw": "Meio-campo" },
+        { "name": "Felipe Baiano", "positionRaw": "Meio-campo" },
+        { "name": "G. Fernandes da Hora", "positionRaw": "Meio-campo" },
+        { "name": "Guilherme Gehring", "positionRaw": "Volante" },
+        { "name": "Guilherme Kanté", "positionRaw": "Volante" },
+        { "name": "Lucas Sá", "positionRaw": "Meio-campo" },
+        { "name": "Luis Araújo", "positionRaw": "Atacante" },
+        { "name": "Manoel Ribeiro", "positionRaw": "Atacante" },
+        { "name": "Robinho", "positionRaw": "Atacante" }
+      ],
+      "notes": "Confirmado via imprensa de Itajaí-SC que o Marcílio Dias estreia em casa na Série D 2026 CONTRA O SÃO JOSEENSE (PR) -- exatamente o mesmo grupo A16 já usado pelo jogo, forte cruzamento de validação. Guilherme Gehring chega emprestado do Juventude-RS até o fim da Série D; Kevin Kesley emprestado do Osasco Audax-SP."
+    },
+    "A16::São Joseense-PR": {
+      "clubName": "São Joseense-PR",
+      "groupId": "A16",
+      "status": "press_pending_official",
+      "sources": ["https://ric.com.br/esportes/futebol/campeonato-paranaense/elenco-sao-joseense-para-o-paranaense-2026/"],
+      "players": [
+        { "name": "Júlio Rusch", "positionRaw": null }
+      ],
+      "notes": "Elenco de 33 jogadores anunciado, mas apenas um nome foi individualizado pela imprensa nesta rodada de busca -- Júlio Rusch, ex-base do Coritiba com passagens por Figueirense, Londrina e Amazonas. Posição não confirmada pela fonte. Confirmado (via matéria do Marcílio Dias) que o São Joseense estreia a Série D 2026 fora de casa contra o Marcílio Dias-SC, batendo com o grupo A16 do jogo."
+    },
+    "A16::Azuriz-PR": {
+      "clubName": "Azuriz-PR",
+      "groupId": "A16",
+      "status": "press_pending_official",
+      "sources": ["https://ric.com.br/esportes/futebol/campeonato-paranaense/elenco-azuriz-campeonato-paranaense-2026", "https://gazetadoparana.com.br/artigo/azuriz-x-brasil-de-pelotas-onde-assistir-escalacoes-serie-d-2026"],
+      "players": [
+        { "name": "Edson", "positionRaw": "Goleiro" },
+        { "name": "Leandro Matheus", "positionRaw": "Goleiro" },
+        { "name": "Vinicius Dias", "positionRaw": "Goleiro" },
+        { "name": "Lula", "positionRaw": "Zagueiro" },
+        { "name": "Brunão", "positionRaw": "Zagueiro" },
+        { "name": "Daniel Bolt", "positionRaw": "Zagueiro" },
+        { "name": "Freddy Castaneda", "positionRaw": "Zagueiro" },
+        { "name": "Hygor", "positionRaw": "Zagueiro" },
+        { "name": "Lauan", "positionRaw": "Zagueiro" },
+        { "name": "Reginaldo", "positionRaw": "Zagueiro" },
+        { "name": "Ulises Yegros", "positionRaw": "Zagueiro" },
+        { "name": "Vinício", "positionRaw": "Zagueiro" },
+        { "name": "Denis Germano", "positionRaw": "Meio-campo" },
+        { "name": "Caetano", "positionRaw": "Meio-campo" },
+        { "name": "Carlos Biro", "positionRaw": "Meio-campo" },
+        { "name": "Gustavo Batista Ferraz", "positionRaw": "Meio-campo" },
+        { "name": "Lukas König", "positionRaw": "Meio-campo" },
+        { "name": "Iury Tanque", "positionRaw": "Atacante" },
+        { "name": "Marquinhos", "positionRaw": "Atacante" }
+      ],
+      "notes": "Confirmada via imprensa a estreia real 'Azuriz x Brasil de Pelotas' na Série D 2026 -- os dois clubes do grupo A16 deste jogo (Azuriz-PR e Brasil-RS) enfrentando-se logo na estreia, mesmo cruzamento de grupo. Elenco de 28 jogadores, com boa cobertura posicional incluindo estrangeiros (Freddy Castaneda-COL, Ulises Yegros-ARG, Lukas König-AUT)."
+    },
+    "A16::São José-RS": {
+      "clubName": "São José-RS",
+      "groupId": "A16",
+      "status": "press_pending_official",
+      "sources": ["https://placar.com.br/porto-alegre-rio-grande-do-sul/futebol/brasileiro-serie-d-2026/jogo/05-2026/149417/sao-jose-sao-joseense/"],
+      "players": [
+        { "name": "Ghíven", "positionRaw": null }
+      ],
+      "notes": "Cobertura muito esparsa -- apenas a volta de empréstimo do jogador Ghíven (estava no Novo Hamburgo) foi mencionada nominalmente pela imprensa encontrada nesta rodada de busca; elenco completo não encontrado. Forte cruzamento de validação, no entanto: uma fonte (placar.com.br) lista explicitamente o jogo 'São José x São Joseense' na Série D 2026, batendo exatamente com o grupo A16 do jogo (São José-RS e São Joseense-PR)."
+    },
+    "A16::Brasil-RS": {
+      "clubName": "Brasil-RS",
+      "groupId": "A16",
+      "status": "press_pending_official",
+      "sources": ["https://futebolnaweb.com.br/em-alta/brasil-de-pelotas-elenco-renovado-serie-d/", "https://gazetadoparana.com.br/artigo/azuriz-x-brasil-de-pelotas-onde-assistir-escalacoes-serie-d-2026"],
+      "players": [
+        { "name": "Alan Gobetti", "positionRaw": "Goleiro" },
+        { "name": "Gabriel", "positionRaw": "Goleiro" },
+        { "name": "João Lucas", "positionRaw": "Goleiro" },
+        { "name": "Clébio", "positionRaw": "Zagueiro" },
+        { "name": "Felipe Camargo", "positionRaw": "Zagueiro" },
+        { "name": "Iago", "positionRaw": "Zagueiro" },
+        { "name": "Israel", "positionRaw": "Zagueiro" },
+        { "name": "Marcel", "positionRaw": "Zagueiro" },
+        { "name": "Matheus Nunes Oliveira", "positionRaw": "Zagueiro" },
+        { "name": "Murillo Lima", "positionRaw": "Zagueiro" },
+        { "name": "Vitor Becker", "positionRaw": "Zagueiro" },
+        { "name": "Yuri Farias Carvalho", "positionRaw": "Zagueiro" },
+        { "name": "Éverton Sena", "positionRaw": "Zagueiro" },
+        { "name": "Agustin Garcia Milar", "positionRaw": "Meio-campo" },
+        { "name": "Augusto Hansen", "positionRaw": "Meio-campo" },
+        { "name": "B. Amancio", "positionRaw": "Meio-campo" },
+        { "name": "Cabeça", "positionRaw": "Meio-campo" },
+        { "name": "Daniel Rodrigues Pereira", "positionRaw": "Meio-campo" },
+        { "name": "David", "positionRaw": "Meio-campo" },
+        { "name": "Giovani Bertolacini Alvisi", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Elenco (Brasil de Pelotas) renovado para a estreia forte na Série D 2026, com cobertura ampla e discriminada por posição incluindo o uruguaio Agustin Garcia Milar. Confirmada via imprensa a estreia real contra o Azuriz-PR (mesmo grupo A16 do jogo). ÚLTIMO CLUBE do grupo A16 -- com esta entrada, os 96 clubes da Série D 2026 estão cobertos (com diferentes graus de completude, todos marcados press_pending_official / not_found_via_press, nenhum ainda oficialmente validado via CBF/BID)."
     }
   }
 }
