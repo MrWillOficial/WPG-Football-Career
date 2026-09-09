@@ -3,18 +3,24 @@ import { AttrBar, Badge, Card, ClubMonogram, THEME } from '../system.jsx';
 import { SOCIAL_TONES } from '../../engines/life/socialEngine.js';
 import { ATTR_LABELS } from '../../engines/player/playerEngine.js';
 import { computeBuyoutClause } from '../../engines/economy/contractsEconomy.js';
+import { computePersonalityProfile, POSTURE_LABELS } from '../../engines/life/lifeCalendarFitness.jsx';
+
+const POSTURE_ICONS = { agressivo: '🔥', confiante: '💪', sossegado: '🧘', desleixado: '😅' };
+const POSTURE_ORDER = ['agressivo', 'confiante', 'sossegado', 'desleixado'];
 
 function Metric({ label, value, tone = THEME.green }) {
   return <div style={{ marginBottom: 9 }}><div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: THEME.textSecondary, marginBottom: 4 }}><span>{label}</span><b style={{ color: THEME.text }}>{Math.round(value)}</b></div><div style={{ height: 5, background: THEME.cardElevated }}><div style={{ width: `${Math.max(0, Math.min(100, value))}%`, height: '100%', background: tone }} /></div></div>;
 }
 
-function LifeScreen({ player, club, socialState, socialPosts, onPublish, onComment }) {
+function LifeScreen({ player, club, socialState, socialPosts, onPublish, onComment, interviewHistory }) {
   const [commentTarget, setCommentTarget] = useState(null);
   const [selectedTone, setSelectedTone] = useState(null);
   const [section, setSection] = useState('overview');
   const posts = socialPosts || [];
   const tones = useMemo(() => SOCIAL_TONES, []);
   const context = posts[0]?.context || 'Aconteceu algo no seu mundo. Essa é sua chance de se manifestar.';
+  const history = interviewHistory || [];
+  const personality = useMemo(() => computePersonalityProfile(history), [history]);
 
   const publish = (tone) => { onPublish(tone.id, { context }); };
   const comment = (tone) => {
@@ -39,25 +45,59 @@ function LifeScreen({ player, club, socialState, socialPosts, onPublish, onComme
       {[['overview','Visão Geral'],['network','Minha Rede'],['posts','Publicações'],['media','Entrevistas'],['image','Minha Imagem'],['relations','Relacionamentos']].map(([id,label]) => <button key={id} className={section === id ? 'active' : ''} onClick={() => setSection(id)}>{label}</button>)}
     </div>
 
-    <div className="life-grid">
-      <aside className="life-left">
-        <Card><div className="wpg-section-label">Minha imagem</div><div className="life-reputation-ring" style={{ '--pct': socialState.reputation }}><b className="mono">{socialState.reputation}<small>REPUTAÇÃO</small></b></div><Metric label="Torcida" value={socialState.relationships.crowd} /><Metric label="Treinador" value={socialState.relationships.coach} /><Metric label="Vestiário" value={socialState.relationships.dressingRoom} /><Metric label="Mídia" value={socialState.relationships.media} /><Metric label="Diretoria" value={socialState.relationships.board} tone={THEME.gold} /></Card>
-        <Card><div className="wpg-section-label">Identidade</div><p className="life-small">Camisa: <b>{player.shirtNumber ?? 'Pendente oficial'}</b></p><p className="life-small">Seguidores: <b>{(socialState.followers || 0).toLocaleString('pt-BR')}</b></p><p className="life-small">Polêmica: <b>{socialState.controversy}</b></p><p className="life-small">Respeito: <b>{socialState.respect}</b></p></Card>
-      </aside>
+    {section === 'media' ? (
+      <div className="life-grid">
+        <main className="life-feed" style={{ gridColumn: '1 / -1' }}>
+          <Card>
+            <div className="wpg-section-label">PERSONALIDADE NA IMPRENSA</div>
+            <p className="life-context" style={{ marginBottom: personality.total > 0 ? 10 : 0 }}>
+              {personality.dominant
+                ? <>Seu perfil predominante nas entrevistas até agora: <b style={{ color: THEME.gold }}>{personality.label}</b>.</>
+                : <>{personality.label}{personality.total > 0 ? ` (${personality.total} entrevista${personality.total === 1 ? '' : 's'} até agora).` : '.'}</>}
+            </p>
+            {personality.total > 0 && (
+              <div className="life-tone-grid compact">
+                {POSTURE_ORDER.map(p => (
+                  <div key={p} className="life-tone" style={{ cursor: 'default', borderColor: personality.dominant === p ? THEME.gold : undefined }}>
+                    <span>{POSTURE_ICONS[p]}</span><b>{POSTURE_LABELS[p]}</b><small>{personality.counts[p]}x</small>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Card>
+          <Card style={{ marginTop: 10 }}>
+            <div className="wpg-section-label">HISTÓRICO DE ENTREVISTAS</div>
+            {history.length === 0
+              ? <div className="life-empty">Nenhuma entrevista ainda — sua primeira aparição na imprensa vai aparecer aqui.</div>
+              : history.slice().reverse().map((h, i) => (
+                <p key={i} className="life-small" style={{ borderBottom: i < history.length - 1 ? `1px solid ${THEME.border}` : 'none', paddingBottom: 6, marginBottom: 6 }}>
+                  <b style={{ color: THEME.gold }}>{h.year}</b> · rodada {h.round} — resposta <b>{POSTURE_LABELS[h.posture] || h.posture}</b>
+                </p>
+              ))}
+          </Card>
+        </main>
+      </div>
+    ) : (
+      <div className="life-grid">
+        <aside className="life-left">
+          <Card><div className="wpg-section-label">Minha imagem</div><div className="life-reputation-ring" style={{ '--pct': socialState.reputation }}><b className="mono">{socialState.reputation}<small>REPUTAÇÃO</small></b></div><Metric label="Torcida" value={socialState.relationships.crowd} /><Metric label="Treinador" value={socialState.relationships.coach} /><Metric label="Vestiário" value={socialState.relationships.dressingRoom} /><Metric label="Mídia" value={socialState.relationships.media} /><Metric label="Diretoria" value={socialState.relationships.board} tone={THEME.gold} /></Card>
+          <Card><div className="wpg-section-label">Identidade</div><p className="life-small">Camisa: <b>{player.shirtNumber ?? 'Pendente oficial'}</b></p><p className="life-small">Seguidores: <b>{(socialState.followers || 0).toLocaleString('pt-BR')}</b></p><p className="life-small">Polêmica: <b>{socialState.controversy}</b></p><p className="life-small">Respeito: <b>{socialState.respect}</b></p></Card>
+        </aside>
 
-      <main className="life-feed">
-        <Card><div className="life-feed-title"><div><h2 className="display">FEED</h2><span>ACONTECEU NO SEU MUNDO</span></div><Badge tone="gold">AO VIVO</Badge></div>
-          {posts.length === 0 ? <div className="life-empty">Ainda não há publicações relevantes. Seu primeiro acontecimento vai aparecer aqui.</div> : posts.slice(0, 6).map(post => <article key={post.id} className="life-post"><div className="life-post-head"><ClubMonogram club={{ name: post.authorName, color: '#242424', branding: { type: 'monogram', text: post.authorName.slice(0,2).toUpperCase() } }} size={34} /><div><b>{post.authorName}</b><span>@{post.authorName.toLowerCase().replace(/\s+/g,'_')} · agora</span></div><button>•••</button></div><p>{post.text}</p><div className="life-post-actions"><span>♡ {post.reactions?.likes || 0}</span><span>↻ {post.reactions?.reposts || 0}</span><span>💬 {post.reactions?.comments || 0}</span><button onClick={() => setCommentTarget(post)}>Comentar</button></div></article>)}
-        </Card>
-        {commentTarget && <Card style={{ marginTop: 10, borderColor: THEME.orange }}><div className="wpg-section-label">COMENTAR EM {commentTarget.authorName.toUpperCase()}</div><div className="life-tone-grid compact">{tones.map(t => <button key={t.id} onClick={() => { setSelectedTone(t.id); comment(t); }} className="life-tone"><span>{t.icon}</span><b>{t.label}</b><small>{t.text}</small></button>)}</div></Card>}
-      </main>
+        <main className="life-feed">
+          <Card><div className="life-feed-title"><div><h2 className="display">FEED</h2><span>ACONTECEU NO SEU MUNDO</span></div><Badge tone="gold">AO VIVO</Badge></div>
+            {posts.length === 0 ? <div className="life-empty">Ainda não há publicações relevantes. Seu primeiro acontecimento vai aparecer aqui.</div> : posts.slice(0, 6).map(post => <article key={post.id} className="life-post"><div className="life-post-head"><ClubMonogram club={{ name: post.authorName, color: '#242424', branding: { type: 'monogram', text: post.authorName.slice(0,2).toUpperCase() } }} size={34} /><div><b>{post.authorName}</b><span>@{post.authorName.toLowerCase().replace(/\s+/g,'_')} · agora</span></div><button>•••</button></div><p>{post.text}</p><div className="life-post-actions"><span>♡ {post.reactions?.likes || 0}</span><span>↻ {post.reactions?.reposts || 0}</span><span>💬 {post.reactions?.comments || 0}</span><button onClick={() => setCommentTarget(post)}>Comentar</button></div></article>)}
+          </Card>
+          {commentTarget && <Card style={{ marginTop: 10, borderColor: THEME.orange }}><div className="wpg-section-label">COMENTAR EM {commentTarget.authorName.toUpperCase()}</div><div className="life-tone-grid compact">{tones.map(t => <button key={t.id} onClick={() => { setSelectedTone(t.id); comment(t); }} className="life-tone"><span>{t.icon}</span><b>{t.label}</b><small>{t.text}</small></button>)}</div></Card>}
+        </main>
 
-      <aside className="life-right">
-        <Card style={{ borderColor: THEME.orange }}><div className="wpg-section-label">O QUE VOCÊ QUER FAZER?</div><p className="life-context">{context}</p><div className="life-tone-grid">{tones.map(t => <button key={t.id} onClick={() => publish(t)} className="life-tone"><span>{t.icon}</span><b>{t.label}</b><small>“{t.text}”</small></button>)}</div></Card>
-        <Card><div className="wpg-section-label">TENDÊNCIAS DO DIA</div>{['Seu clube','Você','Brasileirão','Mercado da Bola','Clássico da rodada'].map((x,i)=><div key={x} className="life-trend"><b>{i+1}</b><span>{x}</span><small>{Math.max(12, socialState.engagement + (5-i)*7)} mil posts</small></div>)}</Card>
-        <Card><div className="wpg-section-label">ÚLTIMAS NOTÍCIAS</div>{posts.slice(0,3).map(p => <div key={p.id} className="life-news"><b>WPG</b><span>{p.text}</span></div>)}</Card>
-      </aside>
-    </div>
+        <aside className="life-right">
+          <Card style={{ borderColor: THEME.orange }}><div className="wpg-section-label">O QUE VOCÊ QUER FAZER?</div><p className="life-context">{context}</p><div className="life-tone-grid">{tones.map(t => <button key={t.id} onClick={() => publish(t)} className="life-tone"><span>{t.icon}</span><b>{t.label}</b><small>“{t.text}”</small></button>)}</div></Card>
+          <Card><div className="wpg-section-label">TENDÊNCIAS DO DIA</div>{['Seu clube','Você','Brasileirão','Mercado da Bola','Clássico da rodada'].map((x,i)=><div key={x} className="life-trend"><b>{i+1}</b><span>{x}</span><small>{Math.max(12, socialState.engagement + (5-i)*7)} mil posts</small></div>)}</Card>
+          <Card><div className="wpg-section-label">ÚLTIMAS NOTÍCIAS</div>{posts.slice(0,3).map(p => <div key={p.id} className="life-news"><b>WPG</b><span>{p.text}</span></div>)}</Card>
+        </aside>
+      </div>
+    )}
   </div>;
 }
 

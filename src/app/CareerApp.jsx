@@ -46,7 +46,7 @@ export function CareerApp() {
           {tab === 'carreira' && <CareiraScreen competition={competition} round={round} totalRounds={fixtures.length} stats={stats} log={log} />}
           {tab === 'mundo' && <MundoScreen competition={competition} standings={sortStandings(standings, competition.tiebreakers)} userClubId={userClubId} matchHistory={matchHistory} clubsMap={activeClubsMap} transferNews={transferNews} />}
           {tab === 'profile' && <PlayerProfileScreen player={player} club={club} socialState={socialState} stats={stats} log={log} transferNews={transferNews} seasonYear={seasonYear} />}
-          {tab === 'life' && <LifeScreen player={player} club={club} socialState={socialState} socialPosts={socialState.posts} onPublish={handleSocialPublish} onComment={handleSocialComment} />}
+          {tab === 'life' && <LifeScreen player={player} club={club} socialState={socialState} socialPosts={socialState.posts} onPublish={handleSocialPublish} onComment={handleSocialComment} interviewHistory={interviewHistory} />}
           {tab === 'voce' && <VoceScreen player={player} club={club} lifeState={lifeState} economyState={economyState} onReset={resetCareer} onRequestTransfer={requestTransfer} onRequestLoan={requestLoan} onInvest={handleInvest} onWithdrawInvestments={handleWithdrawInvestments} onBuyProperty={handleBuyProperty} />}
         </WPGShell>
       )}

@@ -34,11 +34,24 @@ function HonorsList({ honors }) {
   );
 }
 
+// Sorteio simples pra variar o TEXTO da pergunta do repórter em eventos que
+// se repetem bastante ao longo de uma carreira (mesmo gatilho, mesmas 4
+// opções de postura sempre -- só a pergunta em si muda). Nunca afeta
+// efeitos/números, é puramente de ambientação -- por isso Math.random()
+// direto está OK aqui, no mesmo espírito do resto do motor (matchEngine.js,
+// contractsEconomy.js já usam Math.random() sem RNG injetado pra decisões
+// sem consequência determinística exigida).
+function pickRandom(list) { return list[Math.floor(Math.random() * list.length)]; }
+
 const LIFE_EVENTS = [
   {
     id: 'hat_trick_glory',
     trigger: { type: 'match_performance', condition: 'hat_trick' },
-    prompt: (ctx) => `${ctx.goals} gols na partida! A imprensa quer saber o segredo do dia inspirado.`,
+    prompt: (ctx) => pickRandom([
+      `${ctx.goals} gols na partida! A imprensa quer saber o segredo do dia inspirado.`,
+      `Atuação de gala hoje, com ${ctx.goals} bolas na rede. Um repórter pergunta se você sonhava com um dia assim.`,
+      `${ctx.goals} gols marcados -- a pergunta na roda de imprensa é direta: "Isso muda alguma coisa pra você?"`,
+    ]),
     options: [
       { posture: 'agressivo', label: 'Dizer que merece ser titular absoluto', effects: { relations: { coach: -2, crowd: 3, media: 3 }, fans: 8 } },
       { posture: 'confiante', label: 'Agradecer e prometer mais', effects: { relations: { coach: 1, crowd: 3, media: 2 }, fans: 6 } },
@@ -60,7 +73,10 @@ const LIFE_EVENTS = [
   {
     id: 'assist_playmaker',
     trigger: { type: 'match_performance', condition: 'playmaker' },
-    prompt: (ctx) => `${ctx.assists} assistências na partida — te chamam de "cérebro" do time.`,
+    prompt: (ctx) => pickRandom([
+      `${ctx.assists} assistências na partida -- te chamam de "cérebro" do time.`,
+      `${ctx.assists} passes pra gol hoje. Um repórter comenta que você joga mais pros outros do que pra si mesmo.`,
+    ]),
     options: [
       { posture: 'agressivo', label: 'Cobrar mais protagonismo nas jogadas', effects: { relations: { coach: -2, crowd: 1, media: 1 }, fans: 2 } },
       { posture: 'confiante', label: 'Falar que gosta de fazer o time jogar', effects: { relations: { coach: 1, crowd: 1, media: 1 }, fans: 2 } },
@@ -71,7 +87,11 @@ const LIFE_EVENTS = [
   {
     id: 'interview_decisive_goal',
     trigger: { type: 'match_performance', condition: 'decisive_goal' },
-    prompt: 'Parabéns — seu desempenho hoje ajudou a equipe a vencer. A imprensa quer sua reação após o gol decisivo.',
+    prompt: () => pickRandom([
+      'Parabéns -- seu desempenho hoje ajudou a equipe a vencer. A imprensa quer sua reação após o gol decisivo.',
+      'Gol decisivo, vitória garantida. Um repórter pergunta: "Sentiu a pressão do momento?"',
+      'Herói da rodada -- a imprensa quer saber como foi viver esse momento na pele.',
+    ]),
     options: [
       { posture: 'agressivo', label: 'Cobrar mais espaço no time', effects: { relations: { coach: -3, crowd: 2, media: 2 }, fans: 4 } },
       { posture: 'confiante', label: 'Mostrar ambição, sem criar caso', effects: { relations: { coach: 0, crowd: 2, media: 1 }, fans: 2 } },
@@ -82,7 +102,10 @@ const LIFE_EVENTS = [
   {
     id: 'late_cameo_scrutiny',
     trigger: { type: 'match_performance', condition: 'late_entry' },
-    prompt: (ctx) => `Você só entrou aos ${ctx.enteredMinute}min hoje. Um repórter pergunta como foi acompanhar boa parte do jogo do banco.`,
+    prompt: (ctx) => pickRandom([
+      `Você só entrou aos ${ctx.enteredMinute}min hoje. Um repórter pergunta como foi acompanhar boa parte do jogo do banco.`,
+      `Minutos finais de novo, entrando aos ${ctx.enteredMinute}min. A imprensa questiona se falta confiança do treinador em você.`,
+    ]),
     options: [
       { posture: 'agressivo', label: 'Dizer que merece mais minutos', effects: { relations: { coach: -3, crowd: 1, media: 0 }, fans: 1 } },
       { posture: 'confiante', label: 'Dizer que está pronto quando for chamado', effects: { relations: { coach: 2, crowd: 1, media: 1 }, fans: 1 } },
@@ -93,7 +116,10 @@ const LIFE_EVENTS = [
   {
     id: 'confronted_about_training',
     trigger: { type: 'behavior', condition: 'training_skip_streak' },
-    prompt: 'O treinador te chama: "Você tem faltado aos treinos. Está insatisfeito com o clube?"',
+    prompt: () => pickRandom([
+      'O treinador te chama: "Você tem faltado aos treinos. Está insatisfeito com o clube?"',
+      'A comissão técnica cobra explicações pelas faltas recentes aos treinos.',
+    ]),
     options: [
       { posture: 'agressivo', label: 'Dizer que quer mais chances', effects: { relations: { coach: -4, crowd: 1, media: 1 }, fans: 2 } },
       { posture: 'confiante', label: 'Explicar que precisa de ajustes, sem drama', effects: { relations: { coach: 1, crowd: 0, media: 0 }, fans: 0 } },
@@ -127,11 +153,17 @@ const LIFE_EVENTS = [
     id: 'bad_rating_criticized',
     trigger: { type: 'match_performance', condition: 'bad_rating' },
     // Duas leituras diferentes pro mesmo "jogo ruim": sem nenhuma participação
-    // (marcação apertou, não sobrou espaço) vs. teve chance e não converteu —
+    // (marcação apertou, não sobrou espaço) vs. teve chance e não converteu --
     // usa só o que a partida já calculou (gols/assist./nota), nada novo.
     prompt: (ctx) => ctx.goals === 0 && ctx.assists === 0
-      ? 'A imprensa questiona sua atuação: "Hoje o jogo estava bem marcado, o adversário não te deixou jogar. O que houve?"'
-      : 'A imprensa questiona sua atuação fraca: "Não foi dessa vez hoje — teve chances e não fez. O que houve?"',
+      ? pickRandom([
+          'A imprensa questiona sua atuação: "Hoje o jogo estava bem marcado, o adversário não te deixou jogar. O que houve?"',
+          'Um repórter nota que você quase não tocou na bola hoje. "Faltou entrosamento com o time?"',
+        ])
+      : pickRandom([
+          'A imprensa questiona sua atuação fraca: "Não foi dessa vez hoje -- teve chances e não fez. O que houve?"',
+          'Você desperdiçou boas chances hoje. Um repórter pergunta se a pontaria vai melhorar.',
+        ]),
     options: [
       { posture: 'agressivo', label: 'Culpar o esquema tático', effects: { relations: { coach: -5, crowd: -1, media: -1 }, fans: -1 } },
       { posture: 'confiante', label: 'Dizer que vai melhorar', effects: { relations: { coach: 1, crowd: 0, media: 0 }, fans: 0 } },
@@ -139,7 +171,45 @@ const LIFE_EVENTS = [
       { posture: 'desleixado', label: 'Minimizar, "foi só um jogo"', effects: { relations: { coach: -2, crowd: -2, media: 0 }, fans: -1 } },
     ],
   },
+  // ---- Marcos de carreira -- disparam via um contexto SEPARADO
+  // (type: 'career_milestone'), consultado só quando a partida em si não
+  // rendeu nenhum evento acima (ver useCareerController.js). Baseados em
+  // stats já acumulados (apps/goals), nenhum dado novo precisa ser rastreado.
+  {
+    id: 'career_milestone_apps',
+    trigger: { type: 'career_milestone', condition: 'milestone_apps' },
+    prompt: (ctx) => pickRandom([
+      `Você chegou aos ${ctx.value} jogos pelo clube. Um repórter pede um balanço da caminhada até aqui.`,
+      `${ctx.value} partidas disputadas -- a imprensa questiona o que mudou desde a sua estreia.`,
+    ]),
+    options: [
+      { posture: 'agressivo', label: 'Dizer que já merecia mais destaque nesse tempo todo', effects: { relations: { coach: -2, crowd: 1, media: 1 }, fans: 2 } },
+      { posture: 'confiante', label: 'Falar que a evolução veio com trabalho e vem mais por aí', effects: { relations: { coach: 1, crowd: 1, media: 1 }, fans: 2 } },
+      { posture: 'sossegado', label: 'Agradecer ao clube e à comissão técnica', effects: { relations: { coach: 3, crowd: 1, media: 0 }, fans: 1 } },
+      { posture: 'desleixado', label: 'Dizer que "nem contava os jogos"', effects: { relations: { coach: -1, crowd: 0, media: 1 }, fans: 2 } },
+    ],
+  },
+  {
+    id: 'career_milestone_goals',
+    trigger: { type: 'career_milestone', condition: 'milestone_goals' },
+    prompt: (ctx) => pickRandom([
+      `${ctx.value} gols marcados na carreira! A imprensa quer saber como foi alcançar essa marca.`,
+      `Marca redonda: ${ctx.value} gols. Um repórter pergunta se você já mirava esse número.`,
+    ]),
+    options: [
+      { posture: 'agressivo', label: 'Dizer que quer ser o artilheiro da equipe', effects: { relations: { coach: -1, crowd: 2, media: 2 }, fans: 4 } },
+      { posture: 'confiante', label: 'Comemorar a marca com ambição de continuar', effects: { relations: { coach: 1, crowd: 2, media: 1 }, fans: 3 } },
+      { posture: 'sossegado', label: 'Dividir o mérito com os companheiros de time', effects: { relations: { coach: 2, crowd: 1, media: 0 }, fans: 2 } },
+      { posture: 'desleixado', label: 'Rir e dizer que "nem tava contando"', effects: { relations: { coach: 0, crowd: 1, media: 1 }, fans: 3 } },
+    ],
+  },
 ];
+
+// Limiares que disparam um marco de carreira -- só o PRIMEIRO jogo em que o
+// total cruza o limiar dispara (before < limiar <= after), nunca todo jogo
+// depois disso. Ver crossedMilestone() no useCareerController.js.
+const MILESTONE_APPS_THRESHOLDS = [10, 25, 50, 100, 150, 200];
+const MILESTONE_GOALS_THRESHOLDS = [10, 25, 50, 100];
 
 // Avaliadores de condição — a config só referencia o nome; a lógica de "o que
 // significa esse gatilho" fica aqui, pronta pra crescer sem tocar em LIFE_EVENTS.
@@ -156,7 +226,34 @@ const LIFE_CONDITION_EVALUATORS = {
   training_skip_streak: (ctx) => ctx.type === 'behavior' && ctx.skipStreak >= 3,
   transfer_request: (ctx) => ctx.type === 'behavior' && ctx.action === 'transfer_request',
   loan_request: (ctx) => ctx.type === 'behavior' && ctx.action === 'loan_request',
+  milestone_apps: (ctx) => ctx.type === 'career_milestone' && ctx.kind === 'apps',
+  milestone_goals: (ctx) => ctx.type === 'career_milestone' && ctx.kind === 'goals',
 };
+
+// Devolve o limiar cruzado nesta partida (before < limiar <= after), ou null
+// se nenhum foi cruzado agora -- garante que o marco dispara só UMA vez, no
+// jogo exato em que o total vira aquele número, nunca de novo depois.
+function crossedMilestone(before, after, thresholds) {
+  return thresholds.find(t => before < t && after >= t) ?? null;
+}
+
+// Perfil de personalidade emerge do HISTÓRICO de posturas escolhidas em
+// entrevista -- nunca é um atributo do jogador, nunca afeta overall/attrs,
+// só descreve o padrão predominante das respostas até agora. Com poucas
+// entrevistas ainda, fica "em formação" de propósito (não rotula a partir
+// de 1 resposta isolada); em empate real entre as posturas mais usadas,
+// fica "imprevisível" em vez de escolher arbitrariamente uma vencedora.
+const POSTURE_LABELS = { agressivo: 'Confrontador(a)', confiante: 'Confiante', sossegado: 'Comedido(a)', desleixado: 'Descontraído(a)' };
+const PERSONALITY_MIN_SAMPLE = 3;
+function computePersonalityProfile(interviewHistory) {
+  const counts = { agressivo: 0, confiante: 0, sossegado: 0, desleixado: 0 };
+  for (const entry of interviewHistory || []) { if (counts[entry.posture] != null) counts[entry.posture] += 1; }
+  const total = (interviewHistory || []).length;
+  if (total < PERSONALITY_MIN_SAMPLE) return { dominant: null, label: 'Personalidade ainda em formação', counts, total };
+  const [topPosture, topCount] = Object.entries(counts).reduce((a, b) => (b[1] > a[1] ? b : a));
+  const tiedAtTop = Object.values(counts).filter(c => c === topCount).length > 1;
+  return { dominant: tiedAtTop ? null : topPosture, label: tiedAtTop ? 'Personalidade imprevisível' : POSTURE_LABELS[topPosture], counts, total };
+}
 
 // Frase de resumo da partida pro log/feed — mesmos fatos que já alimentam
 // LIFE_EVENTS (gols, assistências, nota, vitória, titular/reserva), só que
@@ -294,4 +391,4 @@ function matchModifier(condition) {
 }
 
 
-export { HONOR_DEFINITIONS, computeSeasonHonors, HonorsList, LIFE_EVENTS, LIFE_CONDITION_EVALUATORS, findEligibleLifeEvent, describeMatchPerformance, applyLifeChoice, SEASON_START_MONTHDAY, getCalendarDate, formatDateBr, formatDateBrNumeric, ACADEMY_START_MONTHDAY, getAcademyCalendarDate, crossesNewMonth, buildRoundToDay, getDayType, FITNESS_TRAIN_COST, FITNESS_MATCH_COST, FITNESS_REST_RECOVERY, FITNESS_AVAILABILITY_FLOOR, applyTrainingCost, applyMatchCost, applyRestRecovery, matchModifier };
+export { HONOR_DEFINITIONS, computeSeasonHonors, HonorsList, LIFE_EVENTS, LIFE_CONDITION_EVALUATORS, findEligibleLifeEvent, describeMatchPerformance, applyLifeChoice, MILESTONE_APPS_THRESHOLDS, MILESTONE_GOALS_THRESHOLDS, crossedMilestone, POSTURE_LABELS, PERSONALITY_MIN_SAMPLE, computePersonalityProfile, SEASON_START_MONTHDAY, getCalendarDate, formatDateBr, formatDateBrNumeric, ACADEMY_START_MONTHDAY, getAcademyCalendarDate, crossesNewMonth, buildRoundToDay, getDayType, FITNESS_TRAIN_COST, FITNESS_MATCH_COST, FITNESS_REST_RECOVERY, FITNESS_AVAILABILITY_FLOOR, applyTrainingCost, applyMatchCost, applyRestRecovery, matchModifier };

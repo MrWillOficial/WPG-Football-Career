@@ -7,7 +7,7 @@ import { SERIE_D_2026_ASSIGNMENT, SERIE_D_2026_CLUB_IDS, SERIE_D_2026_NEXT_STAGE
 import { TIER_ORDER, applyAnnualEconomyUpdate, buyProperty, clubSeasonDecision, computeBuyoutClause, computeReleaseCompensation, computeSalary, evaluatePlayerStatus, generateLoanOffer, generateTransferOffers, investAmount, makeContract, resolvePlayerSalary, withdrawAllInvestments } from '../engines/economy/contractsEconomy.js';
 import { CompetitionEngineV2 } from '../engines/competition/CompetitionEngineV2.js';
 import { SERIE_C_2026_CLUBS, SERIE_C_2026_FASE1_TIEBREAK_CHAIN, SERIE_C_2026_FASE2_TIEBREAK_CHAIN, resolveSerieC2026UpTo } from '../data/competitions/serieC2026.js';
-import { applyLifeChoice, applyMatchCost, applyRestRecovery, applyTrainingCost, buildRoundToDay, crossesNewMonth, describeMatchPerformance, findEligibleLifeEvent, getDayType, matchModifier } from '../engines/life/lifeCalendarFitness.jsx';
+import { applyLifeChoice, applyMatchCost, applyRestRecovery, applyTrainingCost, buildRoundToDay, crossedMilestone, crossesNewMonth, describeMatchPerformance, findEligibleLifeEvent, getDayType, matchModifier, MILESTONE_APPS_THRESHOLDS, MILESTONE_GOALS_THRESHOLDS } from '../engines/life/lifeCalendarFitness.jsx';
 import { CLUBS_MAP } from '../data/_mock/mockData.js';
 import { computeClubEffectiveStrength, getMatchContext, historyForCompetition } from '../engines/match/matchState.js';
 import { advanceOfficialWorldDivisions } from '../engines/world/officialWorldSeason.js';
@@ -1239,12 +1239,33 @@ export function useCareerController() {
           matchWon, started: userMatchInfo.started, enteredMinute: userMatchInfo.enteredMinute,
           isFirstCareerGoal: stats.goals === 0 && playerDelta.goals > 0 }
       : null;
-    const eligibleEvent = lifeContext ? findEligibleLifeEvent(lifeContext) : null;
+    let eligibleEvent = lifeContext ? findEligibleLifeEvent(lifeContext) : null;
+    let resolvedContext = lifeContext;
+    // Marco de carreira (10/25/50... jogos ou gols) só é considerado quando a
+    // própria partida não rendeu nenhuma entrevista mais específica acima —
+    // prioridade sempre pro que aconteceu NESSE jogo (hat-trick, gol
+    // decisivo etc.), marco vira o "prato de resistência" só em partidas sem
+    // nada mais notável pra comentar. Comparação usa stats (antes) vs.
+    // finalStats (depois) pra disparar só no jogo exato em que o total cruza
+    // o limiar, nunca de novo depois.
+    if (!eligibleEvent) {
+      const appsMilestone = crossedMilestone(stats.apps, finalStats.apps, MILESTONE_APPS_THRESHOLDS);
+      const goalsMilestone = crossedMilestone(stats.goals, finalStats.goals, MILESTONE_GOALS_THRESHOLDS);
+      const milestoneContext = appsMilestone != null
+        ? { type: 'career_milestone', kind: 'apps', value: appsMilestone }
+        : goalsMilestone != null
+          ? { type: 'career_milestone', kind: 'goals', value: goalsMilestone }
+          : null;
+      if (milestoneContext) {
+        eligibleEvent = findEligibleLifeEvent(milestoneContext);
+        resolvedContext = milestoneContext;
+      }
+    }
     // Alguns eventos têm prompt dinâmico (função do que aconteceu no jogo);
     // resolve pra string aqui, já que é o único lugar com o contexto em mãos —
     // a tela de entrevista só sabe renderizar texto.
     const resolvedEvent = eligibleEvent
-      ? { ...eligibleEvent, prompt: typeof eligibleEvent.prompt === 'function' ? eligibleEvent.prompt(lifeContext) : eligibleEvent.prompt }
+      ? { ...eligibleEvent, prompt: typeof eligibleEvent.prompt === 'function' ? eligibleEvent.prompt(resolvedContext) : eligibleEvent.prompt }
       : null;
 
     if (resolvedEvent) {
