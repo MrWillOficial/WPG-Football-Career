@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubs": 20,
-    "clubsProcessed": ["Atlético-MG", "Bahia", "Botafogo", "Bragantino", "Corinthians", "Cruzeiro", "Flamengo", "Fluminense"],
-    "nextClub": "Grêmio",
-    "clubsFoundThisSession": 8,
+    "clubsProcessed": ["Atlético-MG", "Bahia", "Botafogo", "Bragantino", "Corinthians", "Cruzeiro", "Flamengo", "Fluminense", "Grêmio", "Internacional", "Mirassol", "Palmeiras"],
+    "nextClub": "Santos",
+    "clubsFoundThisSession": 12,
     "clubsNotFoundThisSession": 0
   },
   "clubs": {
@@ -202,6 +202,72 @@
         { "name": "John Kennedy", "positionRaw": "Atacante" }
       ],
       "notes": "Técnico Luis Zubeldía. Guilherme Arana veste a 13. Jemmes veio do Mirassol (já Série A deste jogo). CRUZAMENTO DE VALIDAÇÃO CONFIRMADO: Savarino veio 'do rival Botafogo' -- exatamente a mesma saída já registrada na entrada do Botafogo neste mesmo arquivo (Savarino foi pro Fluminense), confirmando a mesma transferência por duas fontes independentes. Germán Cano começou o ano se recuperando de lesão aos 38 anos, responsabilidade ofensiva recaindo sobre John Kennedy."
+    },
+    "Grêmio": {
+      "clubName": "Grêmio",
+      "status": "press_pending_official",
+      "sources": ["https://gremioplay.com.br/qual-o-elenco-do-gremio-em-2026-veja/"],
+      "players": [
+        { "name": "Weverton", "positionRaw": "Goleiro" },
+        { "name": "Gabriel Grando", "positionRaw": "Goleiro" },
+        { "name": "Thiago Beltrame", "positionRaw": "Goleiro" },
+        { "name": "Wagner Leonardo", "positionRaw": "Zagueiro" },
+        { "name": "Erick Noriega", "positionRaw": "Zagueiro" },
+        { "name": "Kannemann", "positionRaw": "Zagueiro" },
+        { "name": "Balbuena", "positionRaw": "Zagueiro" },
+        { "name": "Rodrigo Ely", "positionRaw": "Zagueiro" },
+        { "name": "Viery", "positionRaw": "Zagueiro" },
+        { "name": "Gustavo Martins", "positionRaw": "Zagueiro" },
+        { "name": "Luis Eduardo", "positionRaw": "Zagueiro" },
+        { "name": "Martin Braithwaite", "positionRaw": "Atacante" },
+        { "name": "Carlos Vinícius", "positionRaw": "Atacante" }
+      ],
+      "notes": "35 jogadores no elenco. CRUZAMENTO DE VALIDAÇÃO CONFIRMADO POR DUAS FONTES INDEPENDENTES: o goleiro Weverton aparece aqui como titular do Grêmio, e uma matéria separada sobre o Palmeiras (também neste arquivo) confirma explicitamente que 'Weverton acertou com o Grêmio' e se despediu do Palmeiras -- mesma transferência, batendo perfeitamente. Meio-campo não discriminado nesta rodada de busca (fonte só listou goleiros, zagueiros e uma amostra do ataque)."
+    },
+    "Internacional": {
+      "clubName": "Internacional",
+      "status": "press_pending_official",
+      "sources": ["https://www.itatiaia.com.br/esportes/futebol/futebol-nacional/futebol-do-sul/internacional/internacional-no-brasileirao-2026-ficha-elenco-ambicoes-e-analise/"],
+      "players": [
+        { "name": "Rochet", "positionRaw": "Goleiro" },
+        { "name": "Bruno Gomes", "positionRaw": "Defensor" },
+        { "name": "Gabriel Mercado", "positionRaw": "Defensor" },
+        { "name": "Victor Gabriel", "positionRaw": "Defensor" },
+        { "name": "Bernabei", "positionRaw": "Defensor" },
+        { "name": "Ronaldo", "positionRaw": "Meio-campo" },
+        { "name": "Paulinho Paula", "positionRaw": "Meio-campo" },
+        { "name": "Vitinho", "positionRaw": "Meio-campo" },
+        { "name": "Alan Patrick", "positionRaw": "Meio-campo" },
+        { "name": "Carbonero", "positionRaw": "Meio-campo" },
+        { "name": "Borré", "positionRaw": "Atacante" }
+      ],
+      "notes": "43 atletas no elenco total, técnico Paulo Pezzolano. 18º colocado na Série A 2026 (rebaixamento ou luta contra ele), vice do Gauchão, quartas da Copa do Brasil, campeão da Recopa Gaúcha. Alan Patrick é o principal nome do elenco; Rafael Borré artilheiro recente (4 gols em 3 jogos pelo Gauchão). ATENÇÃO: a fonte trouxe o trecho 'Victor Gabriel (Félix Torres)' entre parênteses de forma ambígua -- 'Félix Torres' já está cadastrado como zagueiro do Corinthians neste mesmo arquivo, então NÃO foi replicado aqui pra não arriscar duplicar um jogador em dois clubes por erro de fonte/agregador; mantido apenas 'Victor Gabriel' como o nome mais claramente atribuído ao Internacional."
+    },
+    "Mirassol": {
+      "clubName": "Mirassol",
+      "status": "press_pending_official",
+      "sources": ["https://www.itatiaia.com.br/esportes/futebol/futebol-nacional/futebol-paulista/mirassol/mirassol-no-brasileirao-2026-ficha-elenco-ambicoes-e-analise/"],
+      "players": [
+        { "name": "Igor Formiga", "positionRaw": "Lateral-direito" },
+        { "name": "Rodrigues", "positionRaw": "Defensor" },
+        { "name": "Alesson", "positionRaw": "Atacante" },
+        { "name": "Carlos Eduardo", "positionRaw": "Atacante" }
+      ],
+      "notes": "Técnico Rafael Guanaes mantido, 14 contratações no total (só 4 individualizadas nesta rodada de busca). Terminou a Série A 2026 em 16º (7V-7E-12D, 29 gols marcados, 40 sofridos). Igor Formiga veio do Juventude (já Série B deste jogo), Rodrigues veio do Grêmio (já cadastrado neste arquivo). CRUZAMENTO DE VALIDAÇÃO CONFIRMADO: o zagueiro Jemmes SAIU do Mirassol -- e a entrada do Fluminense neste mesmo arquivo confirma 'Jemmes veio do Mirassol', mesma transferência batendo por duas fontes independentes. Também saíram (excluídos): meio-campistas Danielzinho e Gabriel, atacante Chico da Costa."
+    },
+    "Palmeiras": {
+      "clubName": "Palmeiras",
+      "status": "press_pending_official",
+      "sources": ["https://www.palmeiras.com.br/noticias/weverton-comenta-recorde-na-libertadores-e-fuchs-trabalha-em-campo/", "https://www.espn.com.br/futebol/palmeiras/artigo/_/id/16068212/contratacoes-palmeiras-ultimas-noticias-quem-chega-quem-fica-quem-sai-2026"],
+      "players": [
+        { "name": "Bruno Fuchs", "positionRaw": "Zagueiro" },
+        { "name": "Gustavo Gómez", "positionRaw": "Zagueiro" },
+        { "name": "Murilo", "positionRaw": "Zagueiro" },
+        { "name": "Koné", "positionRaw": "Defensor" },
+        { "name": "Marlon Freitas", "positionRaw": null },
+        { "name": "José Manuel López", "positionRaw": "Atacante" }
+      ],
+      "notes": "Campeão da Série A 2026, técnico Abel Ferreira. José Manuel López foi o artilheiro (8 gols na Série A, 21 no total). Gustavo Gómez é o capitão. Koné é zagueiro marfinense, principal novidade registrada. Marlon Freitas veio do Botafogo (já cadastrado neste arquivo, mesma transferência confirmada nos dois lados). EXCLUÍDOS deliberadamente: Weverton (foi pro Grêmio, já cadastrado neste arquivo com a mesma transferência confirmada), Raphael Veiga (emprestado ao América-MEX até 31/12/2026), Micael (Inter Miami), Aníbal Moreno (River Plate) e Facundo Torres (Austin FC) -- todos saíram do clube segundo a própria fonte."
     }
   }
 }
