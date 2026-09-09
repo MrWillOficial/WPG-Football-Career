@@ -285,42 +285,102 @@ export function useCareerController() {
     const withOverall = participantIds.map(id => ALL_CLUBS_MAP[id]?.overall).filter(v => Number.isFinite(v));
     const avgOverall = withOverall.length ? withOverall.reduce((s, v) => s + v, 0) / withOverall.length : 50;
     const totalRounds = fixtures.length;
-    const { status } = evaluatePlayerStatus(player, stats.apps, totalRounds, avgOverall);
+    const appRate = totalRounds > 0 ? stats.apps / totalRounds : 0;
+    const { status, score } = evaluatePlayerStatus(player, stats.apps, totalRounds, avgOverall);
+    const contractOnFile = player.contract || makeContract(userClubId, computeSalary(family, status), seasonYear, 2);
 
-    if (allowMarket && player.wantsTransfer) {
-      const offers = generateTransferOffers(player, status, family, avgOverall, { wantsTransfer: true, wantsLoan: false })
-        .filter(o => o.clubId !== userClubId);
-      if (offers.length > 0) {
-        const offer = offers[0];
-        const customClubIdsOverride =
-          offer.family === 'serie_c_2026' ? SERIE_C_2026_CLUBS :
-          offer.family === 'serie_b_2026' ? SERIE_B_2026_CLUBS :
-          offer.family === 'serie_a_2026' ? SERIE_A_2026_CLUBS : null; // serie_d_2026 usa redrawSerieD2026GroupsForNewSeason, não precisa de override
+    const customOverrideFor = (targetFamily) =>
+      targetFamily === 'serie_c_2026' ? SERIE_C_2026_CLUBS :
+      targetFamily === 'serie_b_2026' ? SERIE_B_2026_CLUBS :
+      targetFamily === 'serie_a_2026' ? SERIE_A_2026_CLUBS : null; // serie_d_2026 usa redrawSerieD2026GroupsForNewSeason, não precisa de override
+    const findOffer = (requestFlags) => generateTransferOffers(player, status, family, avgOverall, requestFlags).filter(o => o.clubId !== userClubId)[0] || null;
+    const renewIfExpired = () => {
+      const expired = !player.contract || (player.contract.expiresSeason - seasonYear <= 0);
+      return expired ? makeContract(userClubId, computeSalary(family, status), seasonYear + 1, 2) : player.contract;
+    };
+
+    if (allowMarket) {
+      // Pedido do JOGADOR (botão "PEDIR TRANSFERÊNCIA") tem prioridade sobre a
+      // avaliação do clube — se ele já pediu, é isso que está sendo avaliado.
+      if (player.wantsTransfer) {
+        const offer = findOffer({ wantsTransfer: true, wantsLoan: false });
+        if (offer) {
+          return {
+            effectiveClubId: offer.clubId, targetFamily: offer.family, customClubIdsOverride: customOverrideFor(offer.family),
+            contract: makeContract(offer.clubId, offer.proposedSalary, seasonYear + 1, offer.proposedDuration),
+            wantsTransfer: false,
+            logMsg: `Transferência aceita! Você assinou com o ${offer.clubName}.`,
+          };
+        }
+        // Sem proposta desta vez — o pedido segue registrado, tenta de novo na próxima temporada.
         return {
-          effectiveClubId: offer.clubId, targetFamily: offer.family, customClubIdsOverride,
-          contract: makeContract(offer.clubId, offer.proposedSalary, seasonYear + 1, offer.proposedDuration),
-          wantsTransfer: false,
-          logMsg: `Transferência aceita! Você assinou com o ${offer.clubName}.`,
+          effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
+          contract: renewIfExpired(), wantsTransfer: true,
+          logMsg: 'Você pediu transferência, mas nenhuma proposta chegou desta vez. O pedido continua registrado.',
         };
       }
-      // Pedido feito, sem proposta desta vez — segue registrado, tenta de novo na próxima temporada.
-      const contract = player.contract;
-      const expired = !contract || (contract.expiresSeason - seasonYear <= 0);
-      const nextContract = expired ? makeContract(userClubId, computeSalary(family, status), seasonYear + 1, 2) : contract;
+
+      // CLUBE decide primeiro (sem pedido do jogador) — mesmo motor de decisão
+      // que já existia isolado em contractsEconomy.js (clubSeasonDecision),
+      // nunca chamado por nenhum fluxo real até agora. Empréstimo (offer_loan)
+      // segue fora de escopo (ver nota no topo do arquivo) — cai no mesmo
+      // tratamento de "renovar se vencido" das temporadas sem novidade.
+      const requestFlags = { wantsTransfer: false, wantsLoan: !!player.wantsLoan };
+      const decision = clubSeasonDecision(contractOnFile, status, score, seasonYear, requestFlags, appRate);
+
+      if (decision === 'consider_sale') {
+        const offer = findOffer(requestFlags);
+        if (offer) {
+          return {
+            effectiveClubId: offer.clubId, targetFamily: offer.family, customClubIdsOverride: customOverrideFor(offer.family),
+            contract: makeContract(offer.clubId, offer.proposedSalary, seasonYear + 1, offer.proposedDuration),
+            wantsTransfer: false,
+            logMsg: `O ${ALL_CLUBS_MAP[userClubId]?.name} avaliou negociar sua saída e aceitou uma proposta: você assinou com o ${offer.clubName}.`,
+          };
+        }
+      }
+
+      if (decision === 'release') {
+        const oldClubName = ALL_CLUBS_MAP[userClubId]?.name;
+        const offer = findOffer({ wantsTransfer: true, wantsLoan: false });
+        if (offer) {
+          const compensation = computeReleaseCompensation(contractOnFile, seasonYear);
+          setEconomyState(e => ({ ...e, balance: e.balance + compensation }));
+          return {
+            effectiveClubId: offer.clubId, targetFamily: offer.family, customClubIdsOverride: customOverrideFor(offer.family),
+            contract: makeContract(offer.clubId, offer.proposedSalary, seasonYear + 1, offer.proposedDuration),
+            wantsTransfer: false,
+            logMsg: `Dispensado pelo ${oldClubName} (compensação de R$ ${compensation.toLocaleString('pt-BR')} recebida). Assinou com o ${offer.clubName}.`,
+          };
+        }
+        // Sem interessados — o clube reconsidera e renova.
+        return {
+          effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
+          contract: makeContract(userClubId, computeSalary(family, status), seasonYear + 1, 2), wantsTransfer: false,
+          logMsg: `O ${oldClubName} avaliou dispensar você, mas não houve interessados — contrato renovado.`,
+        };
+      }
+
+      // decision === 'offer_loan' | 'renew' | 'keep_as_is' — nada de mercado
+      // pra resolver; só garante que o contrato nunca fica com data vencida.
+      const nextContract = renewIfExpired();
       return {
         effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
-        contract: nextContract, wantsTransfer: true,
-        logMsg: 'Você pediu transferência, mas nenhuma proposta chegou desta vez. O pedido continua registrado.',
+        contract: nextContract, wantsTransfer: false,
+        logMsg: nextContract !== player.contract ? `Contrato renovado com o ${ALL_CLUBS_MAP[userClubId]?.name || 'clube'}.` : null,
       };
     }
 
-    const contract = player.contract;
-    const expired = !contract || (contract.expiresSeason - seasonYear <= 0);
-    const nextContract = expired ? makeContract(userClubId, computeSalary(family, status), seasonYear + 1, 2) : contract;
+    // Mudança de divisão (promoção/rebaixamento por mérito esportivo) — o
+    // mercado não é avaliado neste ciclo (mesma precedência do antigo
+    // continueNextSeason), mas o contrato ainda não pode ficar vencido, e um
+    // pedido de transferência pendente não pode ser apagado por uma virada
+    // que nem chegou a avaliá-lo — preserva `wantsTransfer` como está.
+    const divisionChangeContract = renewIfExpired();
     return {
       effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
-      contract: nextContract, wantsTransfer: false,
-      logMsg: expired ? `Contrato renovado com o ${ALL_CLUBS_MAP[userClubId]?.name || 'clube'}.` : null,
+      contract: divisionChangeContract, wantsTransfer: !!player.wantsTransfer,
+      logMsg: divisionChangeContract !== player.contract ? `Contrato renovado com o ${ALL_CLUBS_MAP[userClubId]?.name || 'clube'}.` : null,
     };
   }
 
