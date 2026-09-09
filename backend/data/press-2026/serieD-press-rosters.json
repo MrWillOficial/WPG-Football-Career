@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12", "A13", "A14"],
-    "nextGroup": "A15",
-    "clubsFoundThisSession": 77,
+    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12", "A13", "A14", "A15"],
+    "nextGroup": "A16",
+    "clubsFoundThisSession": 83,
     "clubsNotFoundThisSession": 7
   },
   "clubs": {
@@ -1626,6 +1626,117 @@
         { "name": "Daniel Amorim", "positionRaw": "Atacante" }
       ],
       "notes": "Primeira vez do clube em competições nacionais (Copa do Brasil e Série D). Elenco anunciado oficialmente pelo clube via imprensa de Rio Claro-SP; meio-campo não discriminado nas fontes encontradas nesta rodada de busca."
+    },
+    "A15::Cianorte-PR": {
+      "clubName": "Cianorte-PR",
+      "groupId": "A15",
+      "status": "press_pending_official",
+      "sources": ["https://ric.com.br/esportes/futebol/campeonato-paranaense/elenco-cianorte-campeonato-paranense-2026"],
+      "players": [
+        { "name": "Felipe Garcia", "positionRaw": "Goleiro" },
+        { "name": "Guilherme Lopes", "positionRaw": "Goleiro" },
+        { "name": "Gustavo", "positionRaw": "Goleiro" }
+      ],
+      "notes": "Clube anunciou 39 jogadores no elenco 2026 (Paranaense, mas o mesmo elenco base disputa a Série D), com reformulação profunda e saída de nomes como Hernane Brocador -- porém apenas os 3 goleiros foram nominalmente discriminados nesta rodada de busca; restante do elenco não encontrado com posição."
+    },
+    "A15::FC Cascavel-PR": {
+      "clubName": "FC Cascavel-PR",
+      "groupId": "A15",
+      "status": "press_pending_official",
+      "sources": ["https://fccascavel.com.br/noticia/cascavel-se-reapresenta-e-inicia-intertemporada-visando-a-serie-d-2026/", "https://ric.com.br/esportes/futebol/campeonato-paranaense/elenco-fc-cascavel-paranaense-2026"],
+      "players": [
+        { "name": "Luizinho", "positionRaw": null }
+      ],
+      "notes": "Elenco de 25 jogadores anunciado (idade média de 24 anos, 14 formados na base do clube), mas apenas um nome foi individualizado pela imprensa nesta rodada de busca -- Luizinho, ex-base do Coritiba com passagens por Santos, Novorizontino e Operário. Posição não confirmada pela fonte. Restante do elenco não encontrado nominalmente."
+    },
+    "A15::Santa Catarina-SC": {
+      "clubName": "Santa Catarina-SC",
+      "groupId": "A15",
+      "status": "press_pending_official",
+      "sources": ["https://www.gcd.com.br/esporte/santa-catarina-clube-mantem-base-e-define-18-atletas-para-a-temporada-2026/", "https://www.gcd.com.br/esporte/santa-catarina-anuncia-reforco-e-integra-jovem-da-base-para-o-elenco-da-temporada-2026/"],
+      "players": [
+        { "name": "Marcos", "positionRaw": "Goleiro" },
+        { "name": "Juninho", "positionRaw": "Lateral-direito" },
+        { "name": "Zé Leandro", "positionRaw": "Zagueiro" },
+        { "name": "Adriel", "positionRaw": "Zagueiro" },
+        { "name": "Coruja", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Cleberson", "positionRaw": "Meio-campo" },
+        { "name": "Brener", "positionRaw": "Meio-campo" },
+        { "name": "Beto", "positionRaw": "Zagueiro/Meio-campo" },
+        { "name": "Kauê", "positionRaw": null },
+        { "name": "Nenê Bonilha", "positionRaw": "Meio-campo" },
+        { "name": "Bruninho", "positionRaw": "Ponta" },
+        { "name": "Gui Nascimento", "positionRaw": "Ponta" },
+        { "name": "Yhago", "positionRaw": "Centroavante" },
+        { "name": "Alex Gonçalves", "positionRaw": "Atacante" },
+        { "name": "João Veras", "positionRaw": "Atacante" },
+        { "name": "Hytalo dos Santos Lira", "positionRaw": null },
+        { "name": "Pedrinho", "positionRaw": null }
+      ],
+      "notes": "Clube (goleiro e capitão Marcos) manteve boa parte da base que disputou o Catarinense 2025 e garantiu vaga na Série D 2026 -- cobertura das mais completas do grupo A15, incluindo o retorno do artilheiro Alex Gonçalves (que já disputou a Série D pelo Marcílio Dias, também neste jogo no Grupo A16)."
+    },
+    "A15::Joinville-SC": {
+      "clubName": "Joinville-SC",
+      "groupId": "A15",
+      "status": "press_pending_official",
+      "sources": ["https://ndmais.com.br/futebol/joinville-tem-12-jogadores-de-saida-do-clube-para-a-temporada-2026/", "https://www.pontonortejoinville.com.br/noticia/39752/jec-anuncia-dois-reforcos-para-sequencia-da-serie-d"],
+      "players": [
+        { "name": "Ytalo Santos", "positionRaw": "Atacante" },
+        { "name": "Toty", "positionRaw": "Lateral-direito" },
+        { "name": "Thiago Rodrigues", "positionRaw": "Goleiro" },
+        { "name": "Vinícius de Oliveira Valério", "positionRaw": "Meia" },
+        { "name": "Thomaz Carvalho Costa", "positionRaw": "Volante" }
+      ],
+      "notes": "Apenas reforços anunciados nominalmente foram encontrados (incluindo dois contratados especificamente durante a própria disputa da Série D 2026); 12 jogadores confirmados como saída do clube para 2026, mas o elenco completo de permanência não foi encontrado nominalmente nesta rodada de busca. Confirmado via CBF.com.br (aparece em resultado de busca) que Joinville x Cascavel é jogo real da Série D 2026, batendo com o grupo A15 do jogo."
+    },
+    "A15::Guarany de Bagé-RS": {
+      "clubName": "Guarany de Bagé-RS",
+      "groupId": "A15",
+      "status": "press_pending_official",
+      "sources": ["https://www.espn.com.br/futebol/time/elenco/_/id/21369/guarany_de_bage"],
+      "players": [
+        { "name": "Jonathan", "positionRaw": "Goleiro" },
+        { "name": "Thiago", "positionRaw": "Goleiro" },
+        { "name": "Alberte", "positionRaw": "Zagueiro" },
+        { "name": "Bruno Cardoso", "positionRaw": "Zagueiro" },
+        { "name": "H. Ribeiro", "positionRaw": "Zagueiro" },
+        { "name": "Raphinha", "positionRaw": "Zagueiro" },
+        { "name": "Talles", "positionRaw": "Zagueiro" },
+        { "name": "Allan de Almeida", "positionRaw": "Meio-campo" },
+        { "name": "David", "positionRaw": "Meio-campo" },
+        { "name": "Jean Carlos", "positionRaw": "Meio-campo" },
+        { "name": "Jean Martim", "positionRaw": "Meio-campo" },
+        { "name": "Lucas", "positionRaw": "Meio-campo" },
+        { "name": "Luiz Felipe Machado", "positionRaw": "Meio-campo" },
+        { "name": "M. Cavalcante", "positionRaw": "Meio-campo" },
+        { "name": "Marquinhos", "positionRaw": "Meio-campo" },
+        { "name": "Paulinho", "positionRaw": "Meio-campo" },
+        { "name": "Vitor Oliveira", "positionRaw": "Meio-campo" },
+        { "name": "Adailson Gonçalves Sousa", "positionRaw": "Atacante" },
+        { "name": "Lucas Carvalho", "positionRaw": "Atacante" },
+        { "name": "Tony Júnior", "positionRaw": "Atacante" }
+      ],
+      "notes": "Cobertura ampla e discriminada por posição via base de dados agregada (ESPN). Clube disputa Série D e Gauchão simultaneamente."
+    },
+    "A15::São Luiz-RS": {
+      "clubName": "São Luiz-RS",
+      "groupId": "A15",
+      "status": "press_pending_official",
+      "sources": ["https://www.peleiafc.com/post/s%C3%A3o-luiz-anuncia-tr%C3%AAs-refor%C3%A7os-para-a-s%C3%A9rie-d", "https://pt.besoccer.com/time/elenco/sao-luiz"],
+      "players": [
+        { "name": "Altieri", "positionRaw": "Goleiro" },
+        { "name": "Célio", "positionRaw": "Goleiro" },
+        { "name": "Vanderlei", "positionRaw": "Goleiro" },
+        { "name": "Da Silva", "positionRaw": "Defensor" },
+        { "name": "Danilo Baia", "positionRaw": "Defensor" },
+        { "name": "João Paulo", "positionRaw": "Defensor" },
+        { "name": "Marcelo Mineiro", "positionRaw": "Defensor" },
+        { "name": "Tatto", "positionRaw": "Defensor" },
+        { "name": "Arlan", "positionRaw": "Zagueiro" },
+        { "name": "Sandro Sotilli", "positionRaw": "Atacante" },
+        { "name": "Tiago André", "positionRaw": "Atacante" }
+      ],
+      "notes": "Um resultado de busca listou explicitamente um jogo real 'São Luiz x Velo Clube' na Série D 2026 via CBF.com.br (Velo Clube também está no grupo A14 deste jogo) -- forte cruzamento de validação. Clube de Ijuí-RS, disputa também o Gauchão Série A."
     }
   }
 }
