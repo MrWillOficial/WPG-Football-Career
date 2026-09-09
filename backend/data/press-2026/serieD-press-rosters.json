@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02"],
-    "nextGroup": "A03",
-    "clubsFoundThisSession": 10,
+    "groupsProcessed": ["A01", "A02", "A03"],
+    "nextGroup": "A04",
+    "clubsFoundThisSession": 16,
     "clubsNotFoundThisSession": 2
   },
   "clubs": {
@@ -270,6 +270,129 @@
       "sources": [],
       "players": [],
       "notes": "Busca não encontrou nenhum nome de jogador nominal para o elenco 2026 -- só referências a agregadores de estatística sem conteúdo retornado na busca."
+    },
+    "A03::Gama-DF": {
+      "clubName": "Gama-DF",
+      "groupId": "A03",
+      "status": "not_found_via_press",
+      "sources": [],
+      "players": [],
+      "notes": "Busca confirmou o clube na Série D 2026 mas não retornou nenhum nome de jogador do elenco."
+    },
+    "A03::Brasiliense-DF": {
+      "clubName": "Brasiliense-DF",
+      "groupId": "A03",
+      "status": "press_pending_official",
+      "sources": ["https://www.placardefutebol.com.br/time/brasiliense/jogadores"],
+      "players": [
+        { "name": "Fábio Pizarro Sanches", "positionRaw": "Zagueiro" },
+        { "name": "Genilson", "positionRaw": "Zagueiro" },
+        { "name": "Iago Cousseau Furtado", "positionRaw": "Zagueiro" },
+        { "name": "Lamaur Neto", "positionRaw": "Zagueiro" },
+        { "name": "Victor Sallinas", "positionRaw": "Zagueiro" },
+        { "name": "Vitor Marinho", "positionRaw": "Zagueiro" },
+        { "name": "Hippólito", "positionRaw": "Meio-campo" },
+        { "name": "Jean Pyerre", "positionRaw": "Meio-campo" },
+        { "name": "Marcos Júnior", "positionRaw": "Meio-campo" },
+        { "name": "Marlone", "positionRaw": "Meio-campo" },
+        { "name": "Serginho", "positionRaw": "Meio-campo" },
+        { "name": "Caio Hones", "positionRaw": "Atacante" },
+        { "name": "Erick Luis", "positionRaw": "Atacante" },
+        { "name": "Gabryel Martins", "positionRaw": "Atacante" },
+        { "name": "Jackson Vinícius", "positionRaw": "Atacante" }
+      ],
+      "notes": "Elenco listado com idades (24-35 anos), sem goleiros citados nominalmente na cobertura encontrada."
+    },
+    "A03::Luverdense-MT": {
+      "clubName": "Luverdense-MT",
+      "groupId": "A03",
+      "status": "press_pending_official",
+      "sources": [
+        "https://www.olharesportivo.com.br/luverdense-abre-montagem-do-elenco-e-apresenta-tr%C3%AAs-zagueiros-para-a-temporada-2026",
+        "https://www.nortaomt.com.br/luverdense-mantem-base-e-renova-com-seis-atletas-para-disputa-da-serie-d/"
+      ],
+      "players": [
+        { "name": "João Guilherme Pestana", "positionRaw": "Goleiro" },
+        { "name": "Kaique Feijó", "positionRaw": "Goleiro" },
+        { "name": "Cauã França", "positionRaw": "Goleiro" },
+        { "name": "Yan Victor", "positionRaw": "Zagueiro" },
+        { "name": "Jackson Ferreira", "positionRaw": "Zagueiro" },
+        { "name": "Gustavo Alexandria", "positionRaw": "Zagueiro" },
+        { "name": "Feliphe Gabriel", "positionRaw": "Zagueiro" },
+        { "name": "Thiago Gabriel", "positionRaw": null },
+        { "name": "Hítalo Mota", "positionRaw": null },
+        { "name": "Raul Prata", "positionRaw": null },
+        { "name": "João Guilherme", "positionRaw": null },
+        { "name": "João Hassen", "positionRaw": null }
+      ],
+      "notes": "Clube tinha 23 atletas no grupo no momento da cobertura, elenco ainda em formação/anúncio gradual -- lista parcial, não os 23."
+    },
+    "A03::Primavera-MT": {
+      "clubName": "Primavera-MT",
+      "groupId": "A03",
+      "status": "not_found_via_press",
+      "sources": [],
+      "players": [],
+      "notes": "Clube é o Primavera Atlético Clube (fundado 2022, sucessor do antigo Primavera EC dissolvido em 2011) -- nenhum nome de jogador 2026 encontrado via busca."
+    },
+    "A03::Inhumas-GO": {
+      "clubName": "Inhumas-GO",
+      "groupId": "A03",
+      "status": "press_pending_official",
+      "sources": ["https://esportegoiano.com.br/reta-final-pre-temporada-inhumas-elenco-definido-goianao-veja-nomes"],
+      "players": [
+        { "name": "Wallace", "positionRaw": "Goleiro" },
+        { "name": "Petrocelli", "positionRaw": "Volante" },
+        { "name": "Zizu", "positionRaw": "Meia" },
+        { "name": "Willian Goiano", "positionRaw": "Zagueiro" },
+        { "name": "Everton", "positionRaw": null },
+        { "name": "Alan Ferreira", "positionRaw": null },
+        { "name": "Rafinha", "positionRaw": null },
+        { "name": "Inácio", "positionRaw": null },
+        { "name": "Fernandinho", "positionRaw": null },
+        { "name": "Lucas Vítor", "positionRaw": null },
+        { "name": "Gean Corrêa", "positionRaw": null }
+      ],
+      "notes": "Clube tem 27 jogadores no elenco total; cobertura encontrada só nomeia uma parte."
+    },
+    "A03::Aparecidense-GO": {
+      "clubName": "Aparecidense-GO",
+      "groupId": "A03",
+      "status": "press_pending_official",
+      "sources": ["https://esportegoiano.com.br/aparecidense-apresenta-elenco-2026-veja-nomes"],
+      "players": [
+        { "name": "Allan", "positionRaw": "Goleiro" },
+        { "name": "Pedro Henrique", "positionRaw": "Goleiro" },
+        { "name": "Victor André", "positionRaw": "Goleiro" },
+        { "name": "Ramon", "positionRaw": "Goleiro" },
+        { "name": "Ivan", "positionRaw": "Lateral" },
+        { "name": "Caetano", "positionRaw": "Lateral" },
+        { "name": "Luís Guilherme", "positionRaw": "Lateral" },
+        { "name": "Darlan", "positionRaw": "Zagueiro" },
+        { "name": "Jefferson", "positionRaw": "Zagueiro" },
+        { "name": "Marcão", "positionRaw": "Zagueiro" },
+        { "name": "Luiz Fillipe", "positionRaw": "Zagueiro" },
+        { "name": "Fellipe", "positionRaw": "Zagueiro" },
+        { "name": "Iury", "positionRaw": "Zagueiro" },
+        { "name": "Lima", "positionRaw": "Volante" },
+        { "name": "Renato Alves", "positionRaw": "Volante" },
+        { "name": "Santos", "positionRaw": "Volante" },
+        { "name": "Naves", "positionRaw": "Volante" },
+        { "name": "Thierry", "positionRaw": "Volante" },
+        { "name": "Diogo", "positionRaw": "Meia" },
+        { "name": "Richard", "positionRaw": "Meia" },
+        { "name": "Lauro", "positionRaw": "Meia" },
+        { "name": "João Victor Varolo", "positionRaw": "Meia" },
+        { "name": "Dourado", "positionRaw": "Meia" },
+        { "name": "Bagé", "positionRaw": "Meia" },
+        { "name": "Thiaguinho", "positionRaw": "Atacante" },
+        { "name": "Pitaluga", "positionRaw": "Atacante" },
+        { "name": "Luan", "positionRaw": "Atacante" },
+        { "name": "Victor Santos", "positionRaw": "Atacante" },
+        { "name": "Bruninho", "positionRaw": "Atacante" },
+        { "name": "Arthur Gabriel", "positionRaw": "Atacante" }
+      ],
+      "notes": "Melhor cobertura encontrada até agora -- elenco completo de 30 nomes divulgado pelo clube, organizado por posição na própria matéria."
     }
   }
 }
