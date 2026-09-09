@@ -6,10 +6,10 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06"],
-    "nextGroup": "A07",
-    "clubsFoundThisSession": 33,
-    "clubsNotFoundThisSession": 3
+    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07"],
+    "nextGroup": "A08",
+    "clubsFoundThisSession": 38,
+    "clubsNotFoundThisSession": 4
   },
   "clubs": {
     "A01::Nacional-AM": {
@@ -690,6 +690,84 @@
         { "name": "Lucas Carvalho", "positionRaw": "Meio-campo" }
       ],
       "notes": "Fonte confirma explicitamente o Grupo A6 da Série D 2026 com os mesmos clubes usados no jogo, e as datas oficiais (início 5/abril, final 13/setembro) -- bate com SEASON_START_MONTHDAY do motor (serie_d_2026: [4,5])."
+    },
+    "A07::Ferroviário-CE": {
+      "clubName": "Ferroviário-CE",
+      "groupId": "A07",
+      "status": "press_pending_official",
+      "sources": ["https://www.anuariodoceara.com.br/futebol-cearense/ferroviario/"],
+      "players": [
+        { "name": "Victor Brasil", "positionRaw": "Goleiro" },
+        { "name": "Bruno Miranda", "positionRaw": "Zagueiro" },
+        { "name": "Iago Reis", "positionRaw": "Zagueiro" },
+        { "name": "Leo Paraíso", "positionRaw": "Zagueiro" },
+        { "name": "João Neto", "positionRaw": "Meio-campo" },
+        { "name": "Lucas Black", "positionRaw": "Meio-campo" },
+        { "name": "Luiz Meneses", "positionRaw": "Meio-campo" },
+        { "name": "Camilo", "positionRaw": "Atacante" },
+        { "name": "Felipe Sales", "positionRaw": "Atacante" },
+        { "name": "Yair Mena", "positionRaw": "Atacante" }
+      ],
+      "notes": "Yair Mena é colombiano segundo a fonte."
+    },
+    "A07::Tirol-CE": {
+      "clubName": "Tirol-CE",
+      "groupId": "A07",
+      "status": "not_found_via_press",
+      "sources": [],
+      "players": [],
+      "notes": "Só achou o centro de formação (CEFAT) e resultado de rebaixamento no Cearense 2026 -- nenhum elenco nominal encontrado."
+    },
+    "A07::Atlético-CE": {
+      "clubName": "Atlético-CE",
+      "groupId": "A07",
+      "status": "press_pending_official",
+      "sources": ["https://diariodonordeste.verdesmares.com.br/jogada/guia-da-serie-d-2026-formato-novidades-e-detalhes-dos-5-representes-cearenses-1.3754686"],
+      "players": [
+        { "name": "Molano", "positionRaw": "Lateral-direito" },
+        { "name": "Jonathan", "positionRaw": "Zagueiro" },
+        { "name": "Alejandro", "positionRaw": "Meio-campo" },
+        { "name": "Jan", "positionRaw": "Atacante" },
+        { "name": "Palácio", "positionRaw": "Atacante" }
+      ],
+      "notes": "5 jogadores colombianos citados como destaque das contratações. Fonte confirma o Grupo A-7 com Fluminense-PI/Altos-PI/Piauí-PI -- mesmo agrupamento do jogo."
+    },
+    "A07::Altos-PI": {
+      "clubName": "Altos-PI",
+      "groupId": "A07",
+      "status": "press_pending_official",
+      "sources": ["https://www.365scores.com/pt-br/football/team/altos-28727/squad"],
+      "players": [
+        { "name": "Léo", "positionRaw": "Goleiro" },
+        { "name": "Vinicius", "positionRaw": "Goleiro" }
+      ],
+      "notes": "Cobertura bem fraca -- clube tem 14 jogadores no elenco total, só os 2 goleiros nomeados na fonte encontrada."
+    },
+    "A07::Piauí-PI": {
+      "clubName": "Piauí-PI",
+      "groupId": "A07",
+      "status": "press_pending_official",
+      "sources": ["https://www.gp1.com.br/pi/piaui/noticia/2025/12/9/piaui-apresenta-oficialmente-elenco-de-2026-e-confirma-amistosos-610083.html"],
+      "players": [
+        { "name": "Diego Xavier", "positionRaw": "Atacante" }
+      ],
+      "notes": "Apresentação oficial do elenco aconteceu, mas a cobertura encontrada só nomeou 1 reforço recente (21 anos)."
+    },
+    "A07::Fluminense-PI": {
+      "clubName": "Fluminense-PI",
+      "groupId": "A07",
+      "status": "press_pending_official",
+      "sources": [
+        "https://www.gp1.com.br/esportes/noticia/2026/1/9/fluminense-pi-apresenta-elenco-para-temporada-2026-612615.html",
+        "https://www.gp1.com.br/esportes/noticia/2026/2/26/fluminense-pi-anuncia-tres-reforcos-para-disputas-de-competicoes-nacionais-em-2026-616714.html"
+      ],
+      "players": [
+        { "name": "Lucão", "positionRaw": "Zagueiro" },
+        { "name": "Rafão", "positionRaw": "Zagueiro" },
+        { "name": "Kelson", "positionRaw": "Lateral" },
+        { "name": "Naelson", "positionRaw": "Atacante" }
+      ],
+      "notes": "Rafão/Kelson/Naelson foram reforços anunciados especificamente pra competições nacionais (Série D/Copa do Brasil), vindos do Teresina."
     }
   }
 }
