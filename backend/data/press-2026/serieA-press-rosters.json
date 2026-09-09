@@ -1,0 +1,105 @@
+{
+  "_meta": {
+    "policy": "Coleta via imprensa/anúncio de clube, NÃO via CBF/BID. Ver README.md nesta pasta. Nunca ativa OFFICIAL_PLAYER_DATABASE.",
+    "generatedAt": "2026-09-09",
+    "tool": "WebSearch (curl/WebFetch confirmados bloqueados pelo proxy de saída deste ambiente nesta data)"
+  },
+  "_progress": {
+    "totalClubs": 20,
+    "clubsProcessed": ["Atlético-MG", "Bahia", "Botafogo", "Bragantino"],
+    "nextClub": "Corinthians",
+    "clubsFoundThisSession": 4,
+    "clubsNotFoundThisSession": 0
+  },
+  "clubs": {
+    "Atlético-MG": {
+      "clubName": "Atlético-MG",
+      "status": "press_pending_official",
+      "sources": ["https://www.futgalo.com.br/elenco-atletico-mg", "https://www.lance.com.br/atletico-mineiro/atletico-mg-anuncia-numeracao-oficial-para-a-temporada-2026-confira-a-camisa-dos-jogadores.html"],
+      "players": [
+        { "name": "Hulk", "positionRaw": "Atacante" },
+        { "name": "Alan Minda", "positionRaw": "Atacante" },
+        { "name": "Cuello", "positionRaw": "Atacante" },
+        { "name": "Cauã Soares", "positionRaw": "Atacante" },
+        { "name": "Rony", "positionRaw": "Atacante" },
+        { "name": "Dudu", "positionRaw": "Atacante" },
+        { "name": "G. Scarpa", "positionRaw": "Meia" },
+        { "name": "Bernard", "positionRaw": "Meia" },
+        { "name": "Reinier", "positionRaw": "Meia" },
+        { "name": "Alexsander", "positionRaw": "Volante" },
+        { "name": "Maycon", "positionRaw": "Volante" },
+        { "name": "Igor Gomes", "positionRaw": "Volante" },
+        { "name": "Patrick", "positionRaw": "Volante" },
+        { "name": "Franco", "positionRaw": "Volante" },
+        { "name": "Renan Lodi", "positionRaw": null },
+        { "name": "Álvaro Preciado", "positionRaw": null },
+        { "name": "Victor Hugo", "positionRaw": null }
+      ],
+      "notes": "39 atletas no elenco 2026, numeração oficial anunciada. 5 reforços oficializados: Renan Lodi, Maycon (já incluído acima como volante), Alan Minda (já incluído como atacante), Álvaro Preciado e Victor Hugo -- estes dois últimos sem posição confirmada pela fonte nesta rodada de busca."
+    },
+    "Bahia": {
+      "clubName": "Bahia",
+      "status": "press_pending_official",
+      "sources": ["https://www.bahianoticias.com.br/esportes/bahia/33913-com-sete-em-2026-bahia-chega-a-dez-jogadores-formados-na-base-utilizados-por-ceni-na-serie-a", "https://www.ecbahia.com/baiano/elenco-do-bahia-inicio-de-2026/"],
+      "players": [
+        { "name": "Victor", "positionRaw": "Goleiro" },
+        { "name": "Gabriel Xavier", "positionRaw": "Defensor" },
+        { "name": "Ronaldo", "positionRaw": null },
+        { "name": "Léo Vieira", "positionRaw": null },
+        { "name": "Guido Herrera", "positionRaw": null },
+        { "name": "Zé Guilherme", "positionRaw": null },
+        { "name": "Roman Gomez", "positionRaw": null },
+        { "name": "Luciano Juba", "positionRaw": null },
+        { "name": "David Duarte", "positionRaw": null },
+        { "name": "Marcos Victor", "positionRaw": null },
+        { "name": "Ramos Mingo", "positionRaw": null },
+        { "name": "Luiz Gustavo", "positionRaw": null },
+        { "name": "Marco Moreno", "positionRaw": null },
+        { "name": "Kanu", "positionRaw": null },
+        { "name": "Everton Ribeiro", "positionRaw": null },
+        { "name": "Nicolás Acevedo", "positionRaw": null },
+        { "name": "David Martins", "positionRaw": null },
+        { "name": "Erick", "positionRaw": null },
+        { "name": "Nestor", "positionRaw": null },
+        { "name": "Michel Araujo", "positionRaw": null },
+        { "name": "Caio Alexandre", "positionRaw": null },
+        { "name": "Jean Lucas", "positionRaw": null },
+        { "name": "Ademir", "positionRaw": null },
+        { "name": "Ruan Pablo", "positionRaw": null },
+        { "name": "Erick Pulga", "positionRaw": null },
+        { "name": "Willian José", "positionRaw": null },
+        { "name": "Sanabria", "positionRaw": null },
+        { "name": "Kauê Furquim", "positionRaw": null },
+        { "name": "Kike Olivera", "positionRaw": null },
+        { "name": "Alejo Veliz", "positionRaw": null }
+      ],
+      "notes": "95ª temporada do clube, técnico Rogério Ceni, joga na Arena Fonte Nova, disputa Baianão + Série A + Libertadores. Elenco de 47 atletas, 35 no início da pré-temporada + reforços/retornos de empréstimo. 30 nomes individualizados nesta rodada de busca, mas só Victor (goleiro reserva, ainda sub-20 no momento) e Gabriel Xavier (defensor, jogador de base mais utilizado por Ceni) tiveram posição confirmada explicitamente pela fonte -- os demais nomes vieram de uma lista corrida sem posição discriminada, positionRaw mantido null por não presumir com base em conhecimento geral de futebol."
+    },
+    "Botafogo": {
+      "clubName": "Botafogo",
+      "status": "press_pending_official",
+      "sources": ["https://www.itatiaia.com.br/esportes/futebol/futebol-nacional/futebol-carioca/botafogo/botafogo-no-brasileirao-2026-ficha-elenco-ambicoes-e-analise/"],
+      "players": [
+        { "name": "Lucas Villalba", "positionRaw": "Atacante" },
+        { "name": "Ythallo", "positionRaw": "Zagueiro" },
+        { "name": "Riquelme", "positionRaw": "Zagueiro" }
+      ],
+      "notes": "Técnico Martín Anselmi. Clube sob TRANSFER BAN da FIFA (dívida com o Atlanta United-EUA por Thiago Almada), impedido de inscrever novos jogadores no momento da matéria -- por isso só reforços já anunciados antes do bloqueio aparecem aqui. Riquelme veio do Sport (já cadastrado na Série B deste jogo) por US$ 1,39 milhão; Lucas Villalba veio do Nacional-URU; Ythallo veio da base do São Paulo (Série A deste jogo) via Toronto-CAN. SAÍDAS confirmadas (excluídas do elenco, não fazem mais parte): Marlon Freitas (vendido ao Palmeiras, Série A deste jogo), David Ricardo (Dínamo de Moscou) e Savarino (Fluminense, Série A deste jogo)."
+    },
+    "Bragantino": {
+      "clubName": "Bragantino",
+      "status": "press_pending_official",
+      "sources": ["https://www.aiscore.com/team-red-bull-bragantino/ndkz6iz91lueq3z/squad"],
+      "players": [
+        { "name": "Isidro Pitta", "positionRaw": "Atacante" },
+        { "name": "Lucas Henrique Barbosa", "positionRaw": "Atacante" },
+        { "name": "José María Herrera", "positionRaw": "Atacante" },
+        { "name": "Ignacio Sosa", "positionRaw": null },
+        { "name": "Alix Vinicius", "positionRaw": null },
+        { "name": "Rodriguinho", "positionRaw": null },
+        { "name": "Tiago Volpi", "positionRaw": null }
+      ],
+      "notes": "Red Bull Bragantino, técnico Vágner Mancini, 35 jogadores no elenco (12 estrangeiros). Reforços com data de chegada confirmada: Ignacio Sosa (do Peñarol-URU, 1/jan), Alix Vinicius (do Atlético-GO, já cadastrado na Série B deste jogo, 6/jan), Rodriguinho (do São Paulo, Série A deste jogo, 27/jan), Tiago Volpi (do Grêmio, Série A deste jogo, 27/jan) e José María Herrera (do Fortaleza, já cadastrado na Série B deste jogo, 30/jan) -- este último com nome quase idêntico a 'José Herrera' já listado como atacante titular pela mesma fonte, provavelmente a mesma pessoa (nome completo vs abreviado), mantido como uma única entrada com o nome completo. Tiago Volpi é goleiro conhecido, mas posição não veio explícita nesta fonte -- mantido null por não presumir."
+    }
+  }
+}

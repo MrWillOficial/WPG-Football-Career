@@ -47,9 +47,10 @@ seria inventar uma informação que a fonte não confirmou.
 
 - `serieD-press-rosters.json` — **COMPLETO** (96/96 clubes, grupos A01→A16).
   Ver campo `_progress` de cada arquivo pro estado exato.
-- `serieC-press-rosters.json` — em andamento (20 clubes, liga única).
-- `serieB-press-rosters.json` — pendente (20 clubes, liga única + playoff).
-- `serieA-press-rosters.json` — pendente (20 clubes, liga única, sem
+- `serieC-press-rosters.json` — **COMPLETO** (20/20 clubes).
+- `serieB-press-rosters.json` — **COMPLETO** (19/20 encontrados, 1 não
+  encontrado via imprensa: Botafogo-SP).
+- `serieA-press-rosters.json` — em andamento (20 clubes, liga única, sem
   mata-mata).
 
 Ordem de coleta: "sempre começa de baixo" (pedido explícito do usuário) —
