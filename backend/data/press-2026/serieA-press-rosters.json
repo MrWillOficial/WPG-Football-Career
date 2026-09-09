@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubs": 20,
-    "clubsProcessed": ["Atlético-MG", "Bahia", "Botafogo", "Bragantino", "Corinthians", "Cruzeiro", "Flamengo", "Fluminense", "Grêmio", "Internacional", "Mirassol", "Palmeiras"],
-    "nextClub": "Santos",
-    "clubsFoundThisSession": 12,
+    "clubsProcessed": ["Atlético-MG", "Bahia", "Botafogo", "Bragantino", "Corinthians", "Cruzeiro", "Flamengo", "Fluminense", "Grêmio", "Internacional", "Mirassol", "Palmeiras", "Santos", "São Paulo", "Vasco", "Vitória"],
+    "nextClub": "Athletico-PR",
+    "clubsFoundThisSession": 16,
     "clubsNotFoundThisSession": 0
   },
   "clubs": {
@@ -268,6 +268,62 @@
         { "name": "José Manuel López", "positionRaw": "Atacante" }
       ],
       "notes": "Campeão da Série A 2026, técnico Abel Ferreira. José Manuel López foi o artilheiro (8 gols na Série A, 21 no total). Gustavo Gómez é o capitão. Koné é zagueiro marfinense, principal novidade registrada. Marlon Freitas veio do Botafogo (já cadastrado neste arquivo, mesma transferência confirmada nos dois lados). EXCLUÍDOS deliberadamente: Weverton (foi pro Grêmio, já cadastrado neste arquivo com a mesma transferência confirmada), Raphael Veiga (emprestado ao América-MEX até 31/12/2026), Micael (Inter Miami), Aníbal Moreno (River Plate) e Facundo Torres (Austin FC) -- todos saíram do clube segundo a própria fonte."
+    },
+    "Santos": {
+      "clubName": "Santos",
+      "status": "press_pending_official",
+      "sources": ["https://portaldogremista.com.br/salarios-do-elenco-do-santos-em-2026-salario-de-neymar-impressiona/", "https://www.terra.com.br/esportes/santos/santos-se-reapresenta-nesta-sexta-feira-com-neymar-e-a-espera-de-gabigol,45216e0b2ad6d4013ec78a220bd83eb60jf35zwr.html"],
+      "players": [
+        { "name": "Neymar", "positionRaw": null },
+        { "name": "Gabriel Barbosa", "positionRaw": null },
+        { "name": "Mayke", "positionRaw": null }
+      ],
+      "notes": "114ª temporada do clube, 2ª consecutiva na elite, elenco de 36-55 jogadores segundo fontes diferentes. Neymar renovou até dezembro/2026 e será o representante do Santos na Copa do Mundo 2026, marcou 11 gols em 34 jogos na temporada anterior. Gabriel Barbosa (Gabigol) chegou por empréstimo. Nenhuma fonte encontrada nesta rodada de busca discriminou a posição de cada um explicitamente no texto (embora sejam jogadores publicamente conhecidos como atacante/lateral, positionRaw mantido null por não presumir com base em conhecimento geral de futebol -- só o que a fonte escreveu)."
+    },
+    "São Paulo": {
+      "clubName": "São Paulo",
+      "status": "press_pending_official",
+      "sources": ["https://www.facebook.com/somospfc/posts/elenco-do-s%C3%A3o-paulo-para-2026-neste-momentobriga-por-t%C3%ADtulo-g6-ou-pra-n%C3%A3o-cair-s/1303895451775041/"],
+      "players": [
+        { "name": "Jonathan Calleri", "positionRaw": "Atacante" },
+        { "name": "Lucas Moura", "positionRaw": "Atacante" },
+        { "name": "Luciano", "positionRaw": "Atacante" },
+        { "name": "Ferreira", "positionRaw": "Atacante" },
+        { "name": "André Silva", "positionRaw": "Atacante" },
+        { "name": "Rafael Tolói", "positionRaw": "Zagueiro" },
+        { "name": "Robert Arboleda", "positionRaw": "Zagueiro" },
+        { "name": "Iago Borduchi", "positionRaw": "Defensor" },
+        { "name": "Marcos Antônio", "positionRaw": "Meio-campo" },
+        { "name": "Damián Bobadilla", "positionRaw": "Meio-campo" },
+        { "name": "Danielzinho", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Técnico Hernán Crespo. Jonathan Calleri é capitão e artilheiro (13 gols em todas as competições); Lucas Moura é vice-capitão. Iago Borduchi veio emprestado do Bahia (já cadastrado neste arquivo). Danielzinho foi recém-contratado e apresentado à equipe. EXCLUÍDOS (contratos encerrados em 31/12/2025, confirmados pela fonte): Leandro, Luiz Gustavo, Rigoni e Dinenno."
+    },
+    "Vasco": {
+      "clubName": "Vasco",
+      "status": "press_pending_official",
+      "sources": ["https://www.netvasco.com.br/futebol/jogadores-elenco-2026.shtml"],
+      "players": [
+        { "name": "Thiago Mendes", "positionRaw": null },
+        { "name": "Andrés Gómez", "positionRaw": null },
+        { "name": "Claudio Spinelli", "positionRaw": null },
+        { "name": "Puma Rodríguez", "positionRaw": null }
+      ],
+      "notes": "32 jogadores confirmados no elenco, terminou a Série A 2026 em 17º lugar. Os 4 nomes encontrados vieram de uma lista de artilheiros da temporada (Thiago Mendes e Andrés Gómez com 4 gols na liga cada; somando todas as competições, Andrés Gómez, Claudio Spinelli, Thiago Mendes e Puma Rodríguez com 7 gols cada) -- nenhuma posição foi discriminada pela fonte, positionRaw mantido null. Nenhum outro nome do elenco foi encontrado nesta rodada de busca apesar de várias fontes especializadas terem sido citadas (NETVASCO, ESPN, JogoHoje) sem conteúdo de posições acessível via WebSearch."
+    },
+    "Vitória": {
+      "clubName": "Vitória",
+      "status": "press_pending_official",
+      "sources": ["https://www.bahianoticias.com.br/esportes/vitoria/31515-sem-walace-vitoria-relaciona-23-jogadores-para-enfrentar-o-gremio-pela-26-rodada-do-brasileirao", "https://arenarubronegra.com/confira-o-elenco-do-vitoria-para-o-2o-semestre-da-temporada-2026/", "https://www.lance.com.br/vitoria/contratacoes-do-vitoria-veja-quem-fica-e-quem-sai-do-time-em-2026.html"],
+      "players": [
+        { "name": "Ramon", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Wanderson", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Gabriel Baralhas", "positionRaw": "Volante" },
+        { "name": "Erick", "positionRaw": "Atacante" },
+        { "name": "Fabri", "positionRaw": "Atacante" },
+        { "name": "Walace", "positionRaw": "Meia-de-defesa" }
+      ],
+      "notes": "Técnico Jair Ventura, disputa Baianão + Copa do Brasil + Copa do Nordeste + Série A. Walace veste a 15 e está emprestado pelo Cruzeiro (já cadastrado neste arquivo). Wanderson foi incorporado ao elenco profissional depois de uma lesão de Ramon. CRUZAMENTO DE VALIDAÇÃO: um resultado de busca confirma que Willian Oliveira (ex-Vitória) SAIU do clube em 2026 por motivos pessoais e se transferiu depois pra Coritiba e depois Sport Recife (ambos já cadastrados neste jogo -- Coritiba na Série A, Sport na Série B) -- NÃO incluído no elenco do Vitória por já ter saído."
     }
   }
 }
