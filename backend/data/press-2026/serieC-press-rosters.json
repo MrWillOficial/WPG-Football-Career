@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubs": 20,
-    "clubsProcessed": ["Ferroviária-SP", "Amazonas-AM", "Volta Redonda-RJ", "Paysandu-PA", "Caxias-RS", "Brusque-SC", "Guarani-SP", "Floresta-CE"],
-    "nextClub": "Confiança-SE",
-    "clubsFoundThisSession": 8,
+    "clubsProcessed": ["Ferroviária-SP", "Amazonas-AM", "Volta Redonda-RJ", "Paysandu-PA", "Caxias-RS", "Brusque-SC", "Guarani-SP", "Floresta-CE", "Confiança-SE", "Ypiranga-RS", "Maringá-PR", "Ituano-SP"],
+    "nextClub": "Botafogo-PB",
+    "clubsFoundThisSession": 12,
     "clubsNotFoundThisSession": 0
   },
   "clubs": {
@@ -194,6 +194,110 @@
         { "name": "Ícaro", "positionRaw": "Atacante" }
       ],
       "notes": "Clube de Fortaleza-CE, técnico Gerson Gusmão. Fonte agregada (AiScore) trouxe uma lista bem completa de goleiros e defesa, mais os 3 artilheiros do ataque (Jeam, Ruan, Ícaro, por gols na competição). Meio-campo não discriminado nesta rodada de busca."
+    },
+    "Confiança-SE": {
+      "clubName": "Confiança-SE",
+      "status": "press_pending_official",
+      "sources": ["https://fanf1.com.br/2025/11/18/confianca-anuncia-mais-quatro-reforcos-no-elenco-e-chega-a-14-contratacoes-para-2026/", "https://dragaodearacaju.com.br/2025/11/18/confianca-confirma-mais-tres-atletas-no-elenco-para-2026/"],
+      "players": [
+        { "name": "João Fernandes", "positionRaw": "Goleiro" },
+        { "name": "Matheus Emiliano", "positionRaw": "Goleiro" },
+        { "name": "Rafael Pascoal", "positionRaw": "Goleiro" },
+        { "name": "Adryan", "positionRaw": "Zagueiro" },
+        { "name": "Eduardo Moura", "positionRaw": "Defensor" },
+        { "name": "Enzo Rocha", "positionRaw": "Defensor" },
+        { "name": "Ícaro", "positionRaw": "Defensor" },
+        { "name": "Lucas Cunha", "positionRaw": "Defensor" },
+        { "name": "Mandovani", "positionRaw": "Defensor" },
+        { "name": "Marcelo Nunes", "positionRaw": "Defensor" },
+        { "name": "Mateus Ludke", "positionRaw": "Defensor" },
+        { "name": "Valdir Júnior", "positionRaw": "Defensor" },
+        { "name": "Weriton", "positionRaw": "Defensor" },
+        { "name": "Renilson", "positionRaw": "Defensor" },
+        { "name": "Renanzinho", "positionRaw": "Atacante" },
+        { "name": "Nicholas", "positionRaw": "Meia" }
+      ],
+      "notes": "Elenco total de 27 jogadores citado pela fonte, mas apenas 16 nomes foram individualizados nesta rodada de busca (14 contratações confirmadas + 3 reforços mais recentes, com sobreposição). Rebaixado da Série B pra Série C."
+    },
+    "Ypiranga-RS": {
+      "clubName": "Ypiranga-RS",
+      "status": "press_pending_official",
+      "sources": ["https://www.futebolinterior.com.br/ypiranga-encerra-participacao-serie-c/", "https://www.peleiafc.com/post/s%C3%A9rie-c-ypiranga-tem-baixa-no-elenco-de-jogadores-e-anuncia-refor%C3%A7o-para-sequ%C3%AAncia-dos-trabalhos"],
+      "players": [
+        { "name": "Zé Carlos", "positionRaw": "Goleiro" },
+        { "name": "Eduardo Araújo", "positionRaw": "Goleiro" },
+        { "name": "Pigatto", "positionRaw": "Goleiro" },
+        { "name": "Gabriel", "positionRaw": "Goleiro" },
+        { "name": "Igor Silva", "positionRaw": "Defensor" },
+        { "name": "Walce", "positionRaw": "Defensor" },
+        { "name": "Willian Gomes", "positionRaw": "Defensor" },
+        { "name": "Reinaldo Dutra", "positionRaw": "Defensor" },
+        { "name": "Eduardo Grechi", "positionRaw": "Defensor" },
+        { "name": "Zé Adilson", "positionRaw": "Defensor" },
+        { "name": "Lucas Ramos", "positionRaw": null },
+        { "name": "Gabriel Terra", "positionRaw": null },
+        { "name": "Valber Junior", "positionRaw": null },
+        { "name": "Maxwell", "positionRaw": null },
+        { "name": "Gabriel Martins", "positionRaw": null },
+        { "name": "Marlone", "positionRaw": null },
+        { "name": "Fogaça", "positionRaw": null },
+        { "name": "João Branco", "positionRaw": null }
+      ],
+      "notes": "28 jogadores confirmados no total, elenco explicitamente NÃO fechado segundo a fonte (mais movimentações podem ocorrer). Saídas mencionadas (não incluídas no elenco): Charles (Operário-PR, também Série B deste jogo), Igor Moraes (Volta Redonda, já cadastrado neste arquivo), Zé Mateus (Boavista-RJ, Carioca) e Ricardo Bueno (CRB, também Série B deste jogo -- mesmo nome de um jogador já citado no Pouso Alegre-MG da Série D Grupo A13, podem ser homônimos, não resolvido)."
+    },
+    "Maringá-PR": {
+      "clubName": "Maringá-PR",
+      "status": "press_pending_official",
+      "sources": ["https://omaringa.com.br/noticias/esportes/com-17-jogadores-elenco-do-maringa-fc-inicial-pre-temporada-visando-2026/", "https://omaringa.com.br/noticias/esportes/na-reapresentacao-de-parte-do-elenco-maringa-fc-confirma-duas-renovacoes/"],
+      "players": [
+        { "name": "Guilherme Neto", "positionRaw": "Goleiro" },
+        { "name": "Tony", "positionRaw": "Goleiro" },
+        { "name": "Ronald Carvalho", "positionRaw": "Zagueiro" },
+        { "name": "Jhow Alexcander", "positionRaw": "Zagueiro" },
+        { "name": "Max Miller", "positionRaw": "Zagueiro" },
+        { "name": "Tavares", "positionRaw": "Zagueiro" },
+        { "name": "Cristovam", "positionRaw": "Lateral" },
+        { "name": "Rhuan", "positionRaw": "Lateral" },
+        { "name": "Thiago Rosa", "positionRaw": "Lateral" },
+        { "name": "Caio Alberto", "positionRaw": "Lateral" },
+        { "name": "Iago Santana", "positionRaw": "Meio-campo" },
+        { "name": "Morelli", "positionRaw": "Meio-campo" },
+        { "name": "Lucas Bonifácio", "positionRaw": "Meio-campo" },
+        { "name": "Bruno Cheron", "positionRaw": "Meio-campo" },
+        { "name": "Ibson", "positionRaw": "Meio-campo" },
+        { "name": "Vinicius Amaral", "positionRaw": "Meio-campo" },
+        { "name": "Parrudo", "positionRaw": "Meio-campo" },
+        { "name": "Robertinho", "positionRaw": "Atacante" },
+        { "name": "Moraes", "positionRaw": "Atacante" }
+      ],
+      "notes": "Elenco inicial de pré-temporada com 17 jogadores contratados (novembro/2025), mais 2 renovações confirmadas depois (Parrudo, Moraes) -- clube avisou que mais integrações e contratações viriam depois, então este elenco está incompleto por natureza da própria fonte."
+    },
+    "Ituano-SP": {
+      "clubName": "Ituano-SP",
+      "status": "press_pending_official",
+      "sources": ["https://www.futebolinterior.com.br/ituano-renova-elenco-mazola-corte-salario-serie-c-2026/", "https://ituanofc.com/noticias/aproveitamento-da-base-marca-estreia-na-serie-c"],
+      "players": [
+        { "name": "Saulo", "positionRaw": "Goleiro" },
+        { "name": "Matheus Mancini", "positionRaw": "Zagueiro" },
+        { "name": "Dal Pian", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Victor Reis", "positionRaw": "Meio-campo" },
+        { "name": "Felipe Muranga", "positionRaw": "Meio-campo" },
+        { "name": "Lipe Gadol", "positionRaw": "Meio-campo" },
+        { "name": "Nelsinho", "positionRaw": "Meio-campo" },
+        { "name": "Xavier", "positionRaw": "Meio-campo" },
+        { "name": "Neto Berola", "positionRaw": "Atacante" },
+        { "name": "Osman", "positionRaw": "Atacante" },
+        { "name": "Matheus Maia", "positionRaw": "Atacante" },
+        { "name": "Gabriel Razera", "positionRaw": "Atacante" },
+        { "name": "Zé Carlos", "positionRaw": "Atacante" },
+        { "name": "Bruno Alves", "positionRaw": "Atacante" },
+        { "name": "Bruno Mezenga", "positionRaw": "Atacante" },
+        { "name": "Leo Souza", "positionRaw": null },
+        { "name": "Lucas Dias", "positionRaw": null },
+        { "name": "Lucas Stefanello", "positionRaw": null },
+        { "name": "Marlon Yan", "positionRaw": null }
+      ],
+      "notes": "Técnico Mazola Júnior. Contratações confirmadas: Bruno Mezenga (ex-Náutico, também Série B deste jogo), Nelsinho (ex-Primavera) e Xavier (ex-Amazonas-AM, já cadastrado neste arquivo). Base integrada ao elenco principal: Leo Souza, Lucas Dias, Lucas Stefanello e Marlon Yan, sem posição individual confirmada pela fonte. Matéria também citou o resultado real da Série C 2026 (Ituano terminou em 5º), não usado como dado de elenco, só contexto."
     }
   }
 }
