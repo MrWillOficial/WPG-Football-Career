@@ -175,6 +175,21 @@ function getCalendarDate(family, seasonYear, dayIndex) {
 function formatDateBr(date) {
   return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
 }
+// Formato numérico dia/mês/ano (ex: 26/01/2026) — usado onde a UI pede data
+// curta em vez do nome do mês por extenso.
+function formatDateBrNumeric(date) {
+  return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+// Academia (temporada-base) não pertence a nenhuma competição oficial ainda —
+// início fixo (5/jan) só pra dar uma data de calendário real às 26 semanas de
+// formação, no mesmo espírito de SEASON_START_MONTHDAY.
+const ACADEMY_START_MONTHDAY = [1, 5];
+function getAcademyCalendarDate(seasonYear, week) {
+  const [month, day] = ACADEMY_START_MONTHDAY;
+  const d = new Date(seasonYear, month - 1, day);
+  d.setDate(d.getDate() + week * 7);
+  return d;
+}
 // Salário é mensal — credita quando o dia que está terminando (dayIndexBefore)
 // vira um mês diferente do dia seguinte. Chamado em TODO ponto que avança
 // dayIndex em 1 (treino, recuperação, partida), não só nas partidas.
@@ -233,4 +248,4 @@ function matchModifier(condition) {
 }
 
 
-export { HONOR_DEFINITIONS, computeSeasonHonors, HonorsList, LIFE_EVENTS, LIFE_CONDITION_EVALUATORS, findEligibleLifeEvent, applyLifeChoice, SEASON_START_MONTHDAY, getCalendarDate, formatDateBr, crossesNewMonth, buildRoundToDay, getDayType, FITNESS_TRAIN_COST, FITNESS_MATCH_COST, FITNESS_REST_RECOVERY, FITNESS_AVAILABILITY_FLOOR, applyTrainingCost, applyMatchCost, applyRestRecovery, matchModifier };
+export { HONOR_DEFINITIONS, computeSeasonHonors, HonorsList, LIFE_EVENTS, LIFE_CONDITION_EVALUATORS, findEligibleLifeEvent, applyLifeChoice, SEASON_START_MONTHDAY, getCalendarDate, formatDateBr, formatDateBrNumeric, ACADEMY_START_MONTHDAY, getAcademyCalendarDate, crossesNewMonth, buildRoundToDay, getDayType, FITNESS_TRAIN_COST, FITNESS_MATCH_COST, FITNESS_REST_RECOVERY, FITNESS_AVAILABILITY_FLOOR, applyTrainingCost, applyMatchCost, applyRestRecovery, matchModifier };

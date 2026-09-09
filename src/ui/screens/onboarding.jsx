@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Badge, Card, ClubMonogram, THEME } from '../system.jsx';
 import { DETAILED_POSITIONS } from '../../engines/player/playerEngine.js';
 import { SERIE_D_2026_CLUBS_MAP } from '../../data/competitions/serieD2026.js';
+import { formatDateBrNumeric, getAcademyCalendarDate } from '../../engines/life/lifeCalendarFitness.jsx';
 /* ============================================================================
    TELAS — Criar / Escolher clube
 ============================================================================ */
@@ -41,15 +42,16 @@ function CreateScreen({ onStart }) {
 }
 
 
-function AcademyScreen({ player, state, onAdvance }) {
+function AcademyScreen({ player, state, seasonYear, onAdvance }) {
   const pct = Math.round((state.week / state.totalWeeks) * 100);
+  const academyDate = formatDateBrNumeric(getAcademyCalendarDate(seasonYear, state.week));
   return (
     <div style={{ padding: 24, maxWidth: 400, margin: '0 auto', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 18 }}>
       <p style={{ color: THEME.gold, fontSize: 13, fontWeight: 700 }}>TEMPORADA-BASE · FORMAÇÃO</p>
       <h1 className="display" style={{ fontSize: 34, lineHeight: 1 }}>Academia de {player.name}</h1>
       <p style={{ color: THEME.textSecondary, fontSize: 13 }}>Aos 16 anos, sua carreira começa na formação. Treino e jogos de base desenvolvem o jogador antes do primeiro contrato profissional.</p>
       <Card style={{ padding: 16 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><strong>Semana {state.week}/{state.totalWeeks}</strong><span>{pct}%</span></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><strong>{academyDate}</strong><span>{pct}%</span></div>
         <div style={{ height: 6, background: THEME.cardElevated }}><div style={{ width: `${pct}%`, height: '100%', background: THEME.gold }} /></div>
         <div style={{ display: 'flex', gap: 18, marginTop: 14, color: THEME.textSecondary, fontSize: 12 }}><span>Jogos {state.matches}</span><span>Gols {state.goals}</span><span>Assist. {state.assists}</span></div>
       </Card>

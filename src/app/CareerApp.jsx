@@ -18,7 +18,7 @@ export function CareerApp() {
     <div className="app-root">
       <GlobalStyle />
       {phase === 'create' && <CreateScreen onStart={startCareer} />}
-      {phase === 'academy' && player && <AcademyScreen player={player} state={academyState} onAdvance={advanceAcademyWeek} />}
+      {phase === 'academy' && player && <AcademyScreen player={player} state={academyState} seasonYear={seasonYear} onAdvance={advanceAcademyWeek} />}
       {phase === 'club-select' && player && <ClubSelectScreen player={player} onChoose={chooseClub} />}
 
       {phase === 'season' && player && competition && club && (
