@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubs": 20,
-    "clubsProcessed": ["Atlético-MG", "Bahia", "Botafogo", "Bragantino"],
-    "nextClub": "Corinthians",
-    "clubsFoundThisSession": 4,
+    "clubsProcessed": ["Atlético-MG", "Bahia", "Botafogo", "Bragantino", "Corinthians", "Cruzeiro", "Flamengo", "Fluminense"],
+    "nextClub": "Grêmio",
+    "clubsFoundThisSession": 8,
     "clubsNotFoundThisSession": 0
   },
   "clubs": {
@@ -100,6 +100,108 @@
         { "name": "Tiago Volpi", "positionRaw": null }
       ],
       "notes": "Red Bull Bragantino, técnico Vágner Mancini, 35 jogadores no elenco (12 estrangeiros). Reforços com data de chegada confirmada: Ignacio Sosa (do Peñarol-URU, 1/jan), Alix Vinicius (do Atlético-GO, já cadastrado na Série B deste jogo, 6/jan), Rodriguinho (do São Paulo, Série A deste jogo, 27/jan), Tiago Volpi (do Grêmio, Série A deste jogo, 27/jan) e José María Herrera (do Fortaleza, já cadastrado na Série B deste jogo, 30/jan) -- este último com nome quase idêntico a 'José Herrera' já listado como atacante titular pela mesma fonte, provavelmente a mesma pessoa (nome completo vs abreviado), mantido como uma única entrada com o nome completo. Tiago Volpi é goleiro conhecido, mas posição não veio explícita nesta fonte -- mantido null por não presumir."
+    },
+    "Corinthians": {
+      "clubName": "Corinthians",
+      "status": "press_pending_official",
+      "sources": ["https://www.corinthians.com.br/noticias/elenco-do-corinthians-se-apresenta-para-a-temporada-2026"],
+      "players": [
+        { "name": "Felipe Longo", "positionRaw": "Goleiro" },
+        { "name": "Hugo Souza", "positionRaw": "Goleiro" },
+        { "name": "Kauê", "positionRaw": "Goleiro" },
+        { "name": "Matheus Donelli", "positionRaw": "Goleiro" },
+        { "name": "Hugo", "positionRaw": "Defensor" },
+        { "name": "Matheus Bidu", "positionRaw": "Defensor" },
+        { "name": "Matheuzinho", "positionRaw": "Defensor" },
+        { "name": "André Ramalho", "positionRaw": "Zagueiro" },
+        { "name": "Cacá", "positionRaw": "Zagueiro" },
+        { "name": "Félix Torres", "positionRaw": "Zagueiro" },
+        { "name": "Gustavo Henrique", "positionRaw": "Zagueiro" },
+        { "name": "João Pedro", "positionRaw": "Zagueiro" },
+        { "name": "André", "positionRaw": "Meio-campo" },
+        { "name": "André Carrillo", "positionRaw": "Meio-campo" },
+        { "name": "Breno Bidon", "positionRaw": "Meio-campo" },
+        { "name": "Charles", "positionRaw": "Meio-campo" },
+        { "name": "Dieguinho", "positionRaw": "Meio-campo" },
+        { "name": "Raniele", "positionRaw": "Meio-campo" },
+        { "name": "Rodrigo Garro", "positionRaw": "Meio-campo" },
+        { "name": "Ryan", "positionRaw": "Meio-campo" },
+        { "name": "Gui Negão", "positionRaw": "Atacante" },
+        { "name": "Kayke", "positionRaw": "Atacante" },
+        { "name": "Pedro Raul", "positionRaw": "Atacante" },
+        { "name": "Memphis", "positionRaw": "Atacante" },
+        { "name": "Vitinho", "positionRaw": "Atacante" }
+      ],
+      "notes": "Técnico Dorival Júnior, 33 jogadores no elenco 2026. Fonte oficial do próprio clube (apresentação do elenco), boa cobertura por posição (25 nomes). Fagner em negociação de rescisão e Yuri Alberto liberado por questões de cidadania europeia -- NÃO incluídos por não fazerem mais parte do elenco ativo segundo a fonte."
+    },
+    "Cruzeiro": {
+      "clubName": "Cruzeiro",
+      "status": "press_pending_official",
+      "sources": ["https://www.terra.com.br/esportes/cruzeiro/kaio-jorge-gerson-matheus-pereira-fabricio-bruno-luis-sinisterra-keny-arroyo-luciano-rodriguez-jonathan-jesus-ze-lucas-gabriel-pec-e-matheus-henrique-os-jogadores-mais-valiosos-do-cruzeiro,1a27f435865e2301fd023af05cad75fa5ya4ebu6.html"],
+      "players": [
+        { "name": "Kaio Jorge", "positionRaw": "Atacante" },
+        { "name": "Gerson", "positionRaw": "Meio-campo" },
+        { "name": "Matheus Pereira", "positionRaw": "Meio-campo" },
+        { "name": "Fabrício Bruno", "positionRaw": "Defensor" },
+        { "name": "Luis Sinisterra", "positionRaw": null },
+        { "name": "Keny Arroyo", "positionRaw": null },
+        { "name": "Luciano Rodríguez", "positionRaw": null },
+        { "name": "Jonathan Jesus", "positionRaw": null },
+        { "name": "Zé Lucas", "positionRaw": null },
+        { "name": "Gabriel Pec", "positionRaw": null },
+        { "name": "Matheus Henrique", "positionRaw": null }
+      ],
+      "notes": "5º colocado na Série A 2026, campeão do Mineiro, oitavas da Libertadores, quartas da Copa do Brasil. Kaio Jorge foi o artilheiro do elenco (6 gols na Série A, 16 no total), usa a camisa 19. Gerson foi anunciado como reforço em 10/jan (a contratação mais cara do futebol brasileiro segundo a fonte); Artur Jorge em 22/mar. Lista vem de matéria sobre os jogadores mais valiosos do elenco -- só 4 tiveram posição confirmada explicitamente, os demais mantidos com positionRaw null. EXCLUÍDO: Gabriel Veron, citado em outra fonte como emprestado ao Nacional pelo Porto em 2026, ou seja, não faz mais parte do elenco ativo do Cruzeiro."
+    },
+    "Flamengo": {
+      "clubName": "Flamengo",
+      "status": "press_pending_official",
+      "sources": ["https://mengaoblog.com.br/elenco/flamengo"],
+      "players": [
+        { "name": "Rossi", "positionRaw": "Goleiro" },
+        { "name": "Andrew", "positionRaw": "Goleiro" },
+        { "name": "Dyogo Alves", "positionRaw": "Goleiro" },
+        { "name": "Guillermo Varela", "positionRaw": "Defensor" },
+        { "name": "Léo Ortiz", "positionRaw": "Defensor" },
+        { "name": "Léo Pereira", "positionRaw": "Defensor" },
+        { "name": "Ayrton Lucas", "positionRaw": "Defensor" },
+        { "name": "Danilo", "positionRaw": "Defensor" },
+        { "name": "Emerson Royal", "positionRaw": "Defensor" },
+        { "name": "Alex Sandro", "positionRaw": "Defensor" },
+        { "name": "Vitão", "positionRaw": "Defensor" },
+        { "name": "João Souza", "positionRaw": "Defensor" },
+        { "name": "Erick Pulgar", "positionRaw": "Meio-campo" },
+        { "name": "Saúl Ñíguez", "positionRaw": "Meio-campo" },
+        { "name": "Giorgian de Arrascaeta", "positionRaw": "Meio-campo" },
+        { "name": "Jorge Carrascal", "positionRaw": "Meio-campo" },
+        { "name": "Nicolás de la Cruz", "positionRaw": "Meio-campo" },
+        { "name": "Lucas Paquetá", "positionRaw": "Meio-campo" },
+        { "name": "Jorginho", "positionRaw": "Meio-campo" },
+        { "name": "Evertton Araújo", "positionRaw": "Meio-campo" },
+        { "name": "Lorran", "positionRaw": "Meio-campo" },
+        { "name": "Luiz Araújo", "positionRaw": "Atacante" },
+        { "name": "Pedro", "positionRaw": "Atacante" },
+        { "name": "Everton", "positionRaw": "Atacante" },
+        { "name": "Anthony Valencia", "positionRaw": "Atacante" }
+      ],
+      "notes": "2º colocado na Série A 2026 (16V-6E-4D em 26 jogos, 51 gols marcados, 21 sofridos), dois técnicos na temporada: Filipe Luís (até 3/3) e Leonardo Jardim (a partir de 4/3). Pedro foi o artilheiro (15 gols na liga, 24 no total). Cobertura completa e discriminada por posição, com números de camisa e nacionalidades -- uma das listas mais completas de toda a coleta da Série A."
+    },
+    "Fluminense": {
+      "clubName": "Fluminense",
+      "status": "press_pending_official",
+      "sources": ["https://www.itatiaia.com.br/esportes/futebol/futebol-nacional/futebol-carioca/fluminense/fluminense-no-brasileirao-2026-ficha-elenco-ambicoes-e-analise/"],
+      "players": [
+        { "name": "Guilherme Arana", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Jemmes", "positionRaw": "Zagueiro" },
+        { "name": "Ignácio", "positionRaw": "Zagueiro" },
+        { "name": "Igor Rabello", "positionRaw": "Zagueiro" },
+        { "name": "Savarino", "positionRaw": "Meio-campo" },
+        { "name": "Lucho Acosta", "positionRaw": "Meio-campo" },
+        { "name": "Paulo Henrique Ganso", "positionRaw": "Meio-campo" },
+        { "name": "Germán Cano", "positionRaw": "Atacante" },
+        { "name": "John Kennedy", "positionRaw": "Atacante" }
+      ],
+      "notes": "Técnico Luis Zubeldía. Guilherme Arana veste a 13. Jemmes veio do Mirassol (já Série A deste jogo). CRUZAMENTO DE VALIDAÇÃO CONFIRMADO: Savarino veio 'do rival Botafogo' -- exatamente a mesma saída já registrada na entrada do Botafogo neste mesmo arquivo (Savarino foi pro Fluminense), confirmando a mesma transferência por duas fontes independentes. Germán Cano começou o ano se recuperando de lesão aos 38 anos, responsabilidade ofensiva recaindo sobre John Kennedy."
     }
   }
 }
