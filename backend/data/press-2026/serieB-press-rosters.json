@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubs": 20,
-    "clubsProcessed": ["América-MG", "Athletic", "Atlético-GO", "Avaí", "Botafogo-SP", "Ceará", "CRB", "Criciúma", "Cuiabá", "Fortaleza", "Goiás", "Juventude"],
-    "nextClub": "Londrina",
-    "clubsFoundThisSession": 11,
+    "clubsProcessed": ["América-MG", "Athletic", "Atlético-GO", "Avaí", "Botafogo-SP", "Ceará", "CRB", "Criciúma", "Cuiabá", "Fortaleza", "Goiás", "Juventude", "Londrina", "Náutico", "Novorizontino", "Operário-PR"],
+    "nextClub": "Ponte Preta",
+    "clubsFoundThisSession": 15,
     "clubsNotFoundThisSession": 1
   },
   "clubs": {
@@ -297,6 +297,114 @@
         { "name": "Gabriel", "positionRaw": null }
       ],
       "notes": "Fonte trouxe apenas estatísticas individuais da Série B 2026 (artilheiros: Bill 3 gols, Juan Christian e Patryck 2 gols cada; melhor nota: Rodrigo Sam 7.28; assistências: Alisson Safira 2, Mandaca e Gabriel) sem discriminar posição de nenhum jogador -- positionRaw null pra todos. Diogo Barbosa (ex-Juventude) já aparece cadastrado como reforço do Fortaleza neste mesmo arquivo. Vencendo 2 dos últimos 5 jogos no momento da matéria."
+    },
+    "Londrina": {
+      "clubName": "Londrina",
+      "status": "press_pending_official",
+      "sources": ["https://www.folhadelondrina.com.br/esporte/londrina-reformula-elenco-e-inicia-2026-com-16-reforcos-3290226e.html"],
+      "players": [
+        { "name": "Maurício Kozlinski", "positionRaw": "Goleiro" },
+        { "name": "Gabriel Lacerda", "positionRaw": "Zagueiro" },
+        { "name": "Heron", "positionRaw": "Zagueiro" },
+        { "name": "André Dhominique", "positionRaw": "Lateral-direito" },
+        { "name": "Rafael Monteiro", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Fabiano", "positionRaw": "Volante" },
+        { "name": "Murilo Sousa", "positionRaw": "Volante" },
+        { "name": "André Cardoso", "positionRaw": "Volante" },
+        { "name": "Willian Chumbinho", "positionRaw": "Meia" },
+        { "name": "Crysthyan", "positionRaw": "Atacante" },
+        { "name": "Fabricio", "positionRaw": "Atacante" },
+        { "name": "João Pedro", "positionRaw": "Atacante" }
+      ],
+      "notes": "Reformulação conduzida pela Squadra Sports, 16 reforços confirmados no total (9 com menos de 23 anos), só 12 individualizados com posição nesta rodada de busca. Gabriel Lacerda veio do Ceará (já cadastrado neste arquivo) e Heron do Atlético-GO (já cadastrado neste arquivo) -- cruzamentos internos consistentes. André Cardoso e Willian Chumbinho vieram emprestados/cedidos pelo Red Bull Bragantino, também Série A deste jogo."
+    },
+    "Náutico": {
+      "clubName": "Náutico",
+      "status": "press_pending_official",
+      "sources": ["https://www.diariodepernambuco.com.br/esportes-dp/nautico/2025/12/11702021-elenco-do-nautico-2026-quem-fica-quem-sai-e-os-reforcos-do-timbu-para-a-serie-b.html"],
+      "players": [
+        { "name": "Arthur", "positionRaw": "Goleiro" },
+        { "name": "Gastón Guruceaga", "positionRaw": "Goleiro" },
+        { "name": "Muriel", "positionRaw": "Goleiro" },
+        { "name": "Gustavo Henrique", "positionRaw": "Defensor" },
+        { "name": "Léo Jance", "positionRaw": "Defensor" },
+        { "name": "Mateus Silva", "positionRaw": "Defensor" },
+        { "name": "Reginaldo Lopes", "positionRaw": "Defensor" },
+        { "name": "Wanderson", "positionRaw": "Defensor" },
+        { "name": "Yuri", "positionRaw": "Defensor" },
+        { "name": "Arnaldo", "positionRaw": "Defensor" },
+        { "name": "Alemão", "positionRaw": "Defensor" },
+        { "name": "Luiz Paulo", "positionRaw": "Defensor" },
+        { "name": "Gabriel Índio", "positionRaw": "Defensor" },
+        { "name": "Igor Fernandes", "positionRaw": "Defensor" },
+        { "name": "Auremir", "positionRaw": "Meio-campo" },
+        { "name": "Dodô", "positionRaw": "Meio-campo" },
+        { "name": "Luiz Felipe", "positionRaw": "Meio-campo" },
+        { "name": "Ramon", "positionRaw": "Meio-campo" },
+        { "name": "Felipe Redaelli", "positionRaw": "Meio-campo" },
+        { "name": "Wenderson", "positionRaw": "Meio-campo" },
+        { "name": "Samuel", "positionRaw": "Meio-campo" },
+        { "name": "Júnior Todinho", "positionRaw": "Atacante" }
+      ],
+      "notes": "30 jogadores no elenco, mas 17 já saíram do clube (contratos vencidos, não renovados, ou emprestados) no momento da matéria -- cobertura boa de goleiro/defesa/meio, ataque quase todo não discriminado (só Júnior Todinho, ex-Vila Nova, também Série B deste jogo, confirmado como reforço). Alvo em negociação (Ramon Carvalho, ex-Ituano, já cadastrado na Série C deste jogo) NÃO incluído por não estar confirmado."
+    },
+    "Novorizontino": {
+      "clubName": "Novorizontino",
+      "status": "press_pending_official",
+      "sources": ["https://www.espn.com.br/futebol/time/elenco/_/id/18127/novorizontino"],
+      "players": [
+        { "name": "César", "positionRaw": "Goleiro" },
+        { "name": "Jordi", "positionRaw": "Goleiro" },
+        { "name": "Lucas", "positionRaw": "Goleiro" },
+        { "name": "Alexis Alvariño", "positionRaw": "Defensor" },
+        { "name": "Dantas", "positionRaw": "Defensor" },
+        { "name": "Eduardo Brock", "positionRaw": "Defensor" },
+        { "name": "Gabriel Bahia", "positionRaw": "Defensor" },
+        { "name": "Jhilmar Lora", "positionRaw": "Defensor" },
+        { "name": "João Araújo", "positionRaw": "Defensor" },
+        { "name": "Mayk", "positionRaw": "Defensor" },
+        { "name": "Maykon Jesus", "positionRaw": "Defensor" },
+        { "name": "Nilson Castrillón", "positionRaw": "Defensor" },
+        { "name": "Patrick", "positionRaw": "Defensor" },
+        { "name": "Renato Palm", "positionRaw": "Defensor" },
+        { "name": "Christian Ortíz", "positionRaw": "Meia" },
+        { "name": "Diego Galo", "positionRaw": "Meia" },
+        { "name": "Juninho", "positionRaw": "Meia" },
+        { "name": "Luís Oyama", "positionRaw": "Meia" },
+        { "name": "Léo Naldi", "positionRaw": "Meia" },
+        { "name": "Marlon", "positionRaw": "Meia" }
+      ],
+      "notes": "Grêmio Novorizontino (SP). Boa cobertura de goleiros/defesa/meio, atacantes puros não discriminados nesta rodada de busca (a própria fonte avisa que a lista pode estar incompleta nesse setor). Meia Rômulo já tem pré-contrato assinado com o Palmeiras (Série A deste jogo) pra depois do Paulistão -- NÃO incluído no elenco por já ter destino certo fora do clube."
+    },
+    "Operário-PR": {
+      "clubName": "Operário-PR",
+      "status": "press_pending_official",
+      "sources": ["https://www.campograndenews.com.br/esportes/de-goleiro-europeu-a-ex-flamengo-operario-apresenta-elenco-para-a-temporada"],
+      "players": [
+        { "name": "Diego", "positionRaw": "Goleiro" },
+        { "name": "Elias Curzel", "positionRaw": "Goleiro" },
+        { "name": "Talles", "positionRaw": "Goleiro" },
+        { "name": "Vagner", "positionRaw": "Goleiro" },
+        { "name": "Lucas Covolan", "positionRaw": "Goleiro" },
+        { "name": "Gabriel Feliciano", "positionRaw": "Defensor" },
+        { "name": "Joseph", "positionRaw": "Defensor" },
+        { "name": "José Cuenú", "positionRaw": "Defensor" },
+        { "name": "João Gabriel", "positionRaw": "Defensor" },
+        { "name": "Maguinho", "positionRaw": "Defensor" },
+        { "name": "Mikael Doka", "positionRaw": "Defensor" },
+        { "name": "Miranda", "positionRaw": "Defensor" },
+        { "name": "Moraes", "positionRaw": "Defensor" },
+        { "name": "Renan Gustavo", "positionRaw": "Defensor" },
+        { "name": "William Klaus", "positionRaw": "Defensor" },
+        { "name": "Charles", "positionRaw": "Meio-campo" },
+        { "name": "Gabriel Boschilia", "positionRaw": "Meio-campo" },
+        { "name": "Juan Zuluaga", "positionRaw": "Meio-campo" },
+        { "name": "Matheus Trindade", "positionRaw": "Meio-campo" },
+        { "name": "Neto Paraíba", "positionRaw": "Meio-campo" },
+        { "name": "Jonas", "positionRaw": "Volante" },
+        { "name": "Matheus Galdezani", "positionRaw": "Meia" }
+      ],
+      "notes": "Elenco de 22 jogadores anunciado oficialmente, 22 individualizados aqui. Lucas Covolan retorna ao Brasil após 11 anos no exterior. FORTE CRUZAMENTO DE VALIDAÇÃO ENTRE ARQUIVOS: 'Charles' já havia aparecido na matéria do Ypiranga-RS (arquivo serieC-press-rosters.json) como possível destino de saída ('Charles pode ir pro Operário-PR') -- aqui confirmado como parte real do elenco 2026, batendo exatamente com o que a outra fonte antecipava."
     }
   }
 }
