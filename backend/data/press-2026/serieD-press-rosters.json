@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05"],
-    "nextGroup": "A06",
-    "clubsFoundThisSession": 27,
+    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06"],
+    "nextGroup": "A07",
+    "clubsFoundThisSession": 33,
     "clubsNotFoundThisSession": 3
   },
   "clubs": {
@@ -584,6 +584,112 @@
         { "name": "João Victor", "positionRaw": "Meio-campo" }
       ],
       "notes": "Clube tem 20 jogadores confirmados no total (renovações + 13 contratações); cobertura encontrada nomeou 12."
+    },
+    "A06::Sampaio Corrêa-MA": {
+      "clubName": "Sampaio Corrêa-MA",
+      "groupId": "A06",
+      "status": "press_pending_official",
+      "sources": ["https://imirante.com/esporte/sao-luis/2026/03/16/sampaio-correa-prepara-novas-saidas-no-elenco-antes-da-serie-d"],
+      "players": [
+        { "name": "Raynon Matheus Costa Mendes", "positionRaw": "Goleiro" },
+        { "name": "Vinicius Fávero", "positionRaw": "Goleiro" },
+        { "name": "Ball", "positionRaw": "Lateral-direito" },
+        { "name": "Gui França", "positionRaw": "Zagueiro" },
+        { "name": "Matheus Albino", "positionRaw": "Lateral-esquerdo" }
+      ],
+      "notes": "Ball/Gui França/Matheus Albino são jogadores SAINDO do elenco antes da Série D segundo a fonte (março/2026) -- incluídos como registro histórico da temporada, não como elenco atual. Elenco total é de 21 jogadores."
+    },
+    "A06::Moto Club-MA": {
+      "clubName": "Moto Club-MA",
+      "groupId": "A06",
+      "status": "press_pending_official",
+      "sources": ["https://imirante.com/esporte/sao-luis/2025/12/11/moto-club-versao-2026-e-apresentado-com-29-jogadores-e-foco-no-maranhense-e-serie-d"],
+      "players": [
+        { "name": "Kássio", "positionRaw": "Goleiro" },
+        { "name": "Carioca", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Andrezinho", "positionRaw": "Atacante" },
+        { "name": "Emerson Nike", "positionRaw": "Atacante" },
+        { "name": "Fábio William de Jesus Santana", "positionRaw": "Atacante" },
+        { "name": "Geovane Itinga", "positionRaw": "Atacante" },
+        { "name": "Joarlyson Amorim Souza", "positionRaw": "Atacante" },
+        { "name": "Leanderson Alves Ferreira", "positionRaw": "Atacante" },
+        { "name": "Magno Costa Fernandes", "positionRaw": "Atacante" },
+        { "name": "Manoel Sousa Reis Neto", "positionRaw": "Atacante" },
+        { "name": "Matheus Wladymir Freitas Pinheiro", "positionRaw": "Atacante" },
+        { "name": "Thiago Matheus Souza da Silva", "positionRaw": "Atacante" },
+        { "name": "Warllem Mateus Gato de Azevedo", "positionRaw": "Atacante" },
+        { "name": "William", "positionRaw": "Atacante" }
+      ],
+      "notes": "Clube apresentou 29 jogadores no total; a matéria encontrada listou o setor ofensivo quase completo (11 atacantes nomeados) mas não outros setores."
+    },
+    "A06::IAPE-MA": {
+      "clubName": "IAPE-MA",
+      "groupId": "A06",
+      "status": "press_pending_official",
+      "sources": [
+        "https://imirante.com/esporte/sao-luis/2025/11/17/iape-anuncia-mais-tres-nomes-no-elenco-para-a-temporada-de-2026",
+        "https://imirante.com/esporte/sao-luis/2025/11/27/iape-anuncia-mais-sete-nomes-para-o-elenco-da-temporada-de-2026"
+      ],
+      "players": [
+        { "name": "Mikeias", "positionRaw": null },
+        { "name": "Dedé", "positionRaw": "Zagueiro" },
+        { "name": "Negueba", "positionRaw": "Lateral-direito" },
+        { "name": "Kennedy Souza", "positionRaw": "Goleiro" },
+        { "name": "Edimar", "positionRaw": "Zagueiro" },
+        { "name": "Gustavo Costa", "positionRaw": "Zagueiro" },
+        { "name": "Rômulo Ferreira", "positionRaw": "Volante" },
+        { "name": "Edrean", "positionRaw": "Atacante" },
+        { "name": "Vitão", "positionRaw": "Volante" },
+        { "name": "Marcus Vinícius", "positionRaw": "Atacante" }
+      ],
+      "notes": "Anúncios em ondas (reforços indo saindo aos poucos), esta é a leva inicial de novembro/2025 -- elenco final pode ter mudado."
+    },
+    "A06::Maracanã-CE": {
+      "clubName": "Maracanã-CE",
+      "groupId": "A06",
+      "status": "press_pending_official",
+      "sources": ["https://www.opovo.com.br/esportes/futebol/campeonato-cearense/2026/01/06/maracana-quer-repetir-feito-no-campeonato-cearense-2026-e-aposta-em-treinador-longevo.html"],
+      "players": [
+        { "name": "Geilson", "positionRaw": "Zagueiro" },
+        { "name": "Pedro Da Dalto", "positionRaw": "Zagueiro" }
+      ],
+      "notes": "Cobertura bem fraca -- só 2 nomes, citados como exemplo da estratégia de mesclar veteranos com a base, não como elenco completo."
+    },
+    "A06::Iguatu-CE": {
+      "clubName": "Iguatu-CE",
+      "groupId": "A06",
+      "status": "press_pending_official",
+      "sources": ["https://www.jornalapraca.com.br/iguatu-define-estreia-na-serie-d-e-anuncia-reforcos-para-sequencia-da-temporada/"],
+      "players": [
+        { "name": "Ytalo", "positionRaw": "Goleiro" },
+        { "name": "Max Oliveira", "positionRaw": "Zagueiro" },
+        { "name": "Wagner Vidal", "positionRaw": "Zagueiro" },
+        { "name": "João Pedro", "positionRaw": "Zagueiro" },
+        { "name": "Tafinha", "positionRaw": "Zagueiro" },
+        { "name": "Klaivert", "positionRaw": "Atacante" },
+        { "name": "Pedrinho", "positionRaw": "Meio-campo" },
+        { "name": "Otacílio Marcos", "positionRaw": "Atacante" }
+      ],
+      "notes": "Fonte confirma o Grupo A6 real da Série D 2026 com os mesmos 6 clubes já usados no jogo (IAPE-MA, Maracanã-CE, Moto Clube-MA, Parnahyba-PI, Sampaio Corrêa-MA) -- boa validação cruzada do agrupamento."
+    },
+    "A06::Parnahyba-PI": {
+      "clubName": "Parnahyba-PI",
+      "groupId": "A06",
+      "status": "press_pending_official",
+      "sources": [
+        "https://www.gp1.com.br/pi/piaui/noticia/2025/12/10/parnahyba-confirma-primeiros-jogadores-para-a-temporada-2026-610185.html",
+        "https://www.gp1.com.br/pi/piaui/noticia/2026/3/31/parnahyba-anuncia-contratacao-de-atacante-ex-uniao-suzano-e-mais-cinco-reforcos-para-a-serie-d-619580.html"
+      ],
+      "players": [
+        { "name": "Guilherme Bastos", "positionRaw": "Zagueiro" },
+        { "name": "Bruno Tesouro", "positionRaw": "Atacante" },
+        { "name": "Flávio", "positionRaw": "Lateral-direito" },
+        { "name": "João Antonio", "positionRaw": null },
+        { "name": "Alex Mineiro", "positionRaw": "Meio-campo" },
+        { "name": "Jefinho", "positionRaw": "Meio-campo" },
+        { "name": "Lucas Carvalho", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Fonte confirma explicitamente o Grupo A6 da Série D 2026 com os mesmos clubes usados no jogo, e as datas oficiais (início 5/abril, final 13/setembro) -- bate com SEASON_START_MONTHDAY do motor (serie_d_2026: [4,5])."
     }
   }
 }
