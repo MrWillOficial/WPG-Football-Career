@@ -6,10 +6,10 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08"],
-    "nextGroup": "A09",
-    "clubsFoundThisSession": 43,
-    "clubsNotFoundThisSession": 5
+    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09"],
+    "nextGroup": "A10",
+    "clubsFoundThisSession": 48,
+    "clubsNotFoundThisSession": 6
   },
   "clubs": {
     "A01::Nacional-AM": {
@@ -878,6 +878,95 @@
       "sources": [],
       "players": [],
       "notes": "Nenhum nome de jogador encontrado via busca."
+    },
+    "A09::Retrô-PE": {
+      "clubName": "Retrô-PE",
+      "groupId": "A09",
+      "status": "press_pending_official",
+      "sources": ["https://www.diariodepernambuco.com.br/esportes-dp/interior/2025/12/11702646-elenco-fechado-confira-o-plantel-completo-do-retro-para-2026.html"],
+      "players": [
+        { "name": "Darley", "positionRaw": "Goleiro" },
+        { "name": "Jefferson Paulino", "positionRaw": "Goleiro" },
+        { "name": "Paulo Ricardo", "positionRaw": "Goleiro" },
+        { "name": "Dankler", "positionRaw": "Zagueiro" },
+        { "name": "David", "positionRaw": "Zagueiro" },
+        { "name": "Denilson", "positionRaw": "Zagueiro" },
+        { "name": "Guilherme Paixão", "positionRaw": "Zagueiro" },
+        { "name": "Iury", "positionRaw": "Zagueiro" },
+        { "name": "João Rafael", "positionRaw": "Zagueiro" },
+        { "name": "Luiz Henrique (28)", "positionRaw": "Zagueiro" },
+        { "name": "Rayan", "positionRaw": "Zagueiro" },
+        { "name": "Wesley", "positionRaw": "Zagueiro" },
+        { "name": "Kadi", "positionRaw": "Meio-campo" },
+        { "name": "Luiz Henrique (29)", "positionRaw": "Meio-campo" },
+        { "name": "Sillas", "positionRaw": "Meio-campo" },
+        { "name": "Radsley", "positionRaw": "Meio-campo" },
+        { "name": "Bruno Marques", "positionRaw": "Atacante" },
+        { "name": "Fabrício", "positionRaw": "Atacante" },
+        { "name": "Fernandinho", "positionRaw": "Atacante" },
+        { "name": "Willian Lira", "positionRaw": "Atacante" }
+      ],
+      "notes": "A fonte lista DOIS jogadores diferentes chamados Luiz Henrique (28 anos, zagueiro e 29 anos, meio-campo) -- mantidos como registros separados com a idade no nome pra não confundir. Elenco tem 33 jogadores no total."
+    },
+    "A09::Decisão-PE": {
+      "clubName": "Decisão-PE",
+      "groupId": "A09",
+      "status": "not_found_via_press",
+      "sources": [],
+      "players": [],
+      "notes": "Só achou resultado de uma partida (derrota pro Lagarto-SE, mesmo grupo A09) -- nenhum elenco nominal."
+    },
+    "A09::Serra Branca-PB": {
+      "clubName": "Serra Branca-PB",
+      "groupId": "A09",
+      "status": "press_pending_official",
+      "sources": ["https://portalcorreio.com.br/elenco-do-serra-branca-e-composto-por-atletas-com-boas-passagens-no-futebol-paraibano/"],
+      "players": [
+        { "name": "Leílson", "positionRaw": "Atacante" },
+        { "name": "Anderson Paraíba", "positionRaw": "Meia" },
+        { "name": "Marcelo Toscano", "positionRaw": "Atacante" },
+        { "name": "Histone", "positionRaw": "Meio-campo" },
+        { "name": "Weverton", "positionRaw": "Zagueiro" },
+        { "name": "Flávio Nunes", "positionRaw": "Zagueiro" },
+        { "name": "Gabriel Yanno", "positionRaw": null },
+        { "name": "Bilão", "positionRaw": "Meio-campo" },
+        { "name": "Bruno", "positionRaw": "Zagueiro" }
+      ],
+      "notes": "Vários jogadores citados vieram de outros clubes do mesmo universo do jogo (Histone ex-Sousa-PB, Weverton/Flávio Nunes ex-Sousa-PB, Gabriel Yanno ex-Santa Cruz) -- só registro de origem, não confirma vínculo de empréstimo."
+    },
+    "A09::Treze-PB": {
+      "clubName": "Treze-PB",
+      "groupId": "A09",
+      "status": "press_pending_official",
+      "sources": ["https://www.fotmob.com/pt-PT/teams/197790/overview/treze"],
+      "players": [
+        { "name": "João Vitor Soares dos Santos", "positionRaw": "Goleiro" },
+        { "name": "Marcos Davi Amorim dos Santos", "positionRaw": "Goleiro" }
+      ],
+      "notes": "Clube tem 23 jogadores no elenco total, dispensou 7 antes da Série D; só os 2 goleiros nomeados na cobertura encontrada."
+    },
+    "A09::Lagarto-SE": {
+      "clubName": "Lagarto-SE",
+      "groupId": "A09",
+      "status": "not_found_via_press",
+      "sources": [],
+      "players": [],
+      "notes": "Só listagens de 2024/25 encontradas, nenhuma específica de 2026."
+    },
+    "A09::Sergipe-SE": {
+      "clubName": "Sergipe-SE",
+      "groupId": "A09",
+      "status": "press_pending_official",
+      "sources": ["https://www.espn.com/soccer/team/squad/_/id/4874/betbrain.sergipe_se"],
+      "players": [
+        { "name": "Enaldo Santos Costa Filho", "positionRaw": "Goleiro" },
+        { "name": "Filipe", "positionRaw": "Goleiro" },
+        { "name": "Thiago Ferreira dos Santos", "positionRaw": "Goleiro" },
+        { "name": "Matheus Sacramento", "positionRaw": null },
+        { "name": "Felipe Pará", "positionRaw": null },
+        { "name": "Reny Max Santos Silva", "positionRaw": null }
+      ],
+      "notes": "Clube tem 22 jogadores no elenco total; 3 goleiros da listagem oficial + 3 artilheiros da temporada."
     }
   }
 }
