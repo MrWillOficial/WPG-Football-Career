@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getClubRosterPlayers, getRosterPlayerName } from '../../engines/player/playerEngine.js';
-import { Badge, Card, THEME } from '../system.jsx';
+import { Card, THEME } from '../system.jsx';
 import { FITNESS_AVAILABILITY_FLOOR } from '../../engines/life/lifeCalendarFitness.jsx';
 /* ============================================================================
    TELA — Partida (revelação sequencial de eventos)
@@ -89,12 +89,12 @@ function MatchScreen({ match, clubsMap, preMatchCondition, onContinue }) {
 
   return (
     <div onClick={() => !done && setShown(steps.length)} style={{ minHeight: '100vh', maxWidth: 400, margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 24, cursor: done ? 'default' : 'pointer' }}>
-      <p style={{ textAlign: 'center', color: THEME.textSecondary, fontSize: 12, fontWeight: 700, letterSpacing: 0.5 }}>PARTIDA</p>
-      <p className="display" style={{ textAlign: 'center', fontSize: 32, fontWeight: 700, margin: '10px 0 4px' }}>{match.home}</p>
-      <p className="display" style={{ textAlign: 'center', fontSize: 56, fontWeight: 700, color: THEME.gold, lineHeight: 1 }}>
+      <p className="mono" style={{ textAlign: 'center', color: THEME.orange, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase' }}>Partida</p>
+      <p className="display" style={{ textAlign: 'center', fontSize: 30, margin: '10px 0 4px' }}>{match.home}</p>
+      <p className="mono" style={{ textAlign: 'center', fontSize: 52, fontWeight: 600, color: THEME.gold, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
         {done ? `${match.gh} — ${match.ga}` : '⋯'}
       </p>
-      <p className="display" style={{ textAlign: 'center', fontSize: 32, fontWeight: 700, margin: '4px 0 24px' }}>{match.away}</p>
+      <p className="display" style={{ textAlign: 'center', fontSize: 30, margin: '4px 0 24px' }}>{match.away}</p>
 
       <Card elevated style={{ minHeight: 120 }}>
         {steps.slice(0, shown).map((s, i) => (
@@ -105,8 +105,11 @@ function MatchScreen({ match, clubsMap, preMatchCondition, onContinue }) {
       {done && (
         <>
           {match.calledUp && (
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
-              <Badge tone="gold" style={{ fontSize: 14, padding: '6px 14px' }}>SUA NOTA: {match.rating.toFixed(1)}</Badge>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, marginTop: 16 }}>
+              <div className="stat-ring" style={{ width: 62, height: 62, '--pct': (match.rating / 10) * 100, '--ring-color': match.rating >= 7 ? THEME.green : match.rating >= 5.5 ? THEME.warn : THEME.red }}>
+                <b className="mono" style={{ fontSize: 15 }}>{match.rating.toFixed(1)}</b>
+              </div>
+              <span className="stat-label">Sua nota</span>
             </div>
           )}
           {!match.calledUp && <p style={{ textAlign: 'center', color: THEME.textSecondary, fontSize: 13, marginTop: 16 }}>Você ficou no banco nesta rodada.</p>}

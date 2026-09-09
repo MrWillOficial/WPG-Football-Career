@@ -53,11 +53,19 @@ function AcademyScreen({ player, state, seasonYear, log, showPicker, onTogglePic
       <h1 className="display" style={{ fontSize: 34, lineHeight: 1 }}>Academia de {player.name}</h1>
       <p style={{ color: THEME.textSecondary, fontSize: 13 }}>Aos 16 anos, sua carreira começa na formação. Treino e jogos de base desenvolvem o jogador antes do primeiro contrato profissional.</p>
       <Card style={{ padding: 16 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}><strong>{academyDate}</strong><span>{pct}%</span></div>
-        <div style={{ height: 6, background: THEME.cardElevated }}><div style={{ width: `${pct}%`, height: '100%', background: THEME.gold }} /></div>
-        <div style={{ display: 'flex', gap: 18, marginTop: 14, color: THEME.textSecondary, fontSize: 12 }}><span>Jogos {state.matches}</span><span>Gols {state.goals}</span><span>Assist. {state.assists}</span></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+          <strong className="mono">{academyDate}</strong>
+          <span className="mono" style={{ color: THEME.textFaint }}>{pct}%</span>
+        </div>
+        <div style={{ height: 6, borderRadius: 4, background: THEME.cardElevated, overflow: 'hidden' }}><div style={{ width: `${pct}%`, height: '100%', background: THEME.gold }} /></div>
       </Card>
-      <div style={{ color: THEME.textSecondary, fontSize: 12 }}>Overall atual: <strong style={{ color: THEME.text }}>{Math.round(player.overall)}</strong> · 17 anos ao concluir a temporada-base.</div>
+      <div className="stat-tile-grid" style={{ margin: 0 }}>
+        <div className="stat-tile"><span className="stat-big">{Math.round(player.overall)}</span><span className="stat-label">Overall</span></div>
+        <div className="stat-tile"><span className="stat-big">{state.matches}</span><span className="stat-label">Jogos</span></div>
+        <div className="stat-tile"><span className="stat-big">{state.goals}</span><span className="stat-label">Gols</span></div>
+        <div className="stat-tile"><span className="stat-big">{state.assists}</span><span className="stat-label">Assist.</span></div>
+      </div>
+      <div style={{ color: THEME.textFaint, fontSize: 11, marginTop: -6 }}>17 anos ao concluir a temporada-base.</div>
 
       {!showPicker && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
