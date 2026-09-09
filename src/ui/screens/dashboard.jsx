@@ -11,25 +11,32 @@ import { TRAININGS, TRAINING_INTENSITIES } from '../../engines/player/playerEngi
 // espalhado; ganhar Série C/B/A no futuro é só adicionar uma entrada aqui.
 const NEXT_TIER_LABELS = { serie_d: 'SÉRIE D', serie_c: 'SÉRIE C', serie_b: 'SÉRIE B', serie_a: 'SÉRIE A' };
 
-function HomeScreen({ player, club, competition, round, totalRounds, fixtures, log, dayType, condition, matchHistory, clubsMap, trainPick, onTogglePicker, showPicker, onSelectTrainingActivity, onRest, onSkipTraining, onPlay, onAdvanceRecovery, dayIndex, seasonYear }) {
+function HomeScreen({ player, club, competition, round, totalRounds, fixtures, log, dayType, condition, matchHistory, clubsMap, trainPick, onTogglePicker, showPicker, onSelectTrainingActivity, onRest, onSkipTraining, onPlay, onAdvanceRecovery, dayIndex, seasonYear, stats, economyState }) {
   const [intensity, setIntensity] = useState('equilibrado');
   const nextFixture = fixtures[round] ? fixtures[round].find(([h, a]) => h === club.id || a === club.id) : null;
   const opponentId = nextFixture ? (nextFixture[0] === club.id ? nextFixture[1] : nextFixture[0]) : null;
   const isHome = nextFixture ? nextFixture[0] === club.id : null;
-  const conditionColor = condition <= 25 ? THEME.red : condition <= 50 ? THEME.gold : THEME.green;
+  const conditionColor = condition <= 25 ? THEME.red : condition <= 50 ? THEME.warn : THEME.green;
   const clubForma = historyForCompetition(matchHistory[club.id] || [], competition.id).slice(-5);
   const isDerby = opponentId ? getMatchContext(club.id, opponentId) === 'derby' : false;
   const calendarDate = formatDateBr(getCalendarDate(competition.family, seasonYear, dayIndex));
+  const weeklyLoad = player.weeklyLoad || 0;
+  const loadColor = weeklyLoad >= 70 ? THEME.red : weeklyLoad >= 45 ? THEME.warn : THEME.steel;
+  const apps = stats?.apps || 0;
+  const avgRating = apps > 0 ? (stats.ratingSum / apps).toFixed(1) : '—';
 
   return (
     <div className="screen-page">
-      <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5 }}>RUMO À {NEXT_TIER_LABELS[competition.promotion.target_competition_id] || 'PRÓXIMA DIVISÃO'}</p>
-      <p style={{ color: THEME.textSecondary, fontSize: 12, marginTop: 2 }}>{calendarDate}</p>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10 }}>
+        <p style={{ color: THEME.orange, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, fontFamily: THEME.fontMono, textTransform: 'uppercase' }}>RUMO À {NEXT_TIER_LABELS[competition.promotion.target_competition_id] || 'PRÓXIMA DIVISÃO'}</p>
+        {economyState && <span className="id-badge">R$ {Math.round(economyState.balance).toLocaleString('pt-BR')}</span>}
+      </div>
+      <p style={{ color: THEME.textFaint, fontSize: 12, marginTop: 2, fontFamily: THEME.fontMono }}>{calendarDate}</p>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, margin: '14px 0 10px' }}>
         <ClubMonogram club={club} size={56} />
         <div>
-          <h1 className="display" style={{ fontSize: 26, fontWeight: 700, lineHeight: 1 }}>{player.name}</h1>
+          <h1 className="display" style={{ fontSize: 26, lineHeight: 1 }}>{player.name}</h1>
           <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginTop: 4 }}>
             <Badge tone="gold">{player.position} OVR {player.overall}</Badge>
             <span style={{ fontSize: 12, color: THEME.textSecondary }}>{club.name}</span>
@@ -37,12 +44,23 @@ function HomeScreen({ player, club, competition, round, totalRounds, fixtures, l
         </div>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-        <span style={{ fontSize: 11, color: THEME.textSecondary, width: 90 }}>Condição física</span>
-        <div style={{ flex: 1, height: 5, background: THEME.cardElevated }}>
-          <div style={{ width: `${condition}%`, height: 5, background: conditionColor }} />
+      <div className="stat-tile-grid">
+        <div className="stat-tile">
+          <div className="stat-ring" style={{ '--pct': condition, '--ring-color': conditionColor }}><b>{Math.round(condition)}</b></div>
+          <span className="stat-label">Condição</span>
         </div>
-        <span style={{ fontSize: 11, fontWeight: 700, color: conditionColor, width: 32, textAlign: 'right' }}>{Math.round(condition)}%</span>
+        <div className="stat-tile">
+          <div className="stat-ring" style={{ '--pct': weeklyLoad, '--ring-color': loadColor }}><b>{Math.round(weeklyLoad)}</b></div>
+          <span className="stat-label">Carga</span>
+        </div>
+        <div className="stat-tile">
+          <span className="stat-big">{Math.round(player.overall)}</span>
+          <span className="stat-label">Overall</span>
+        </div>
+        <div className="stat-tile">
+          <span className="stat-big">{avgRating}</span>
+          <span className="stat-label">Nota média</span>
+        </div>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
@@ -50,7 +68,7 @@ function HomeScreen({ player, club, competition, round, totalRounds, fixtures, l
         <FormaDots results={clubForma} size={15} />
       </div>
 
-      <Card elevated style={{ marginBottom: 14 }}>
+      <Card elevated style={{ marginBottom: 14, borderColor: 'rgba(242,102,15,0.28)', background: `linear-gradient(150deg, ${THEME.accentSoft}, ${THEME.card} 60%)` }}>
         <p style={{ fontSize: 11, color: THEME.textSecondary, fontWeight: 700, letterSpacing: 0.5, marginBottom: 8 }}>PRÓXIMO JOGO · RODADA {Math.min(round + 1, totalRounds)}/{totalRounds}</p>
         {opponentId ? (
           <>

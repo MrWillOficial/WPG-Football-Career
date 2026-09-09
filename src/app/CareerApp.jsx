@@ -26,7 +26,7 @@ export function CareerApp() {
           {tab === 'home' && (
             <HomeScreen
               player={player} club={club} competition={competition} round={round} totalRounds={fixtures.length}
-              fixtures={fixtures} log={log} dayType={dayType} condition={fitnessState.condition} matchHistory={matchHistory} clubsMap={activeClubsMap}
+              fixtures={fixtures} log={log} dayType={dayType} condition={fitnessState.condition} matchHistory={matchHistory} clubsMap={activeClubsMap} stats={stats} economyState={economyState}
               trainPick={trainPick} showPicker={showPicker}
               onTogglePicker={togglePicker}
               onSelectTrainingActivity={(id, intensityId) => advanceTrainingDay('train', id, intensityId)}

@@ -3,69 +3,90 @@ import React from 'react';
    DESIGN SYSTEM — tokens + componentes base (Direção Visual V2)
 ============================================================================ */
 
+// Direção Visual V3 — "estádio à noite": preto com temperatura (não cinza
+// neutro) + laranja WPG como brasa, não como cone de trânsito. Um aço-frio
+// entra só em condição/carga física pra não deixar tudo laranja-sobre-preto.
+// Documentado/aprovado via protótipo antes de entrar aqui — ver histórico.
 const THEME = {
-  bg: '#080808',
-  panel: '#101010',
-  card: '#141414',
-  cardElevated: '#1A1A1A',
-  orange: '#FF6A00',
-  gold: '#FF6A00',
-  green: '#36C275',
-  text: '#F5F5F5',
-  textSecondary: '#929292',
-  red: '#E05252',
-  border: '#292929',
-  fontDisplay: "'Barlow Condensed', sans-serif",
+  bg: '#120E0A',
+  panel: '#0E0B08',
+  card: '#1C160F',
+  cardElevated: '#241C13',
+  orange: '#F2660F',
+  gold: '#F2660F',
+  accentStrong: '#FF8A3D',
+  accentSoft: '#432612',
+  green: '#4FAE7A',
+  warn: '#D9A441',
+  steel: '#6E93AE',
+  text: '#F5EEE3',
+  textSecondary: '#B4A38C',
+  textFaint: '#7C6E5A',
+  red: '#C24F45',
+  border: '#382A19',
+  borderSoft: '#2A2015',
+  fontDisplay: "'Anton', 'Arial Narrow', sans-serif",
   fontBody: "'Inter', sans-serif",
+  fontMono: "'JetBrains Mono', 'SF Mono', monospace",
 };
 
 function GlobalStyle() {
   return (
     <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
       * { box-sizing: border-box; }
       html, body, #root { margin: 0; min-height: 100%; background: ${THEME.bg}; }
-      body { background: ${THEME.bg}; }
-      .display { font-family: ${THEME.fontDisplay}; letter-spacing: -0.02em; }
-      .app-root { background: ${THEME.bg}; color: ${THEME.text}; font-family: ${THEME.fontBody}; min-height: 100vh; }
+      body {
+        background: ${THEME.bg};
+        background-image:
+          radial-gradient(circle at 12% 0%, rgba(242,102,15,0.08), transparent 45%),
+          radial-gradient(circle at 100% 25%, rgba(110,147,174,0.05), transparent 40%);
+        background-attachment: fixed;
+      }
+      .display { font-family: ${THEME.fontDisplay}; letter-spacing: 0.01em; }
+      .mono { font-family: ${THEME.fontMono}; font-variant-numeric: tabular-nums; }
+      .app-root { background: transparent; color: ${THEME.text}; font-family: ${THEME.fontBody}; min-height: 100vh; }
       button, input { font-family: inherit; }
-      button { cursor: pointer; transition: transform .15s ease, background .15s ease, border-color .15s ease, opacity .15s ease; }
+      button { cursor: pointer; border-radius: 10px; transition: transform .15s ease, background .15s ease, border-color .15s ease, opacity .15s ease; }
       button:hover:not(:disabled) { transform: translateY(-1px); }
       button:disabled { cursor: default; }
-      .wpg-shell { min-height: 100vh; display: flex; background: ${THEME.bg}; }
-      .wpg-sidebar { position: fixed; inset: 0 auto 0 0; width: 224px; background: #0B0B0B; border-right: 1px solid ${THEME.border}; z-index: 20; display: flex; flex-direction: column; }
+      button:focus-visible { outline: 2px solid ${THEME.accentStrong}; outline-offset: 2px; }
+      .wpg-shell { min-height: 100vh; display: flex; background: transparent; }
+      .wpg-sidebar { position: fixed; inset: 0 auto 0 0; width: 224px; background: ${THEME.panel}; border-right: 1px solid ${THEME.border}; z-index: 20; display: flex; flex-direction: column; }
       .wpg-brand { padding: 24px 20px 20px; border-bottom: 1px solid ${THEME.border}; }
-      .wpg-brand-mark { font-family: ${THEME.fontDisplay}; font-size: 43px; font-weight: 800; line-height: .82; color: ${THEME.orange}; letter-spacing: -.06em; }
-      .wpg-brand-sub { font-size: 9px; letter-spacing: 3px; color: #BDBDBD; margin-top: 7px; }
-      .wpg-brand-desc { font-size: 8px; letter-spacing: 1.3px; color: #666; margin-top: 9px; text-transform: uppercase; }
+      .wpg-brand-mark { font-family: ${THEME.fontDisplay}; font-size: 40px; line-height: .86; color: ${THEME.orange}; letter-spacing: -.01em; }
+      .wpg-brand-sub { font-size: 9px; letter-spacing: 3px; color: ${THEME.textSecondary}; margin-top: 7px; }
+      .wpg-brand-desc { font-size: 8px; letter-spacing: 1.3px; color: ${THEME.textFaint}; margin-top: 9px; text-transform: uppercase; }
       .wpg-nav { padding: 18px 10px; overflow-y: auto; }
-      .wpg-nav-section { margin: 18px 10px 7px; font-size: 9px; font-weight: 700; letter-spacing: 1.6px; color: #666; }
+      .wpg-nav-section { margin: 18px 10px 7px; font-size: 9px; font-weight: 700; letter-spacing: 1.6px; color: ${THEME.textFaint}; }
       .wpg-nav-section:first-child { margin-top: 0; }
-      .wpg-nav-item { width: 100%; border: 0; background: transparent; color: #999; padding: 10px 11px; display: flex; align-items: center; gap: 11px; text-align: left; font-size: 12px; font-weight: 600; border-left: 2px solid transparent; }
-      .wpg-nav-item.active { color: ${THEME.orange}; background: linear-gradient(90deg, rgba(255,106,0,.16), transparent); border-left-color: ${THEME.orange}; }
+      .wpg-nav-item { width: 100%; border: 0; background: transparent; color: ${THEME.textSecondary}; padding: 10px 11px; display: flex; align-items: center; gap: 11px; text-align: left; font-size: 12px; font-weight: 600; border-left: 2px solid transparent; border-radius: 0 8px 8px 0; }
+      .wpg-nav-item.active { color: ${THEME.accentStrong}; background: linear-gradient(90deg, ${THEME.accentSoft}, transparent); border-left-color: ${THEME.orange}; }
       .wpg-nav-icon { width: 18px; text-align: center; font-size: 14px; }
       .wpg-main { width: calc(100% - 224px); margin-left: 224px; min-height: 100vh; }
-      .wpg-topbar { height: 58px; border-bottom: 1px solid ${THEME.border}; background: rgba(8,8,8,.96); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; position: sticky; top: 0; z-index: 10; }
-      .wpg-breadcrumb { font-size: 11px; color: #777; letter-spacing: .6px; text-transform: uppercase; }
-      .wpg-breadcrumb strong { color: #DDD; }
-      .wpg-season-pill { display: flex; align-items: center; gap: 14px; font-size: 11px; color: #999; }
-      .wpg-season-pill b { color: #FFF; font-family: ${THEME.fontDisplay}; font-size: 17px; }
+      .wpg-topbar { height: 58px; border-bottom: 1px solid ${THEME.border}; background: rgba(18,14,10,.92); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; position: sticky; top: 0; z-index: 10; }
+      .wpg-breadcrumb { font-size: 11px; color: ${THEME.textFaint}; letter-spacing: .6px; text-transform: uppercase; }
+      .wpg-breadcrumb strong { color: ${THEME.text}; }
+      .wpg-season-pill { display: flex; align-items: center; gap: 14px; font-size: 11px; color: ${THEME.textSecondary}; }
+      .wpg-season-pill b { color: ${THEME.text}; font-family: ${THEME.fontMono}; font-size: 14px; }
       .screen-page { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 42px; }
-      .wpg-kicker { color: ${THEME.orange}; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
-      .wpg-title { font-family: ${THEME.fontDisplay}; font-size: 34px; line-height: .98; margin: 5px 0 0; font-weight: 800; }
-      .wpg-card { border: 1px solid ${THEME.border}; background: linear-gradient(145deg, #151515, #101010); }
-      .wpg-card:hover { border-color: #3A3A3A; }
-      .wpg-section-label { font-size: 10px; color: #777; font-weight: 700; letter-spacing: 1.3px; margin: 0 0 9px; text-transform: uppercase; }
+      .wpg-kicker { color: ${THEME.orange}; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; font-family: ${THEME.fontMono}; }
+      .wpg-title { font-family: ${THEME.fontDisplay}; font-size: 34px; line-height: .98; margin: 5px 0 0; letter-spacing: 0.01em; }
+      .wpg-card { border: 1px solid ${THEME.borderSoft}; background: linear-gradient(155deg, ${THEME.card}, ${THEME.panel} 130%); border-radius: 16px; box-shadow: 0 1px 0 rgba(255,255,255,0.02) inset; }
+      .wpg-card:hover { border-color: ${THEME.border}; }
+      .wpg-section-label { font-size: 10px; color: ${THEME.textFaint}; font-weight: 700; letter-spacing: 1.3px; margin: 0 0 9px; text-transform: uppercase; font-family: ${THEME.fontMono}; }
       .wpg-accent-line { height: 2px; width: 38px; background: ${THEME.orange}; margin-top: 10px; }
       .wpg-mobile-nav { display: none; }
       @media (max-width: 800px) {
         .wpg-sidebar { display: none; }
         .wpg-main { width: 100%; margin-left: 0; }
         .wpg-topbar { padding: 0 16px; height: 54px; }
-        .screen-page { width: calc(100% - 28px); padding: 18px 0 86px; }
-        .wpg-mobile-nav { position: fixed; display: flex; left: 10px; right: 10px; bottom: 10px; height: 62px; background: rgba(18,18,18,.97); border: 1px solid ${THEME.border}; z-index: 30; box-shadow: 0 10px 40px rgba(0,0,0,.45); }
-        .wpg-mobile-nav button { flex: 1; background: transparent; border: 0; color: #777; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 9px; }
-        .wpg-mobile-nav button.active { color: ${THEME.orange}; }
+        .screen-page { width: calc(100% - 28px); padding: 18px 0 92px; }
+        .wpg-mobile-nav { position: fixed; display: flex; left: 10px; right: 10px; bottom: 10px; height: 64px; background: linear-gradient(160deg, ${THEME.cardElevated}, ${THEME.panel}); border: 1px solid ${THEME.border}; border-radius: 20px; z-index: 30; box-shadow: 0 16px 40px -12px rgba(0,0,0,.6); }
+        .wpg-mobile-nav button { flex: 1; background: transparent; border: 0; color: ${THEME.textFaint}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 9px; font-weight: 600; letter-spacing: 0.02em; }
+        .wpg-mobile-nav button span:first-child { width: 26px; height: 26px; border-radius: 9px; display: flex; align-items: center; justify-content: center; }
+        .wpg-mobile-nav button.active { color: ${THEME.accentStrong}; }
+        .wpg-mobile-nav button.active span:first-child { background: ${THEME.accentSoft}; border: 1px solid rgba(242,102,15,0.4); }
       }
     `}</style>
   );
@@ -81,31 +102,34 @@ function Card({ children, elevated, style, onClick }) {
 
 function Badge({ children, tone = 'neutral', style }) {
   const tones = {
-    gold: { background: THEME.orange, color: '#0A0A0A' },
+    gold: { background: THEME.orange, color: THEME.bg },
     green: { background: THEME.green, color: THEME.bg },
     red: { background: THEME.red, color: THEME.text },
     neutral: { background: THEME.cardElevated, color: THEME.textSecondary },
   };
   return (
-    <span style={{ ...tones[tone], fontSize: 11, fontWeight: 700, padding: '3px 8px', letterSpacing: 0.4, textTransform: 'uppercase', ...style }}>
+    <span style={{ ...tones[tone], fontSize: 11, fontWeight: 700, padding: '3px 9px', borderRadius: 20, letterSpacing: 0.4, textTransform: 'uppercase', ...style }}>
       {children}
     </span>
   );
 }
 
+// Escala absoluta 0-99 pra current E potencial (não current/potencial) —
+// assim o traço de potencial mostra a folga real até o teto, não vira sempre
+// a borda direita da barra.
 function AttrBar({ label, value, potential }) {
   const shown = Math.round(value);
   return (
-    <div className="flex items-center gap-3" style={{ marginBottom: 8 }}>
-      <span style={{ fontSize: 12, color: THEME.textSecondary, width: 96 }}>{label}</span>
-      <div style={{ flex: 1, height: 6, background: THEME.cardElevated, position: 'relative' }}>
-        <div style={{ width: `${(value / 99) * 100}%`, height: 6, background: THEME.gold }} />
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+      <span style={{ fontSize: 12, color: THEME.text, fontWeight: 600, width: 96 }}>{label}</span>
+      <div style={{ flex: 1, height: 7, background: THEME.panel, borderRadius: 5, position: 'relative' }}>
+        <div style={{ width: `${(value / 99) * 100}%`, height: '100%', borderRadius: 5, background: THEME.orange }} />
         {potential != null && (
-          <div style={{ position: 'absolute', top: -2, left: `${(potential / 99) * 100}%`, width: 2, height: 10, background: THEME.textSecondary }} />
+          <div style={{ position: 'absolute', top: -2, left: `${(potential / 99) * 100}%`, width: 2, height: 11, borderRadius: 1, background: THEME.steel }} />
         )}
       </div>
-      <span style={{ fontSize: 12, width: potential != null ? 56 : 24, textAlign: 'right', fontWeight: 600 }}>
-        {shown}{potential != null && <span style={{ color: THEME.textSecondary, fontWeight: 400 }}> /{Math.round(potential)}</span>}
+      <span className="mono" style={{ fontSize: 12, width: potential != null ? 60 : 24, textAlign: 'right', fontWeight: 600, color: THEME.text }}>
+        {shown}{potential != null && <span style={{ color: THEME.textFaint, fontWeight: 500 }}> /{Math.round(potential)}</span>}
       </span>
     </div>
   );
@@ -145,9 +169,10 @@ function ClubMonogram({ club, size = 44 }) {
 
   const text = branding.text || club.name.slice(0, 2).toUpperCase();
   return (
-    <div style={{
-      width: size, height: size, background: club.color, color: '#fff', fontWeight: 700,
-      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.34, flexShrink: 0,
+    <div className="display" style={{
+      width: size, height: size, borderRadius: size * 0.24, background: club.color, color: '#fff',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.36, flexShrink: 0,
+      border: '1px solid rgba(255,255,255,0.12)',
     }}>
       {text}
     </div>
@@ -214,8 +239,8 @@ function WPGShell({ active, onChange, player, club, seasonYear, children }) {
           {WPG_NAV_GROUPS.map((group, gi) => (
             <div key={group.label}>
               <div className="wpg-nav-section">{group.label}</div>
-              {group.items.map(item => (
-                <button key={`${group.label}-${item.id}`} className={`wpg-nav-item ${active === item.id ? 'active' : ''}`} onClick={() => onChange(item.id)}>
+              {group.items.map((item, ii) => (
+                <button key={`${group.label}-${item.id}-${ii}`} className={`wpg-nav-item ${active === item.id ? 'active' : ''}`} onClick={() => onChange(item.id)}>
                   <span className="wpg-nav-icon">{item.icon}</span><span>{item.label}</span>
                 </button>
               ))}
