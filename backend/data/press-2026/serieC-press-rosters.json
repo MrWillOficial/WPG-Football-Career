@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubs": 20,
-    "clubsProcessed": ["Ferroviária-SP", "Amazonas-AM", "Volta Redonda-RJ", "Paysandu-PA", "Caxias-RS", "Brusque-SC", "Guarani-SP", "Floresta-CE", "Confiança-SE", "Ypiranga-RS", "Maringá-PR", "Ituano-SP"],
-    "nextClub": "Botafogo-PB",
-    "clubsFoundThisSession": 12,
+    "clubsProcessed": ["Ferroviária-SP", "Amazonas-AM", "Volta Redonda-RJ", "Paysandu-PA", "Caxias-RS", "Brusque-SC", "Guarani-SP", "Floresta-CE", "Confiança-SE", "Ypiranga-RS", "Maringá-PR", "Ituano-SP", "Botafogo-PB", "Figueirense-SC", "Anápolis-GO", "Itabaiana-SE"],
+    "nextClub": "Barra-SC",
+    "clubsFoundThisSession": 16,
     "clubsNotFoundThisSession": 0
   },
   "clubs": {
@@ -298,6 +298,97 @@
         { "name": "Marlon Yan", "positionRaw": null }
       ],
       "notes": "Técnico Mazola Júnior. Contratações confirmadas: Bruno Mezenga (ex-Náutico, também Série B deste jogo), Nelsinho (ex-Primavera) e Xavier (ex-Amazonas-AM, já cadastrado neste arquivo). Base integrada ao elenco principal: Leo Souza, Lucas Dias, Lucas Stefanello e Marlon Yan, sem posição individual confirmada pela fonte. Matéria também citou o resultado real da Série C 2026 (Ituano terminou em 5º), não usado como dado de elenco, só contexto."
+    },
+    "Botafogo-PB": {
+      "clubName": "Botafogo-PB",
+      "status": "press_pending_official",
+      "sources": ["https://www.futfogao.com.br/elenco-botafogo", "https://jornaldaparaiba.com.br/esportes/botafogo-pb-calendario-jogos-2026"],
+      "players": [
+        { "name": "Max Walef", "positionRaw": "Goleiro" },
+        { "name": "Edilson", "positionRaw": "Goleiro" },
+        { "name": "Leandro Mathias", "positionRaw": "Goleiro" },
+        { "name": "Luiz Daniel", "positionRaw": "Goleiro" },
+        { "name": "Erick", "positionRaw": "Lateral-direito" },
+        { "name": "Vitor Ricardo", "positionRaw": "Lateral-direito" },
+        { "name": "Diogo Matheus", "positionRaw": "Lateral-direito" },
+        { "name": "Júlio Vaz", "positionRaw": "Zagueiro" },
+        { "name": "Igor Morais", "positionRaw": "Zagueiro" },
+        { "name": "Octávio Metzker", "positionRaw": "Zagueiro" },
+        { "name": "Da Silva", "positionRaw": "Zagueiro" },
+        { "name": "Yan Souto", "positionRaw": "Zagueiro" },
+        { "name": "Saimon Pains", "positionRaw": "Zagueiro" },
+        { "name": "Dhônata Tavares", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Patric Calmon", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Bull", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Igor Maduro", "positionRaw": "Volante" },
+        { "name": "Thallyson", "positionRaw": "Volante" },
+        { "name": "Jhonata Varela", "positionRaw": "Volante" },
+        { "name": "Dudu Nardini", "positionRaw": "Meia" },
+        { "name": "Ed Carlos", "positionRaw": "Meia" },
+        { "name": "Giovani", "positionRaw": "Meia" },
+        { "name": "Nenê", "positionRaw": "Meia" },
+        { "name": "Hiago Bagarolo", "positionRaw": "Meia" },
+        { "name": "Lawan", "positionRaw": "Meia" },
+        { "name": "Romarinho", "positionRaw": "Meia" },
+        { "name": "Gabriel Tota", "positionRaw": "Meia" },
+        { "name": "Henrique Dourado", "positionRaw": "Atacante" },
+        { "name": "Anderson Chaves", "positionRaw": "Atacante" },
+        { "name": "Gustavo Balotelli", "positionRaw": "Atacante" },
+        { "name": "Kayon", "positionRaw": "Atacante" },
+        { "name": "Felipe Azevedo", "positionRaw": "Atacante" },
+        { "name": "Rodolfo", "positionRaw": "Atacante" },
+        { "name": "Lucca Drummond", "positionRaw": "Atacante" }
+      ],
+      "notes": "A cobertura mais completa e detalhada por posição encontrada em toda a coleta de Série C -- 33 jogadores discriminados, técnico Marcelo Fernandes. ATENÇÃO -- possível homônimo não resolvido: 'Gabriel Tota' já aparece citado como meio-campo no Pouso Alegre-MG (Série D, Grupo A13) -- pode ser o mesmo jogador ou coincidência de nome, não investigado (fora de escopo)."
+    },
+    "Figueirense-SC": {
+      "clubName": "Figueirense-SC",
+      "status": "press_pending_official",
+      "sources": ["https://ndmais.com.br/futebol/figueirense-tem-8-jogadores-treinando-separado-e-14-reforcos-para-a-serie-c/", "https://tudoaquisc.com.br/esporte/figueirense-divulga-elenco-atualizado-para-2026-com-31-jogadores-e-na-expectativa-por-jorginho-ex-atletico-go/"],
+      "players": [
+        { "name": "Igo Gabriel", "positionRaw": "Goleiro" },
+        { "name": "Douglas Bacelar", "positionRaw": "Zagueiro" },
+        { "name": "Léo Maia", "positionRaw": "Lateral" },
+        { "name": "Rafinha Potiguar", "positionRaw": "Volante" },
+        { "name": "Hyuri", "positionRaw": "Atacante" },
+        { "name": "Igor Bolt", "positionRaw": "Atacante" }
+      ],
+      "notes": "Clube (Furacão) confirmou 43 jogadores ativos no elenco 2026 (depois outra matéria falou em 31 -- números mudam entre atualizações da própria imprensa), mas só 6 nomes foram individualizados com posição nesta rodada de busca. Técnico Raul Cabral. ATENÇÃO -- possível homônimo não resolvido: 'Igor Bolt' (artilheiro do Figueirense, 6 gols) já aparece cadastrado como atacante do Amazonas-AM neste mesmo arquivo -- nomes idênticos em dois clubes diferentes da Série C, não investigado se é coincidência ou erro de uma das fontes (fora de escopo)."
+    },
+    "Anápolis-GO": {
+      "clubName": "Anápolis-GO",
+      "status": "press_pending_official",
+      "sources": ["https://esportegoiano.com.br/anapolis-reapresenta-15-remanescentes-serie-c-confira-situacoes-elenco/", "https://radiosaochico.com.br/elenco-do-anapolis-ganha-forma-para-2026-veja-quem-fica-e-quem-saiu/"],
+      "players": [
+        { "name": "Ravel Pelegrini", "positionRaw": "Goleiro" },
+        { "name": "Paulo Henrique", "positionRaw": "Goleiro" },
+        { "name": "Igor Wilhelms", "positionRaw": "Defensor" },
+        { "name": "Rafael Matheus", "positionRaw": "Defensor" },
+        { "name": "Cássio Gabriel", "positionRaw": "Meio-campo" },
+        { "name": "Juninho", "positionRaw": "Meio-campo" },
+        { "name": "Fernando Viana", "positionRaw": "Atacante" },
+        { "name": "Gustavo Henrique", "positionRaw": "Atacante" }
+      ],
+      "notes": "Reapresentação com 15 remanescentes da Série C 2025, 12 já confirmados para 2026. Retorno do técnico Luiz Carlos Winck. Saídas mencionadas (não incluídas no elenco): meio-campistas Pedro Thomaz e Paulinho."
+    },
+    "Itabaiana-SE": {
+      "clubName": "Itabaiana-SE",
+      "status": "press_pending_official",
+      "sources": ["https://ne45.com.br/2025/12/23/itabaiana-apresenta-elenco-e-uniforme-2026/", "https://www.futebolinterior.com.br/itabaiana-confirma-renovacoes/"],
+      "players": [
+        { "name": "Leilson", "positionRaw": "Atacante" },
+        { "name": "Elimar", "positionRaw": "Atacante" },
+        { "name": "Jonata Bastos", "positionRaw": "Atacante" },
+        { "name": "Luan Silva", "positionRaw": "Atacante" },
+        { "name": "Rodrigo Alves", "positionRaw": "Atacante" },
+        { "name": "Gustavo Crecci", "positionRaw": "Volante" },
+        { "name": "Karl", "positionRaw": "Volante" },
+        { "name": "Caio Felipe", "positionRaw": "Lateral-direito" },
+        { "name": "Tarcísio", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Gustavo Fagundes", "positionRaw": "Zagueiro" },
+        { "name": "Betão", "positionRaw": "Zagueiro" }
+      ],
+      "notes": "Técnico Roberto Fonseca, preparação no CT da Serra. Leilson está na terceira temporada pelo clube. Cruzamento de validação forte: um resultado de busca lista o jogo real 'Itabaiana v Botafogo PB' na Série C 2026 -- Botafogo-PB também está cadastrado neste arquivo, mesmo campeonato do jogo."
     }
   }
 }
