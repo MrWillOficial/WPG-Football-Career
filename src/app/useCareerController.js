@@ -116,18 +116,51 @@ export function useCareerController() {
 
   const pushLog = useCallback((msg) => setLog(prev => [msg, ...prev].slice(0, 30)), []);
 
-  function advanceAcademyWeek() {
+  // Semana de base: decisão real do jogador (treinar UMA atividade escolhida,
+  // ou descansar) — antes disso a Academia escolhia o treino sozinha por
+  // rodízio e nunca narrava nada, então toda semana parecia igual e vazia.
+  // Reaproveita exatamente o mesmo TRAININGS/applyTraining do profissional,
+  // nenhuma mecânica nova.
+  function advanceAcademyWeek(decision, trainingId) {
     if (!player || phase !== 'academy') return;
     const nextWeek = academyState.week + 1;
-    const trainingId = TRAININGS[nextWeek % TRAININGS.length].id;
-    const trained = applyTraining(player, trainingId);
+    let finalPlayer = player;
+    let weekMsg;
+
+    if (decision === 'train' && trainingId) {
+      finalPlayer = applyTraining(player, trainingId);
+      const training = TRAININGS.find(t => t.id === trainingId);
+      const deltas = Object.keys(training.effects)
+        .map(attr => ({ label: ATTR_LABELS[attr], delta: finalPlayer.attrs[attr] - player.attrs[attr] }))
+        .filter(d => d.delta > 0.01);
+      weekMsg = deltas.length
+        ? `Base, semana ${nextWeek} — treino de ${training.name}: ${deltas.map(d => `${d.label} +${d.delta.toFixed(2)}`).join(', ')}.`
+        : `Base, semana ${nextWeek} — treino de ${training.name}.`;
+    } else {
+      weekMsg = `Base, semana ${nextWeek} — descanso.`;
+    }
+
     const matchWeek = nextWeek % 2 === 0;
-    const performance = trained.overall + (nextWeek % 7);
+    const performance = finalPlayer.overall + (nextWeek % 7);
     const goal = matchWeek && performance >= 50 && nextWeek % 5 === 0 ? 1 : 0;
     const assist = matchWeek && performance >= 47 && nextWeek % 6 === 0 ? 1 : 0;
     const nextAcademy = { ...academyState, week: nextWeek, matches: academyState.matches + (matchWeek ? 1 : 0), goals: academyState.goals + goal, assists: academyState.assists + assist };
-    setPlayer({ ...trained, age: nextWeek >= academyState.totalWeeks ? 17 : trained.age, careerPhase: nextWeek >= academyState.totalWeeks ? 'professional' : 'academy', academyStatus: nextWeek >= academyState.totalWeeks ? 'graduated' : 'youth_player' });
+
+    // Marcos narrados só quando o próprio dado já calculado cruza algo real
+    // (primeiro jogo/gol/assistência) — nada inventado, só destacado.
+    let milestone = null;
+    if (matchWeek) {
+      if (nextAcademy.matches === 1) milestone = 'Seu primeiro jogo pelo time sub-20!';
+      else if (goal && nextAcademy.goals === 1) milestone = 'Seu primeiro gol na formação!';
+      else if (assist && nextAcademy.assists === 1) milestone = 'Sua primeira assistência na formação!';
+      else if (goal) milestone = 'Marcou no jogo da semana.';
+      else if (assist) milestone = 'Deu assistência no jogo da semana.';
+    }
+    pushLog(milestone ? `${weekMsg} ${milestone}` : weekMsg);
+
+    setPlayer({ ...finalPlayer, age: nextWeek >= academyState.totalWeeks ? 17 : finalPlayer.age, careerPhase: nextWeek >= academyState.totalWeeks ? 'professional' : 'academy', academyStatus: nextWeek >= academyState.totalWeeks ? 'graduated' : 'youth_player' });
     setAcademyState(nextAcademy);
+    setShowPicker(false);
     if (nextWeek >= academyState.totalWeeks) {
       setPhase('club-select');
       pushLog(`${player.name} concluiu a temporada-base da formação: ${nextAcademy.matches} jogos, ${nextAcademy.goals} gols e ${nextAcademy.assists} assistências.`);

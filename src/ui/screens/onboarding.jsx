@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Badge, Card, ClubMonogram, THEME } from '../system.jsx';
-import { DETAILED_POSITIONS } from '../../engines/player/playerEngine.js';
+import { DETAILED_POSITIONS, TRAININGS } from '../../engines/player/playerEngine.js';
 import { SERIE_D_2026_CLUBS_MAP } from '../../data/competitions/serieD2026.js';
 import { formatDateBrNumeric, getAcademyCalendarDate } from '../../engines/life/lifeCalendarFitness.jsx';
 /* ============================================================================
@@ -42,9 +42,10 @@ function CreateScreen({ onStart }) {
 }
 
 
-function AcademyScreen({ player, state, seasonYear, onAdvance }) {
+function AcademyScreen({ player, state, seasonYear, log, showPicker, onTogglePicker, onAdvance }) {
   const pct = Math.round((state.week / state.totalWeeks) * 100);
   const academyDate = formatDateBrNumeric(getAcademyCalendarDate(seasonYear, state.week));
+  const isLastWeek = state.week + 1 >= state.totalWeeks;
   return (
     <div style={{ padding: 24, maxWidth: 400, margin: '0 auto', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 18 }}>
       <p style={{ color: THEME.gold, fontSize: 13, fontWeight: 700 }}>TEMPORADA-BASE · FORMAÇÃO</p>
@@ -56,7 +57,35 @@ function AcademyScreen({ player, state, seasonYear, onAdvance }) {
         <div style={{ display: 'flex', gap: 18, marginTop: 14, color: THEME.textSecondary, fontSize: 12 }}><span>Jogos {state.matches}</span><span>Gols {state.goals}</span><span>Assist. {state.assists}</span></div>
       </Card>
       <div style={{ color: THEME.textSecondary, fontSize: 12 }}>Overall atual: <strong style={{ color: THEME.text }}>{Math.round(player.overall)}</strong> · 17 anos ao concluir a temporada-base.</div>
-      <button onClick={onAdvance} className="display" style={{ padding: '15px 0', fontWeight: 700, fontSize: 18, background: THEME.gold, color: THEME.bg, border: 'none' }}>{state.week + 1 >= state.totalWeeks ? 'Concluir formação' : 'Avançar semana'}</button>
+
+      {!showPicker && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <button onClick={onTogglePicker} className="display" style={{ padding: '15px 0', fontWeight: 700, fontSize: 18, background: THEME.gold, color: THEME.bg, border: 'none' }}>
+            {isLastWeek ? 'Treinar e concluir formação' : 'Treinar'}
+          </button>
+          <button onClick={() => onAdvance('rest')} style={{ padding: '13px 0', fontWeight: 700, fontSize: 14, border: `1px solid ${THEME.gold}`, background: 'transparent', color: THEME.gold }}>
+            {isLastWeek ? 'Descansar e concluir formação' : 'Descansar'}
+          </button>
+        </div>
+      )}
+      {showPicker && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+          {TRAININGS.map(t => (
+            <button key={t.id} onClick={() => onAdvance('train', t.id)}
+              style={{ padding: '12px 0', fontSize: 13, fontWeight: 600, border: `1px solid ${THEME.cardElevated}`, background: THEME.card, color: THEME.text }}>
+              {t.name}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div>
+        <p style={{ fontSize: 11, color: THEME.textSecondary, fontWeight: 700, letterSpacing: 0.5, marginBottom: 8 }}>SUA SEMANA NA BASE</p>
+        <Card style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {(!log || log.length === 0) && <p style={{ fontSize: 13, color: THEME.textSecondary }}>Ainda não teve sua primeira semana — escolha um treino pra começar.</p>}
+          {(log || []).slice(0, 3).map((l, i) => <p key={i} style={{ fontSize: 13, color: THEME.textSecondary }}>• {l}</p>)}
+        </Card>
+      </div>
     </div>
   );
 }

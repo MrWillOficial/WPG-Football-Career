@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { getClubRosterPlayers, getRosterPlayerName } from '../../engines/player/playerEngine.js';
 import { Badge, Card, THEME } from '../system.jsx';
 import { FITNESS_AVAILABILITY_FLOOR } from '../../engines/life/lifeCalendarFitness.jsx';
