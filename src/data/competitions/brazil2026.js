@@ -1,6 +1,6 @@
 import { CompetitionEngineV2, runCompetitionEngineV2SelfCheck } from '../../engines/competition/CompetitionEngineV2.js';
-import { CLUBS, SERIE_D_CLUBS, makeCompetitionConfig, makeSerieDConfig } from '../_mock/mockData.js';
-import { buildSerieC2026Definition, runSerieC2026DemoSelfCheck } from './serieC2026.js';
+import { CLUBS, CLUBS_MAP, SERIE_D_CLUBS, makeCompetitionConfig, makeSerieDConfig } from '../_mock/mockData.js';
+import { SERIE_C_2026_CLUBS, SERIE_C_2026_CLUBS_MAP, buildSerieC2026Definition, runSerieC2026DemoSelfCheck } from './serieC2026.js';
 import { SERIE_D_2026_CLUBS_MAP, buildSerieD2026Definition, runSerieD2026DemoSelfCheck } from './serieD2026.js';
 import { buildCopaDoBrasil2026Definition, runCopaDoBrasil2026SelfCheck } from './copaDoBrasil2026.js';
 import { SERIE_D_2026_CLUB_IDS } from './serieD2026.js';
