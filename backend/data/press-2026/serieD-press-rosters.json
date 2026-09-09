@@ -6,10 +6,10 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07"],
-    "nextGroup": "A08",
-    "clubsFoundThisSession": 38,
-    "clubsNotFoundThisSession": 4
+    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08"],
+    "nextGroup": "A09",
+    "clubsFoundThisSession": 43,
+    "clubsNotFoundThisSession": 5
   },
   "clubs": {
     "A01::Nacional-AM": {
@@ -768,6 +768,116 @@
         { "name": "Naelson", "positionRaw": "Atacante" }
       ],
       "notes": "Rafão/Kelson/Naelson foram reforços anunciados especificamente pra competições nacionais (Série D/Copa do Brasil), vindos do Teresina."
+    },
+    "A08::ABC-RN": {
+      "clubName": "ABC-RN",
+      "groupId": "A08",
+      "status": "press_pending_official",
+      "sources": ["https://tribunadonorte.com.br/esportes/abc-oficializa-retorno-de-atacante-e-soma-dez-reforcos-para-2026-veja-lista/"],
+      "players": [
+        { "name": "Matheus Alves", "positionRaw": "Goleiro" },
+        { "name": "Vitor Luiz", "positionRaw": "Goleiro" },
+        { "name": "Lucas Marques", "positionRaw": "Lateral" },
+        { "name": "Cayo Tenório", "positionRaw": "Lateral" },
+        { "name": "Fabão", "positionRaw": "Zagueiro" },
+        { "name": "Wellington Carvalho", "positionRaw": "Zagueiro" },
+        { "name": "Lucas Souza", "positionRaw": "Zagueiro" },
+        { "name": "Edson", "positionRaw": "Meio-campo" },
+        { "name": "Geílson", "positionRaw": "Meio-campo" },
+        { "name": "Adeílson", "positionRaw": "Meio-campo" },
+        { "name": "Randerson", "positionRaw": "Meio-campo" },
+        { "name": "Lima", "positionRaw": "Meio-campo" },
+        { "name": "Bruno Leite", "positionRaw": "Meio-campo" },
+        { "name": "Marcos Calazans", "positionRaw": "Atacante" },
+        { "name": "Darlan", "positionRaw": null },
+        { "name": "Rhyan", "positionRaw": null },
+        { "name": "Oziel", "positionRaw": null },
+        { "name": "Kauã Gabriel", "positionRaw": null }
+      ],
+      "notes": "Fonte confirma as datas oficiais da Série D 2026 (4/abril a 13/setembro), batendo de novo com o motor do jogo. Darlan/Rhyan/Oziel/Kauã Gabriel são jogadores da base com contratos mais longos, sem posição detalhada na fonte."
+    },
+    "A08::América-RN": {
+      "clubName": "América-RN",
+      "groupId": "A08",
+      "status": "press_pending_official",
+      "sources": ["https://www.espn.com.br/futebol/time/elenco/_/id/7634/liga/BRA.1"],
+      "players": [
+        { "name": "Herbert", "positionRaw": null },
+        { "name": "Salatiel", "positionRaw": null },
+        { "name": "Ferreira", "positionRaw": null }
+      ],
+      "notes": "Clube tem 32 jogadores no elenco total; só 3 nomes (artilheiros da temporada) encontrados via busca, sem posição."
+    },
+    "A08::Laguna-RN": {
+      "clubName": "Laguna-RN",
+      "groupId": "A08",
+      "status": "press_pending_official",
+      "sources": [
+        "https://tribunadonorte.com.br/esportes/laguna-anuncia-primeiros-reforcos-para-temporada-2026/",
+        "https://tribunadonorte.com.br/esportes/laguna-anuncia-os-primeiros-reforcos-para-a-temporada/"
+      ],
+      "players": [
+        { "name": "Dã Moroni", "positionRaw": "Goleiro" },
+        { "name": "Choco", "positionRaw": "Lateral-direito" },
+        { "name": "Mateus", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Samuel", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Victor Jacaré", "positionRaw": "Zagueiro" },
+        { "name": "Emmanuel", "positionRaw": "Zagueiro" },
+        { "name": "JV", "positionRaw": "Meio-campo" },
+        { "name": "Erivélton", "positionRaw": "Meio-campo" },
+        { "name": "Ferrugem", "positionRaw": "Meio-campo" },
+        { "name": "Éverton Luiz", "positionRaw": "Meio-campo" },
+        { "name": "Juan Xavier", "positionRaw": "Meio-campo" },
+        { "name": "Natan", "positionRaw": "Meio-campo" },
+        { "name": "Kaiky", "positionRaw": "Atacante" },
+        { "name": "Gustavinho", "positionRaw": "Atacante" },
+        { "name": "João Andrade", "positionRaw": "Ponta" },
+        { "name": "Danilinho", "positionRaw": "Ponta" }
+      ],
+      "notes": "Kaiky é retorno em definitivo, vindo do Botafogo, segundo a fonte."
+    },
+    "A08::Sousa-PB": {
+      "clubName": "Sousa-PB",
+      "groupId": "A08",
+      "status": "press_pending_official",
+      "sources": ["https://vozdatorcida.com/vt/?p=96993"],
+      "players": [
+        { "name": "Gabriel Souza", "positionRaw": "Goleiro" },
+        { "name": "João Vitor", "positionRaw": "Goleiro" },
+        { "name": "Lucas Gabriel", "positionRaw": "Goleiro" },
+        { "name": "Moisés Freitas Gondim", "positionRaw": "Goleiro" },
+        { "name": "Abraão Lincoln Lima Freitas", "positionRaw": "Zagueiro" },
+        { "name": "Crystian", "positionRaw": "Zagueiro" },
+        { "name": "Gilmar", "positionRaw": "Zagueiro" },
+        { "name": "Iranílson", "positionRaw": "Zagueiro" },
+        { "name": "João Pedro Nascimento Lopes", "positionRaw": "Zagueiro" },
+        { "name": "Júlio César Ferreira da Silva", "positionRaw": "Zagueiro" },
+        { "name": "Marcelo Duarte", "positionRaw": "Zagueiro" },
+        { "name": "Neto Lisboa", "positionRaw": "Zagueiro" },
+        { "name": "Pedro Henrique Lima Costa", "positionRaw": "Zagueiro" },
+        { "name": "Yan Cristian Silva do Carmo", "positionRaw": "Zagueiro" },
+        { "name": "Hebert Cristian", "positionRaw": "Volante" },
+        { "name": "Diego Viana", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Clube tem 34 jogadores no elenco total; fonte listou goleiros e zagueiros quase completos, mas sem meio-campistas/atacantes na cobertura encontrada. Hebert Cristian estava emprestado ao Manaus-AM (mesmo universo do jogo, Grupo A01) e retornou."
+    },
+    "A08::Maguary-PE": {
+      "clubName": "Maguary-PE",
+      "groupId": "A08",
+      "status": "press_pending_official",
+      "sources": ["https://www.fotmob.com/pt-BR/teams/1426346/overview/android-app:/com.mobilefootie.wc2010/http"],
+      "players": [
+        { "name": "Yan de Lima", "positionRaw": "Atacante" }
+      ],
+      "notes": "Cobertura extremamente fraca -- só 1 nome encontrado, de uma listagem visivelmente incompleta de agregador."
+    },
+    "A08::Central-PE": {
+      "clubName": "Central-PE",
+      "groupId": "A08",
+      "status": "not_found_via_press",
+      "sources": [],
+      "players": [],
+      "notes": "Nenhum nome de jogador encontrado via busca."
     }
   }
 }
