@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubs": 20,
-    "clubsProcessed": ["América-MG", "Athletic", "Atlético-GO", "Avaí", "Botafogo-SP", "Ceará", "CRB", "Criciúma"],
-    "nextClub": "Cuiabá",
-    "clubsFoundThisSession": 7,
+    "clubsProcessed": ["América-MG", "Athletic", "Atlético-GO", "Avaí", "Botafogo-SP", "Ceará", "CRB", "Criciúma", "Cuiabá", "Fortaleza", "Goiás", "Juventude"],
+    "nextClub": "Londrina",
+    "clubsFoundThisSession": 11,
     "clubsNotFoundThisSession": 1
   },
   "clubs": {
@@ -214,7 +214,89 @@
         { "name": "Fellipe Mateus", "positionRaw": "Meia" },
         { "name": "Guilherme", "positionRaw": "Meia" }
       ],
-      "notes": "Técnico Eduardo Baptista, estádio Heriberto Hülse. Rômulo Júnior chegou por empréstimo do Atlético (clube não especificado pela fonte -- pode ser Atlético-MG, Atlético-GO ou outro 'Atlético', mantido como 'Atlético' genérico por não haver confirmação de qual). Ataque puro (centroavantes) não discriminado nesta rodada de busca."
+      "notes": "Técnico Eduardo Baptista, estádio Heriberto Hülse. Rômulo Júnior chegou por empréstimo do Atlético (clube não especificado pela fonte -- pode ser Atlético-MG, Atlético-GO ou outro 'Atlético', mantido como 'Atlético' genérico por não haver confirmação de qual). Ataque puro (centroavantes) não discriminado nesta rodada de busca.",
+      "notes_cross_validation": "Fonte confirma jogo real 'Cuiabá x Criciúma' na Série B 2026 (4 de setembro) -- Criciúma já cadastrado neste mesmo arquivo."
+    },
+    "Cuiabá": {
+      "clubName": "Cuiabá",
+      "status": "press_pending_official",
+      "sources": ["https://www.olhardireto.com.br/noticias/retornos-e-saidas-confira-quem-volta-ao-cuiaba-na-reformulacao-do-elenco-para-2026"],
+      "players": [
+        { "name": "Gabriel Knesowitsch", "positionRaw": "Zagueiro" },
+        { "name": "Raylan", "positionRaw": "Lateral" },
+        { "name": "Eliel", "positionRaw": "Atacante" },
+        { "name": "Gustavo Santos", "positionRaw": "Meio-campo" },
+        { "name": "Kauan Cristtyan", "positionRaw": "Atacante" }
+      ],
+      "notes": "Manteve a permanência na Série B em 2026, mas o próprio presidente do clube disse que 'quase todo mundo deve sair' -- reformulação profunda em andamento, contando com retorno de jogadores emprestados e promoção de jovens da base. Só os 5 titulares esperados de retorno foram individualizados nesta rodada de busca. Confirmado via fonte jogo real 'Cuiabá x Criciúma' na Série B 2026 (Criciúma já cadastrado neste arquivo)."
+    },
+    "Fortaleza": {
+      "clubName": "Fortaleza",
+      "status": "press_pending_official",
+      "sources": ["https://www.youtube.com/watch?v=2tnR4hJ87GU (descrição/contexto), pesquisa agregada sobre reforços 2026"],
+      "players": [
+        { "name": "Yago Pikachu", "positionRaw": null },
+        { "name": "Breno Lopes", "positionRaw": null },
+        { "name": "Juan Martín Lucero", "positionRaw": null },
+        { "name": "Deyverson", "positionRaw": null },
+        { "name": "Adam Bareiro", "positionRaw": null },
+        { "name": "Diogo Barbosa", "positionRaw": null }
+      ],
+      "notes": "Rebaixado pra Série B pela primeira vez desde 2018, técnico Thiago Carpini, joga na Arena Castelão. Elenco de 46 jogadores no total. Reforços vieram de: Yago Pikachu (Remo, também Série A deste jogo), Breno Lopes (Coritiba, Série A), Juan Martín Lucero (Universidad de Chile), Deyverson (LDU Quito), Adam Bareiro (Boca Juniors) e Diogo Barbosa (Juventude, também Série B deste jogo) -- nenhuma fonte encontrada nesta rodada de busca confirmou a posição de cada um, então positionRaw ficou null pra não presumir por conhecimento geral de futebol (seria inventar o que a fonte não disse). 5º colocado na Série B no momento da matéria (11V-5E-3D em 21 jogos)."
+    },
+    "Goiás": {
+      "clubName": "Goiás",
+      "status": "press_pending_official",
+      "sources": ["https://diariodegoias.com.br/as-contratacoes-e-o-elenco-do-goias-para-temporada-2026/515340/"],
+      "players": [
+        { "name": "Tadeu", "positionRaw": "Goleiro" },
+        { "name": "Thiago Rodrigues", "positionRaw": "Goleiro" },
+        { "name": "Ezequiel", "positionRaw": "Goleiro" },
+        { "name": "Rodrigo Soares", "positionRaw": "Lateral" },
+        { "name": "Diego Caito", "positionRaw": "Lateral" },
+        { "name": "Nicolas", "positionRaw": "Lateral" },
+        { "name": "Djalma Silva", "positionRaw": "Lateral" },
+        { "name": "Danilo", "positionRaw": "Lateral" },
+        { "name": "Lucas Ribeiro", "positionRaw": "Zagueiro" },
+        { "name": "Luiz Felipe", "positionRaw": "Zagueiro" },
+        { "name": "Titi", "positionRaw": "Zagueiro" },
+        { "name": "Anthony", "positionRaw": "Zagueiro" },
+        { "name": "Pablo", "positionRaw": "Zagueiro" },
+        { "name": "Juninho", "positionRaw": "Volante" },
+        { "name": "Lourenço", "positionRaw": "Volante" },
+        { "name": "Baldória", "positionRaw": "Volante" },
+        { "name": "Filipe Machado", "positionRaw": "Volante" },
+        { "name": "Lucas Rodrigues", "positionRaw": "Volante" },
+        { "name": "Gegê", "positionRaw": "Meia" },
+        { "name": "Brayann", "positionRaw": "Meia" },
+        { "name": "Alan Stence", "positionRaw": "Meia" },
+        { "name": "Wellington Rato", "positionRaw": "Meia" },
+        { "name": "Jean Carlos", "positionRaw": "Meia" },
+        { "name": "Anselso Ramon", "positionRaw": "Atacante" },
+        { "name": "Jajá", "positionRaw": "Atacante" },
+        { "name": "Pedrinho", "positionRaw": "Atacante" },
+        { "name": "Bruno Sávio", "positionRaw": "Atacante" },
+        { "name": "Esli Garcia", "positionRaw": "Atacante" },
+        { "name": "Vitor Hugo", "positionRaw": "Atacante" },
+        { "name": "Kadu", "positionRaw": "Atacante" }
+      ],
+      "notes": "Uma das coberturas mais completas de toda a coleta da Série B -- 30 jogadores discriminados por posição em detalhe (goleiro/lateral/zagueiro/volante/meia/atacante), técnico Daniel Paulista."
+    },
+    "Juventude": {
+      "clubName": "Juventude",
+      "status": "press_pending_official",
+      "sources": ["https://www.fotmob.com/pt-BR/leagues/8814/stats/season/1000000394/teams/corner_taken_team/team/10274/juventudeteamsteamsteamsplayers-teams"],
+      "players": [
+        { "name": "Bill", "positionRaw": null },
+        { "name": "Juan Christian", "positionRaw": null },
+        { "name": "Patryck", "positionRaw": null },
+        { "name": "Rodrigo Sam", "positionRaw": null },
+        { "name": "Messias", "positionRaw": null },
+        { "name": "Alisson Safira", "positionRaw": null },
+        { "name": "Mandaca", "positionRaw": null },
+        { "name": "Gabriel", "positionRaw": null }
+      ],
+      "notes": "Fonte trouxe apenas estatísticas individuais da Série B 2026 (artilheiros: Bill 3 gols, Juan Christian e Patryck 2 gols cada; melhor nota: Rodrigo Sam 7.28; assistências: Alisson Safira 2, Mandaca e Gabriel) sem discriminar posição de nenhum jogador -- positionRaw null pra todos. Diogo Barbosa (ex-Juventude) já aparece cadastrado como reforço do Fortaleza neste mesmo arquivo. Vencendo 2 dos últimos 5 jogos no momento da matéria."
     }
   }
 }
