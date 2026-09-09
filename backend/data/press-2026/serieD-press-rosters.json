@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubsSerieD": 96,
-    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09"],
-    "nextGroup": "A10",
-    "clubsFoundThisSession": 48,
+    "groupsProcessed": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10"],
+    "nextGroup": "A11",
+    "clubsFoundThisSession": 54,
     "clubsNotFoundThisSession": 6
   },
   "clubs": {
@@ -967,6 +967,131 @@
         { "name": "Reny Max Santos Silva", "positionRaw": null }
       ],
       "notes": "Clube tem 22 jogadores no elenco total; 3 goleiros da listagem oficial + 3 artilheiros da temporada."
+    },
+    "A10::ASA-AL": {
+      "clubName": "ASA-AL",
+      "groupId": "A10",
+      "status": "press_pending_official",
+      "sources": ["https://agoraalagoas.com/asa-apresenta-elenco-com-28-jogadores-e-projeta-temporada-especial-em-2026/"],
+      "players": [
+        { "name": "Paulo Goanezini", "positionRaw": "Goleiro" },
+        { "name": "Cris", "positionRaw": "Goleiro" },
+        { "name": "João Paulo", "positionRaw": "Goleiro" },
+        { "name": "Flávio", "positionRaw": "Zagueiro" },
+        { "name": "Cristian Lucca", "positionRaw": "Zagueiro" },
+        { "name": "Jan Pieter", "positionRaw": "Zagueiro" },
+        { "name": "Henrique", "positionRaw": "Zagueiro" },
+        { "name": "Fábio Aguiar", "positionRaw": "Zagueiro" },
+        { "name": "Sammuel", "positionRaw": "Meio-campo" },
+        { "name": "Higor Leite", "positionRaw": "Meio-campo" },
+        { "name": "Allef", "positionRaw": "Meio-campo" },
+        { "name": "Jailson", "positionRaw": "Meio-campo" },
+        { "name": "Jeferson", "positionRaw": "Meio-campo" },
+        { "name": "Richard Franco", "positionRaw": "Meio-campo" },
+        { "name": "Wandson", "positionRaw": "Atacante" },
+        { "name": "Keliton", "positionRaw": "Atacante" },
+        { "name": "Gustavo Ramos", "positionRaw": "Atacante" },
+        { "name": "Júnior Viçosa", "positionRaw": "Centroavante" },
+        { "name": "Alex Bruno", "positionRaw": "Centroavante" },
+        { "name": "Iarley", "positionRaw": "Atacante" },
+        { "name": "Jonata", "positionRaw": "Atacante" },
+        { "name": "Marcos Brazion", "positionRaw": "Atacante" },
+        { "name": "Michel Douglas", "positionRaw": "Atacante" },
+        { "name": "Porfírio", "positionRaw": "Atacante" },
+        { "name": "Vinícius", "positionRaw": "Atacante" }
+      ],
+      "notes": "Clube apresentou 28 jogadores no total; combinação de duas coberturas (apresentação oficial + página de elenco) pode ter alguma sobreposição não identificada, mas nenhum nome foi inventado."
+    },
+    "A10::CSA-AL": {
+      "clubName": "CSA-AL",
+      "groupId": "A10",
+      "status": "press_pending_official",
+      "sources": ["https://www.alagoas24horas.com.br/1702003/csa-avanca-na-formacao-do-elenco-para-2026-e-confirma-seis-novos-pre-contratos"],
+      "players": [
+        { "name": "Camacho", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Cobertura muito fraca -- só o capitão Camacho nomeado, resto da matéria fala de reformulação em andamento sem nomes."
+    },
+    "A10::CSE-AL": {
+      "clubName": "CSE-AL",
+      "groupId": "A10",
+      "status": "press_pending_official",
+      "sources": ["https://www.gazetaweb.com/noticias/esportes/alagoano/cse-anuncia-mais-quatro-reforcos-e-chega-a-oito-nomes-confirmados-para-2026-854105"],
+      "players": [
+        { "name": "Bruno Pereira", "positionRaw": "Goleiro" },
+        { "name": "Jeferson", "positionRaw": "Goleiro" },
+        { "name": "Pedro Vitor", "positionRaw": "Goleiro" },
+        { "name": "Guigui", "positionRaw": "Zagueiro" },
+        { "name": "Diego", "positionRaw": "Lateral-direito" },
+        { "name": "Carlos Henrique", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Fábio Matos", "positionRaw": "Meio-campo" },
+        { "name": "Claudevan", "positionRaw": "Meio-campo" },
+        { "name": "Pedro Augusto", "positionRaw": "Meio-campo" },
+        { "name": "Sapé", "positionRaw": "Meio-campo" },
+        { "name": "Keyllo", "positionRaw": "Meio-campo" },
+        { "name": "Edvélton", "positionRaw": "Meio-campo" },
+        { "name": "Tarcísio", "positionRaw": "Atacante" },
+        { "name": "Geovânio", "positionRaw": "Atacante" },
+        { "name": "Michel Douglas", "positionRaw": "Atacante" },
+        { "name": "Héctor Bustamante", "positionRaw": "Atacante" }
+      ],
+      "notes": "Vários jogadores vieram de outros clubes deste mesmo grupo A10 (Diego ex-time não identificado, Tarcísio ex-Imperatriz-MA que é do Grupo A05) -- só registro de origem citado pela fonte."
+    },
+    "A10::Jacuipense-BA": {
+      "clubName": "Jacuipense-BA",
+      "groupId": "A10",
+      "status": "press_pending_official",
+      "sources": ["https://www.bahianoticias.com.br/esportes/noticia/76146-foco-em-2026-jacuipense-anuncia-renovacao-de-guilherme-rend-e-mais-11-jogadores-para-a-proxima-temporada"],
+      "players": [
+        { "name": "Guilherme Rend", "positionRaw": "Meio-campo" },
+        { "name": "Flavinho", "positionRaw": "Atacante" }
+      ],
+      "notes": "Clube renovou com 12 jogadores no total; só os 2 mais destacados foram nomeados na cobertura encontrada."
+    },
+    "A10::Alagoinhas Atlético Clube-BA": {
+      "clubName": "Alagoinhas Atlético Clube-BA",
+      "groupId": "A10",
+      "status": "press_pending_official",
+      "sources": ["https://www.espn.com.br/futebol/time/elenco/_/id/21550/atletico_alagoinhas"],
+      "players": [
+        { "name": "Edvaldo Neto", "positionRaw": "Goleiro" },
+        { "name": "Giovani", "positionRaw": "Goleiro" },
+        { "name": "Jadson", "positionRaw": "Zagueiro" },
+        { "name": "Marcos Vinicius", "positionRaw": "Zagueiro" },
+        { "name": "Matheus Souza", "positionRaw": "Zagueiro" },
+        { "name": "Menezes", "positionRaw": "Zagueiro" },
+        { "name": "V. Lopes dos Santos", "positionRaw": "Zagueiro" },
+        { "name": "Victor Luiz", "positionRaw": "Zagueiro" },
+        { "name": "Vitão", "positionRaw": "Zagueiro" },
+        { "name": "Esquerdinha", "positionRaw": "Meio-campo" },
+        { "name": "Fabio Dias", "positionRaw": "Meio-campo" },
+        { "name": "Gilmar", "positionRaw": "Meio-campo" },
+        { "name": "Rafael Argolo Luz Pato", "positionRaw": "Meio-campo" },
+        { "name": "Relry Faustino", "positionRaw": "Meio-campo" },
+        { "name": "A. Vitório", "positionRaw": "Atacante" },
+        { "name": "Joao Pedro", "positionRaw": "Atacante" },
+        { "name": "Kauã", "positionRaw": "Atacante" },
+        { "name": "L. Sanhueza", "positionRaw": "Atacante" },
+        { "name": "Matheus Barboza", "positionRaw": "Atacante" },
+        { "name": "Michael", "positionRaw": "Atacante" },
+        { "name": "Rikelm", "positionRaw": "Atacante" }
+      ],
+      "notes": "Melhor cobertura da leva -- elenco quase completo com idades e posições. L. Sanhueza é argentino segundo a fonte. Outros nomes adicionais sem posição definida na fonte (Andrey Gradici, Athirson, Douglas Pantera, Fellipe, Giancarlo, Gustavo, Jeferson, João Carlos, Juan Figueroa, Lucas Luan, Miller, Neto, Nuno, Rodrigo) foram OMITIDOS por não terem posição nem confirmação clara de que são elenco 2026 vs. lista histórica do agregador."
+    },
+    "A10::Juazeirense-BA": {
+      "clubName": "Juazeirense-BA",
+      "groupId": "A10",
+      "status": "press_pending_official",
+      "sources": ["https://agenciach.com.br/juazeirense-apresenta-elenco-uniformes-e-novos-conselheiros-antes-da-estreia-no-baianao-2026/"],
+      "players": [
+        { "name": "R. Calaca", "positionRaw": null },
+        { "name": "B. Neri", "positionRaw": null },
+        { "name": "T. Santos", "positionRaw": null },
+        { "name": "F. Vasconcelos", "positionRaw": null },
+        { "name": "Carlinhos Miranda", "positionRaw": null },
+        { "name": "Marlon", "positionRaw": null }
+      ],
+      "notes": "Clube tem 28 jogadores confirmados no elenco (idade média 29 anos); só nomes abreviados encontrados na busca, sem posição. Marlon está emprestado do Fluminense sub-20."
     }
   }
 }
