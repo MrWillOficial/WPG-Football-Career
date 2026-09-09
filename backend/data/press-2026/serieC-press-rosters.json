@@ -6,9 +6,9 @@
   },
   "_progress": {
     "totalClubs": 20,
-    "clubsProcessed": ["Ferroviária-SP", "Amazonas-AM", "Volta Redonda-RJ", "Paysandu-PA"],
-    "nextClub": "Caxias-RS",
-    "clubsFoundThisSession": 4,
+    "clubsProcessed": ["Ferroviária-SP", "Amazonas-AM", "Volta Redonda-RJ", "Paysandu-PA", "Caxias-RS", "Brusque-SC", "Guarani-SP", "Floresta-CE"],
+    "nextClub": "Confiança-SE",
+    "clubsFoundThisSession": 8,
     "clubsNotFoundThisSession": 0
   },
   "clubs": {
@@ -112,6 +112,88 @@
         { "name": "JP Galvão", "positionRaw": null }
       ],
       "notes": "Confirmado via imprensa que o Paysandu disputa o Grupo B do quadrangular de acesso da Série C 2026 CONTRA O BRUSQUE-SC -- Brusque também está no elenco de clubes da Série C 2026 deste jogo, cruzamento de validação da fase 2 (2 grupos de 4). Diretoria ainda buscava reforços (lateral-esquerdo e atacante de beirada) no momento da matéria -- elenco pode não estar fechado."
+    },
+    "Caxias-RS": {
+      "clubName": "Caxias-RS",
+      "status": "press_pending_official",
+      "sources": ["https://www.radiocaxias.com.br/elenco-do-caxias-se-apresenta-com-19-jogadores-para-os-trabalhos-da-pre-temporada/"],
+      "players": [
+        { "name": "Gabriel Toebe", "positionRaw": "Goleiro" },
+        { "name": "Thiago Coelho", "positionRaw": "Goleiro" },
+        { "name": "Vitinho", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Thiago Ennes", "positionRaw": "Lateral" },
+        { "name": "Ronei", "positionRaw": "Lateral" },
+        { "name": "Mauricio Ribeiro", "positionRaw": "Zagueiro" },
+        { "name": "Windson", "positionRaw": "Zagueiro" },
+        { "name": "Joilson", "positionRaw": "Zagueiro" },
+        { "name": "Andrés Robles", "positionRaw": "Zagueiro" },
+        { "name": "Carlos Henrique", "positionRaw": "Zagueiro" },
+        { "name": "Cuiabá", "positionRaw": "Meio-campo" },
+        { "name": "Tomas Bastos", "positionRaw": "Meio-campo" },
+        { "name": "Yann Rolim", "positionRaw": "Meio-campo" },
+        { "name": "Vitor Feijão", "positionRaw": "Atacante" },
+        { "name": "Jeam", "positionRaw": "Atacante" },
+        { "name": "Jhonatan Ribeiro", "positionRaw": "Atacante" },
+        { "name": "Andrew", "positionRaw": "Atacante" },
+        { "name": "Calyson", "positionRaw": "Atacante" },
+        { "name": "Douglas Skilo", "positionRaw": "Atacante" }
+      ],
+      "notes": "19 atletas se apresentaram para a pré-temporada 2026 (8 contratações novas + 11 renovados), técnico Fernando Marchiori. Negociações em aberto no momento da matéria para o volante senegalês Iba Ly (São Paulo) e o meia Breno Santos (Joinville, também deste jogo na Série D 2026 Grupo A16) -- não incluídos por não estarem confirmados."
+    },
+    "Brusque-SC": {
+      "clubName": "Brusque-SC",
+      "status": "press_pending_official",
+      "sources": ["https://brusque.portaldacidade.com/noticias/esportes/brusque-acelera-reformulacao-para-a-serie-c-com-reforcos-nova-gestao-e-foco-no-acesso-2723"],
+      "players": [
+        { "name": "João Cipriano", "positionRaw": "Zagueiro" },
+        { "name": "Héber", "positionRaw": "Atacante" },
+        { "name": "Macário", "positionRaw": "Atacante" },
+        { "name": "Rafa Fonseca", "positionRaw": "Meia" }
+      ],
+      "notes": "Cobertura esparsa -- só as contratações mais destacadas foram individualizadas pela imprensa nesta rodada de busca (perdeu peças importantes como Biel, que saiu). MÚLTIPLOS cruzamentos de validação fortes: resultados de busca trazem jogos reais 'Brusque v Santa Cruz', 'Brusque v Figueirense' e 'Brusque v Floresta' na Série C 2026 -- Santa Cruz-PE, Figueirense-SC e Floresta-CE são TODOS clubes da Série C 2026 deste jogo."
+    },
+    "Guarani-SP": {
+      "clubName": "Guarani-SP",
+      "status": "press_pending_official",
+      "sources": ["https://portalcbncampinas.com.br/2025/12/guarani-confirma-mais-duas-contratacoes-e-chega-a-11-reforcos-para-2026/", "https://www.futebolinterior.com.br/guarani-encaminha-dois-reforcos-2026/"],
+      "players": [
+        { "name": "Fernando Miguel", "positionRaw": "Goleiro" },
+        { "name": "Maurício Antônio", "positionRaw": "Zagueiro" },
+        { "name": "Rafael Donato", "positionRaw": "Zagueiro" },
+        { "name": "Jonathan Costa", "positionRaw": "Zagueiro" },
+        { "name": "Rian", "positionRaw": "Lateral-direito" },
+        { "name": "Willian Farias", "positionRaw": "Meio-campo" },
+        { "name": "Igor Pereira", "positionRaw": "Meio-campo" },
+        { "name": "Nathan Melo", "positionRaw": "Meio-campo" },
+        { "name": "Guilherme Cachoeira", "positionRaw": "Ponta" },
+        { "name": "Guilherme Parede", "positionRaw": "Atacante" },
+        { "name": "Maranhão", "positionRaw": "Atacante" }
+      ],
+      "notes": "Lista dos 11 reforços oficializados pelo clube (Bugre) pra pré-temporada 2026, cobrindo Paulistão + Série C + Copa do Brasil. ATENÇÃO -- CONTRADIÇÃO ENTRE FONTES não resolvida: esta matéria lista 'Maranhão' como contratação/atacante do PRÓPRIO Guarani, enquanto a matéria usada pra Ferroviária-SP (Grupo Ferroviária deste mesmo arquivo) diz que o atacante Maranhão foi emprestado DO Guarani PARA a Ferroviária. Mantido como veio em cada fonte, sem tentar decidir qual está certa -- fora do escopo desta coleta."
+    },
+    "Floresta-CE": {
+      "clubName": "Floresta-CE",
+      "status": "press_pending_official",
+      "sources": ["https://www.aiscore.com/team-floresta-ce/69759iyn43fnk23/squad"],
+      "players": [
+        { "name": "Tiepo", "positionRaw": "Goleiro" },
+        { "name": "Dalton", "positionRaw": "Goleiro" },
+        { "name": "Dheimison", "positionRaw": "Goleiro" },
+        { "name": "Jeferson Souza", "positionRaw": "Goleiro" },
+        { "name": "César Rodrigues", "positionRaw": "Goleiro" },
+        { "name": "Caíque", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Diego Matos", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Cedric", "positionRaw": "Lateral-direito" },
+        { "name": "Valdo", "positionRaw": "Zagueiro" },
+        { "name": "Marco Antônio", "positionRaw": "Zagueiro" },
+        { "name": "Afonso", "positionRaw": "Zagueiro" },
+        { "name": "Islan", "positionRaw": "Zagueiro" },
+        { "name": "Eliandro", "positionRaw": null },
+        { "name": "Jeam", "positionRaw": "Atacante" },
+        { "name": "Ruan", "positionRaw": "Atacante" },
+        { "name": "Ícaro", "positionRaw": "Atacante" }
+      ],
+      "notes": "Clube de Fortaleza-CE, técnico Gerson Gusmão. Fonte agregada (AiScore) trouxe uma lista bem completa de goleiros e defesa, mais os 3 artilheiros do ataque (Jeam, Ruan, Ícaro, por gols na competição). Meio-campo não discriminado nesta rodada de busca."
     }
   }
 }
