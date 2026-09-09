@@ -6,9 +6,10 @@
   },
   "_progress": {
     "totalClubs": 20,
-    "clubsProcessed": ["América-MG", "Athletic", "Atlético-GO", "Avaí", "Botafogo-SP", "Ceará", "CRB", "Criciúma", "Cuiabá", "Fortaleza", "Goiás", "Juventude", "Londrina", "Náutico", "Novorizontino", "Operário-PR"],
-    "nextClub": "Ponte Preta",
-    "clubsFoundThisSession": 15,
+    "clubsProcessed": ["América-MG", "Athletic", "Atlético-GO", "Avaí", "Botafogo-SP", "Ceará", "CRB", "Criciúma", "Cuiabá", "Fortaleza", "Goiás", "Juventude", "Londrina", "Náutico", "Novorizontino", "Operário-PR", "Ponte Preta", "São Bernardo", "Sport", "Vila Nova"],
+    "nextClub": null,
+    "complete": true,
+    "clubsFoundThisSession": 19,
     "clubsNotFoundThisSession": 1
   },
   "clubs": {
@@ -405,6 +406,94 @@
         { "name": "Matheus Galdezani", "positionRaw": "Meia" }
       ],
       "notes": "Elenco de 22 jogadores anunciado oficialmente, 22 individualizados aqui. Lucas Covolan retorna ao Brasil após 11 anos no exterior. FORTE CRUZAMENTO DE VALIDAÇÃO ENTRE ARQUIVOS: 'Charles' já havia aparecido na matéria do Ypiranga-RS (arquivo serieC-press-rosters.json) como possível destino de saída ('Charles pode ir pro Operário-PR') -- aqui confirmado como parte real do elenco 2026, batendo exatamente com o que a outra fonte antecipava."
+    },
+    "Ponte Preta": {
+      "clubName": "Ponte Preta",
+      "status": "press_pending_official",
+      "sources": ["https://www.futponte.com.br/elenco-ponte-preta"],
+      "players": [
+        { "name": "Diogo Silva", "positionRaw": "Goleiro" },
+        { "name": "Guilherme Viana", "positionRaw": "Goleiro" },
+        { "name": "David Braz", "positionRaw": "Defensor" },
+        { "name": "Diego Porfirio", "positionRaw": "Defensor" },
+        { "name": "Lucas Cunha", "positionRaw": "Defensor" },
+        { "name": "Sergio Palacios", "positionRaw": "Defensor" },
+        { "name": "Lucas Justen", "positionRaw": null },
+        { "name": "Kevyson", "positionRaw": null },
+        { "name": "André Lima", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Promovido da Série C 2025, técnico Márcio Zanardi, 38 atletas no elenco total. Vários emprestados: Lucas Cunha e Sergio Palacios (do Bragantino, também Série A deste jogo), Lucas Justen (do Fluminense sub-20, também Série A), Kevyson (do Santos, também Série A). ATENÇÃO -- possível homônimo não resolvido: 'Diego Porfirio' já aparece cadastrado como zagueiro do Pouso Alegre-MG (Série D, Grupo A13) -- grafia quase idêntica ('Diego Porfírio' lá, sem acento aqui), pode ser o mesmo jogador com fontes grafando diferente, ou coincidência -- não investigado."
+    },
+    "São Bernardo": {
+      "clubName": "São Bernardo",
+      "status": "press_pending_official",
+      "sources": ["https://www.dgabc.com.br/Noticia/4339664/sao-bernardo-fc-anuncia-dois-reforcos-com-foco-em-reacao-na-serie-b-", "https://abcdoabc.com.br/sao-bernardo-fc-anuncia-mais-2-contratacao-2026/"],
+      "players": [
+        { "name": "Léo Lang", "positionRaw": "Goleiro" },
+        { "name": "Pedro Vitor", "positionRaw": "Atacante" },
+        { "name": "Neto Costa", "positionRaw": "Atacante" },
+        { "name": "Breno Melo", "positionRaw": "Meia" }
+      ],
+      "notes": "Promovido da Série C 2025 ('Tigre do ABC'). Cobertura esparsa, só 4 reforços anunciados foram encontrados nesta rodada de busca. Bom cruzamento de trajetória: Léo Lang passou por Caxias-RS (já cadastrado na Série C deste jogo), Tombense-MG (Série D, Grupo A12 deste jogo) e Remo-PA (Série A deste jogo) antes de chegar; Pedro Vitor também veio do Remo. Breno Melo, revelado pelo Grêmio (Série A), tinha 12 gols na Série D antes de chegar."
+    },
+    "Sport": {
+      "clubName": "Sport",
+      "status": "press_pending_official",
+      "sources": ["https://www.besoccer.com/team/squad/sport-recife"],
+      "players": [
+        { "name": "Erick", "positionRaw": "Goleiro" },
+        { "name": "Halls", "positionRaw": "Goleiro" },
+        { "name": "Victor Hugo", "positionRaw": "Goleiro" },
+        { "name": "Denis", "positionRaw": "Goleiro" },
+        { "name": "Thiago Couto", "positionRaw": "Goleiro" },
+        { "name": "Adriano", "positionRaw": "Goleiro" },
+        { "name": "Chico", "positionRaw": "Defensor" },
+        { "name": "L. Di Plácido", "positionRaw": "Defensor" },
+        { "name": "Antônio Carlos", "positionRaw": "Defensor" },
+        { "name": "Dalbert Henrique", "positionRaw": "Defensor" },
+        { "name": "F. Domínguez", "positionRaw": "Meio-campo" },
+        { "name": "Du Queiroz", "positionRaw": "Meio-campo" },
+        { "name": "Cristian Ortíz", "positionRaw": "Meio-campo" },
+        { "name": "Carlos Alberto", "positionRaw": "Atacante" },
+        { "name": "L. Lobato", "positionRaw": "Atacante" },
+        { "name": "Gustavo Maia", "positionRaw": "Atacante" },
+        { "name": "Arthur Sousa", "positionRaw": "Atacante" },
+        { "name": "Chrystian Barletta", "positionRaw": "Atacante" }
+      ],
+      "notes": "122ª temporada do clube, terminou em 8º na Série B segundo a fonte. Elenco de 51 jogadores no total, 18 individualizados aqui. Chrystian Barletta é o artilheiro do time. ATENÇÃO -- dois possíveis homônimos não resolvidos: 'Cristian Ortíz' (meio-campo aqui) tem grafia quase idêntica a 'Christian Ortíz' já cadastrado no Novorizontino neste mesmo arquivo (mesma nacionalidade argentina citada lá); e 'Gustavo Maia' (atacante aqui) tem nome idêntico a um reforço citado no Atlético-GO, também neste arquivo -- nenhum dos dois foi investigado (fora de escopo desta coleta)."
+    },
+    "Vila Nova": {
+      "clubName": "Vila Nova",
+      "status": "press_pending_official",
+      "sources": ["https://www.lance.com.br/vila-nova/vila-nova-fecha-nove-contratacoes-com-nomes-conhecidos-do-futebol-brasileiro.html", "https://diariodegoias.com.br/as-contratacoes-e-o-elenco-do-vila-nova-para-temporada-2026/515337/"],
+      "players": [
+        { "name": "Airton", "positionRaw": "Goleiro" },
+        { "name": "Dalberson", "positionRaw": "Goleiro" },
+        { "name": "Gabriel Átila", "positionRaw": "Goleiro" },
+        { "name": "Elias", "positionRaw": "Lateral" },
+        { "name": "Hayner", "positionRaw": "Lateral" },
+        { "name": "Willian Formiga", "positionRaw": "Lateral" },
+        { "name": "Thalys", "positionRaw": "Lateral" },
+        { "name": "Higor", "positionRaw": "Lateral" },
+        { "name": "Tiago Pagnussat", "positionRaw": "Zagueiro" },
+        { "name": "Weverton", "positionRaw": "Zagueiro" },
+        { "name": "Anderson Jesus", "positionRaw": "Zagueiro" },
+        { "name": "Pedro Romano", "positionRaw": "Zagueiro" },
+        { "name": "João Vieira", "positionRaw": "Volante" },
+        { "name": "Willian Maranhão", "positionRaw": "Volante" },
+        { "name": "Enzo", "positionRaw": "Volante" },
+        { "name": "Marco Antônio", "positionRaw": "Volante" },
+        { "name": "Marquinhos Gabriel", "positionRaw": "Meia" },
+        { "name": "André Luís", "positionRaw": "Atacante" },
+        { "name": "Dellatorre", "positionRaw": "Atacante" },
+        { "name": "Janderson", "positionRaw": "Atacante" },
+        { "name": "Rafa Silva", "positionRaw": "Atacante" },
+        { "name": "Bruno Xavier", "positionRaw": "Atacante" },
+        { "name": "Emerson Urso", "positionRaw": "Atacante" },
+        { "name": "Ruan Ribeiro", "positionRaw": "Atacante" },
+        { "name": "Ryan", "positionRaw": "Atacante" }
+      ],
+      "notes": "Terminou a Série B 2026 em 4º lugar segundo a fonte -- artilheiros Rafael Silva e Ryan Lima (3 gols cada na liga) e Dellatorre (10 gols no total). Dois técnicos na temporada: Umberto Louzer (até 18/03) e Guto Ferreira (a partir de 27/03). Nove reforços com nomes conhecidos do futebol brasileiro (ex-Corinthians, Vasco, Palmeiras -- todos Série A deste jogo) anunciados numa das matérias. Cobertura muito completa (25 jogadores por posição). ÚLTIMO CLUBE da Série B 2026 -- com esta entrada, os 20 clubes estão cobertos (19 encontrados, 1 não encontrado: Botafogo-SP). ATENÇÃO -- dois possíveis homônimos não resolvidos: 'Airton' (goleiro aqui) tem nome idêntico ao goleiro já cadastrado no Criciúma neste mesmo arquivo; 'Bruno Xavier' (atacante aqui) tem nome idêntico ao meio-campista já cadastrado no Athletic (Athletic Club-MG) neste mesmo arquivo -- nenhum investigado (fora de escopo)."
     }
   }
 }
