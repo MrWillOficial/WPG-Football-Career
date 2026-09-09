@@ -6,9 +6,10 @@
   },
   "_progress": {
     "totalClubs": 20,
-    "clubsProcessed": ["Ferroviária-SP", "Amazonas-AM", "Volta Redonda-RJ", "Paysandu-PA", "Caxias-RS", "Brusque-SC", "Guarani-SP", "Floresta-CE", "Confiança-SE", "Ypiranga-RS", "Maringá-PR", "Ituano-SP", "Botafogo-PB", "Figueirense-SC", "Anápolis-GO", "Itabaiana-SE"],
-    "nextClub": "Barra-SC",
-    "clubsFoundThisSession": 16,
+    "clubsProcessed": ["Ferroviária-SP", "Amazonas-AM", "Volta Redonda-RJ", "Paysandu-PA", "Caxias-RS", "Brusque-SC", "Guarani-SP", "Floresta-CE", "Confiança-SE", "Ypiranga-RS", "Maringá-PR", "Ituano-SP", "Botafogo-PB", "Figueirense-SC", "Anápolis-GO", "Itabaiana-SE", "Barra-SC", "Santa Cruz-PE", "Inter de Limeira-SP", "Maranhão-MA"],
+    "nextClub": null,
+    "complete": true,
+    "clubsFoundThisSession": 20,
     "clubsNotFoundThisSession": 0
   },
   "clubs": {
@@ -389,6 +390,111 @@
         { "name": "Betão", "positionRaw": "Zagueiro" }
       ],
       "notes": "Técnico Roberto Fonseca, preparação no CT da Serra. Leilson está na terceira temporada pelo clube. Cruzamento de validação forte: um resultado de busca lista o jogo real 'Itabaiana v Botafogo PB' na Série C 2026 -- Botafogo-PB também está cadastrado neste arquivo, mesmo campeonato do jogo."
+    },
+    "Barra-SC": {
+      "clubName": "Barra-SC",
+      "status": "press_pending_official",
+      "sources": ["https://ndmais.com.br/futebol/guia-da-serie-c-do-brasileiro-2026-barra-brusque-e-figueirense-representam-sc-na-competicao/"],
+      "players": [
+        { "name": "Arthur Vellasque Trindade", "positionRaw": "Goleiro" },
+        { "name": "Ewerton", "positionRaw": "Goleiro" },
+        { "name": "Gustavo Dalmina Marques", "positionRaw": "Goleiro" },
+        { "name": "Volpi", "positionRaw": "Goleiro" },
+        { "name": "Cauê da Rocha", "positionRaw": "Defensor" },
+        { "name": "Éverton Alemão", "positionRaw": "Defensor" },
+        { "name": "Fábio", "positionRaw": "Defensor" },
+        { "name": "Gabriel de Jesus Santos", "positionRaw": "Defensor" },
+        { "name": "Gabriel Ferreira Costa", "positionRaw": "Defensor" },
+        { "name": "Guilherme Lazaroni", "positionRaw": "Defensor" },
+        { "name": "Jackson Cavalcante Felipe", "positionRaw": "Defensor" },
+        { "name": "Jean Pierre", "positionRaw": "Defensor" },
+        { "name": "Kayque", "positionRaw": "Defensor" },
+        { "name": "Léo Duarte", "positionRaw": "Defensor" },
+        { "name": "Lucas Daniel Mendonça Rodrigues Batista", "positionRaw": "Defensor" },
+        { "name": "Vavá", "positionRaw": "Defensor" },
+        { "name": "Victor Melo", "positionRaw": "Defensor" }
+      ],
+      "notes": "Estreante na Série C 2026 (campeão da Série D 2025 e do Catarinense 2026), um dos favoritos ao quadrangular final segundo a imprensa. Elenco de 37 jogadores, mas a fonte só discriminou goleiros e defensores nesta rodada de busca -- meio-campo e ataque não encontrados. Cruzamento de validação: a mesma matéria confirma Barra-SC, Brusque-SC e Figueirense-SC como os 3 representantes de Santa Catarina na Série C 2026 -- os 3 já estão cadastrados neste arquivo."
+    },
+    "Santa Cruz-PE": {
+      "clubName": "Santa Cruz-PE",
+      "status": "press_pending_official",
+      "sources": ["https://www.diariodepernambuco.com.br/esportes-dp/santa-cruz/2025/11/11699812-santa-cruz-desenha-esboco-do-elenco-para-2026-mas-mercado-segue-movimentado.html", "https://www.meusconteudos.com.br/index.php/2026/03/18/santa-cruz-intensifica-contratacoes-e-prepara-elenco-para-serie-c-18-de-marco-de-2026-santa-cruz-futebol-clube-pe/"],
+      "players": [
+        { "name": "Felipe Alves", "positionRaw": "Goleiro" },
+        { "name": "Rokenedy", "positionRaw": "Goleiro" },
+        { "name": "Thiago", "positionRaw": "Goleiro" },
+        { "name": "Alex Ruan", "positionRaw": "Defensor" },
+        { "name": "Edson Miranda", "positionRaw": "Defensor" },
+        { "name": "Eurico", "positionRaw": "Defensor" },
+        { "name": "Jeferson Bahia", "positionRaw": "Defensor" },
+        { "name": "Thiago Ennes", "positionRaw": "Defensor" },
+        { "name": "Willian Alves", "positionRaw": "Defensor" },
+        { "name": "Zé Mário", "positionRaw": "Defensor" },
+        { "name": "Andrey", "positionRaw": "Meio-campo" },
+        { "name": "Fabinho", "positionRaw": "Meio-campo" },
+        { "name": "Leo Costa", "positionRaw": "Meio-campo" },
+        { "name": "Patrick Allan", "positionRaw": "Meio-campo" },
+        { "name": "Pedro Favela", "positionRaw": "Meio-campo" },
+        { "name": "Régis", "positionRaw": "Meio-campo" },
+        { "name": "Silva", "positionRaw": "Meio-campo" },
+        { "name": "Wagner", "positionRaw": "Meio-campo" },
+        { "name": "Ariel Nahuelpán", "positionRaw": "Atacante" },
+        { "name": "Eron", "positionRaw": "Atacante" },
+        { "name": "Everaldo", "positionRaw": "Atacante" }
+      ],
+      "notes": "Técnico Marcelo Cabo, 37 jogadores confirmados, mercado ainda movimentado (clube buscava mais um meio-campista, duas pontas e um centroavante no momento da matéria). Ariel Nahuelpán é argentino. ATENÇÃO -- possível homônimo não resolvido: 'Thiago Ennes' já aparece cadastrado como lateral do Caxias-RS neste mesmo arquivo -- nomes idênticos em dois clubes diferentes, não investigado (fora de escopo). Jogadores citados como possível saída por empréstimo (Nathan, Jonatas Paulista, João Pedro) NÃO incluídos no elenco por não haver confirmação de permanência."
+    },
+    "Inter de Limeira-SP": {
+      "clubName": "Inter de Limeira-SP",
+      "status": "press_pending_official",
+      "sources": ["https://interdelimeira.com/elenco/"],
+      "players": [
+        { "name": "Emerson Júnior", "positionRaw": "Goleiro" },
+        { "name": "Jonathan", "positionRaw": "Goleiro" },
+        { "name": "Saulo", "positionRaw": "Goleiro" },
+        { "name": "Adryel", "positionRaw": "Defensor" },
+        { "name": "Frazan", "positionRaw": "Defensor" },
+        { "name": "Gabriel Dias", "positionRaw": "Defensor" },
+        { "name": "João Victor", "positionRaw": "Defensor" },
+        { "name": "Juan Tavares", "positionRaw": "Defensor" },
+        { "name": "Leo Paraíso", "positionRaw": "Defensor" },
+        { "name": "Lucas Santos", "positionRaw": "Defensor" },
+        { "name": "Nassom", "positionRaw": "Defensor" },
+        { "name": "Robson", "positionRaw": "Defensor" },
+        { "name": "Vidal", "positionRaw": "Defensor" },
+        { "name": "Yan Silva", "positionRaw": "Defensor" },
+        { "name": "Buchecha", "positionRaw": "Meio-campo" },
+        { "name": "Claudinho", "positionRaw": "Meio-campo" },
+        { "name": "Emerson Santos", "positionRaw": "Meio-campo" },
+        { "name": "Fabrício Dias", "positionRaw": "Meio-campo" },
+        { "name": "Gustavo Bochecha", "positionRaw": "Meio-campo" },
+        { "name": "Marco Antônio", "positionRaw": "Meio-campo" }
+      ],
+      "notes": "Promovido da Série D pra Série C -- terminou a fase 1 em 6º lugar com 30 pontos e avançou às quartas de final. Fonte oficial do próprio clube (página de elenco), boa cobertura de goleiros/defesa/meio; ataque não discriminado nesta rodada de busca."
+    },
+    "Maranhão-MA": {
+      "clubName": "Maranhão-MA",
+      "status": "press_pending_official",
+      "sources": ["https://imirante.com/esporte/maranhao/2025/10/09/maranhao-atletico-anuncia-mais-renovacoes-e-chega-a-17-atletas-para-2026", "https://imirante.com/mirantenews/noticias/sao-luis/2025/09/25/maranhao-encaminha-elenco-para-2026"],
+      "players": [
+        { "name": "Jean", "positionRaw": "Goleiro" },
+        { "name": "Vitão", "positionRaw": "Goleiro" },
+        { "name": "Cauê", "positionRaw": "Goleiro" },
+        { "name": "Keven", "positionRaw": "Zagueiro" },
+        { "name": "Júlio Nascimento", "positionRaw": "Zagueiro" },
+        { "name": "Fernando", "positionRaw": "Zagueiro" },
+        { "name": "Almeida", "positionRaw": "Zagueiro" },
+        { "name": "Franklin", "positionRaw": "Lateral-direito" },
+        { "name": "André Radija", "positionRaw": "Lateral-esquerdo" },
+        { "name": "Railson", "positionRaw": "Volante" },
+        { "name": "Caio", "positionRaw": "Volante" },
+        { "name": "Pedro Lucas", "positionRaw": "Volante" },
+        { "name": "Pedro Henrique", "positionRaw": "Volante" },
+        { "name": "Jorge", "positionRaw": "Meia" },
+        { "name": "Breno Alan", "positionRaw": "Meia" }
+      ],
+      "notes": "17 atletas confirmados para 2026 (clube de Atlético Maranhão/AA Maranhão). Excluídos deliberadamente do elenco: Rosivan e Vagalume, ambos noticiados como SAÍDA confirmada (Vagalume assinou com o Guarani-SP, já cadastrado neste arquivo) -- mantidos fora por não fazerem mais parte do elenco 2026 segundo a própria fonte, não por esquecimento. ÚLTIMO CLUBE da Série C 2026 -- com esta entrada, os 20 clubes estão cobertos (graus de completude bem variados, todos press_pending_official, nenhum validado oficialmente)."
     }
   }
 }
