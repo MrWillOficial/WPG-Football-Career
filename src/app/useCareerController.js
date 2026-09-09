@@ -16,6 +16,17 @@ import { createPlayerRegistration } from '../data/players/playerRegistration.js'
 import { generateTransferNews } from '../ui/screens/world.jsx';
 export const STORAGE_KEY = 'slice-v2';
 
+// Universo real de clubes de cada divisão 2026 — usado só pra calcular a
+// média de overall da divisão (evaluatePlayerStatus) na virada de temporada,
+// sem depender de quem está no grupo/mata-mata daquele momento específico
+// (que pode ser só 2 clubes, no meio de um confronto).
+const FAMILY_CLUB_IDS = {
+  serie_d_2026: SERIE_D_2026_CLUB_IDS,
+  serie_c_2026: SERIE_C_2026_CLUBS,
+  serie_b_2026: SERIE_B_2026_CLUBS,
+  serie_a_2026: SERIE_A_2026_CLUBS,
+};
+
 export function useCareerController() {
   const [loaded, setLoaded] = useState(false);
   const [phase, setPhase] = useState('create'); // create, club-select, season, match, season-end
@@ -253,14 +264,79 @@ export function useCareerController() {
     return assignment;
   }
 
+  // ---- Renovação de contrato & pedido de transferência entre temporadas ----
+  // Roda em toda virada real de temporada (Série D/C/B/A) — resolve dois
+  // problemas reportados: contrato que vencia e nunca era renovado (o
+  // jogador seguia jogando com data de expiração já passada), e pedido de
+  // transferência (wantsTransfer, botão "PEDIR TRANSFERÊNCIA" na tela de
+  // Mundo) que nunca era avaliado pelo mercado, ficando "pendente" pra sempre.
+  //
+  // allowMarket=false quando a virada já é uma mudança de divisão por
+  // mérito esportivo (promoção/rebaixamento) — mesma precedência que já
+  // existia no antigo continueNextSeason (nunca usado na prática pelo fluxo
+  // real Série D/C/B/A, mas com a lógica certa): divisão nunca concorre com
+  // mercado no mesmo ciclo. Contrato ainda é checado/renovado nesse caso.
+  //
+  // Empréstimo (wantsLoan) fica fora deste escopo: exigiria rastrear volta
+  // ao clube de origem ao longo de várias temporadas, e não foi o que foi
+  // reportado — nunca inventar solução pra um problema que não foi pedido.
+  function computeSeasonContractUpdate(family, allowMarket) {
+    const participantIds = FAMILY_CLUB_IDS[family] || [];
+    const withOverall = participantIds.map(id => ALL_CLUBS_MAP[id]?.overall).filter(v => Number.isFinite(v));
+    const avgOverall = withOverall.length ? withOverall.reduce((s, v) => s + v, 0) / withOverall.length : 50;
+    const totalRounds = fixtures.length;
+    const { status } = evaluatePlayerStatus(player, stats.apps, totalRounds, avgOverall);
+
+    if (allowMarket && player.wantsTransfer) {
+      const offers = generateTransferOffers(player, status, family, avgOverall, { wantsTransfer: true, wantsLoan: false })
+        .filter(o => o.clubId !== userClubId);
+      if (offers.length > 0) {
+        const offer = offers[0];
+        const customClubIdsOverride =
+          offer.family === 'serie_c_2026' ? SERIE_C_2026_CLUBS :
+          offer.family === 'serie_b_2026' ? SERIE_B_2026_CLUBS :
+          offer.family === 'serie_a_2026' ? SERIE_A_2026_CLUBS : null; // serie_d_2026 usa redrawSerieD2026GroupsForNewSeason, não precisa de override
+        return {
+          effectiveClubId: offer.clubId, targetFamily: offer.family, customClubIdsOverride,
+          contract: makeContract(offer.clubId, offer.proposedSalary, seasonYear + 1, offer.proposedDuration),
+          wantsTransfer: false,
+          logMsg: `Transferência aceita! Você assinou com o ${offer.clubName}.`,
+        };
+      }
+      // Pedido feito, sem proposta desta vez — segue registrado, tenta de novo na próxima temporada.
+      const contract = player.contract;
+      const expired = !contract || (contract.expiresSeason - seasonYear <= 0);
+      const nextContract = expired ? makeContract(userClubId, computeSalary(family, status), seasonYear + 1, 2) : contract;
+      return {
+        effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
+        contract: nextContract, wantsTransfer: true,
+        logMsg: 'Você pediu transferência, mas nenhuma proposta chegou desta vez. O pedido continua registrado.',
+      };
+    }
+
+    const contract = player.contract;
+    const expired = !contract || (contract.expiresSeason - seasonYear <= 0);
+    const nextContract = expired ? makeContract(userClubId, computeSalary(family, status), seasonYear + 1, 2) : contract;
+    return {
+      effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
+      contract: nextContract, wantsTransfer: false,
+      logMsg: expired ? `Contrato renovado com o ${ALL_CLUBS_MAP[userClubId]?.name || 'clube'}.` : null,
+    };
+  }
+
   // Sai da tela de resultado — sempre continua a carreira pra próxima
   // temporada (não existe mais "voltar" pra um estado anterior; a Série D
   // 2026 É a carreira agora). Usado tanto quando eliminado quanto após
   // conseguir acesso (Série C real ainda não existe no motor novo — ver
   // startNewSerieD2026Season).
   function exitSerieD2026Demo() {
-    if (serieD2026Demo && serieD2026Demo.accessSecured) { startSerieC2026Season(); return; }
-    startNewSerieD2026Season();
+    if (serieD2026Demo && serieD2026Demo.accessSecured) {
+      const u = computeSeasonContractUpdate('serie_d_2026', false); // mudança de divisão — sem mercado
+      startSerieC2026Season(u.customClubIdsOverride, { effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, wantsTransfer: u.wantsTransfer }, logMsg: u.logMsg });
+      return;
+    }
+    const u = computeSeasonContractUpdate('serie_d_2026', true);
+    startNewSerieD2026Season({ effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, wantsTransfer: u.wantsTransfer }, logMsg: u.logMsg });
   }
 
   // Monta o confronto de ida e volta de UMA fase de mata-mata — reaproveita
@@ -279,7 +355,11 @@ export function useCareerController() {
     setStandings(CompetitionEngineV2.freshStandings([userClubId, opponentId]));
     setFixtures([[[homeLeg1, awayLeg1]], [[awayLeg1, homeLeg1]]]);
     setRound(0);
-    setDayIndex(0);
+    // dayIndex NÃO reseta aqui — mata-mata é a MESMA temporada/family da fase
+    // de grupo que acabou de terminar. Resetar o calendário de volta pro
+    // início fixo da family a cada troca de fase (grupo → mata-mata) fazia o
+    // salário mensal quase nunca cair: cada mata-mata é curto demais (poucos
+    // dias) pra cruzar um mês sozinho contando do zero (ver crossesNewMonth).
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setSerieD2026Demo(prev => ({ ...prev, stageId, currentOpponentId: opponentId, hostsSecondLeg, matchResults: [], result: null }));
@@ -292,11 +372,13 @@ export function useCareerController() {
   // seguinte com o MESMO jogador/clube. Enquanto a Série C real não existir
   // no motor novo, alcançar o acesso também leva pra uma nova temporada de
   // Série D — deixado claro na tela de resultado, nunca escondido.
-  function startNewSerieD2026Season() {
+  function startNewSerieD2026Season(opts = {}) {
+    const { effectiveClubId = userClubId, contractPatch = null, logMsg: marketLogMsg = null } = opts;
     setSeasonYear(y => y + 1);
     setEconomyState(e => applyAnnualEconomyUpdate(e)); // upkeep de imóveis + retorno de investimento, uma vez por temporada
-    const newAssignment = redrawSerieD2026GroupsForNewSeason(userClubId);
-    const groupId = newAssignment[userClubId];
+    if (effectiveClubId !== userClubId) setUserClubId(effectiveClubId); // transferência de mercado mudou de clube
+    const newAssignment = redrawSerieD2026GroupsForNewSeason(effectiveClubId);
+    const groupId = newAssignment[effectiveClubId];
     const groupClubIds = Object.keys(newAssignment).filter(id => newAssignment[id] === groupId);
     const cfg = {
       id: `serie_d_2026_${seasonYear + 1}`, name: `Brasileirão Série D — Grupo ${groupId}`,
@@ -311,7 +393,7 @@ export function useCareerController() {
     setDayIndex(0);
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
-    setPlayer(p => ({ ...p, age: p.age + 1 }));
+    setPlayer(p => ({ ...p, age: p.age + 1, ...(contractPatch || {}) }));
     setSerieD2026Demo({
       groupId, groupClubIds, droppedOfficialClubId: null, customClubIds: SERIE_D_2026_CLUB_IDS, customAssignment: newAssignment,
       rngSeed: Math.floor(Math.random() * 1000000), resultsHistory: {},
@@ -320,6 +402,7 @@ export function useCareerController() {
     });
     setPhase('season'); setTab('home');
     pushLog(`Nova temporada — Grupo ${groupId} (sorteio simulado; só 2026 tem sorteio oficial da CBF).`);
+    if (marketLogMsg) pushLog(marketLogMsg);
   }
 
   // ---- Série C 2026 (Competition Engine V2) — entrada e fases jogáveis ----
@@ -327,16 +410,18 @@ export function useCareerController() {
   // origem dos dados (20 clubes reais, 3 fases). Entrada acontece quando o
   // jogador consegue acesso na Série D (semifinalista/playoff) OU ao
   // continuar uma carreira já na Série C.
-  function startSerieC2026Season(customClubIdsOverride) {
+  function startSerieC2026Season(customClubIdsOverride, opts = {}) {
+    const { effectiveClubId = userClubId, contractPatch = null, logMsg: marketLogMsg = null } = opts;
     setSeasonYear(y => y + 1);
     setEconomyState(e => applyAnnualEconomyUpdate(e)); // upkeep de imóveis + retorno de investimento, uma vez por temporada
+    if (effectiveClubId !== userClubId) setUserClubId(effectiveClubId); // transferência de mercado mudou de clube
     let customClubIds = customClubIdsOverride;
     if (!customClubIds) {
       // Primeira entrada: substitui um clube real aleatório pelo do jogador —
       // mesmo princípio já usado na Série D (o clube do jogador não é um dos
       // 20 oficiais da Série C 2026, precisa ocupar o lugar de um deles).
       const dropIndex = Math.floor(Math.random() * SERIE_C_2026_CLUBS.length);
-      customClubIds = SERIE_C_2026_CLUBS.map((name, i) => (i === dropIndex ? userClubId : name));
+      customClubIds = SERIE_C_2026_CLUBS.map((name, i) => (i === dropIndex ? effectiveClubId : name));
       pushLog(`Acesso à Série C 2026! Você assume o lugar de ${SERIE_C_2026_CLUBS[dropIndex]} entre os 20 clubes reais.`);
     }
     const cfg = {
@@ -352,13 +437,14 @@ export function useCareerController() {
     setDayIndex(0);
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
-    setPlayer(p => ({ ...p, age: p.age + 1 }));
+    setPlayer(p => ({ ...p, age: p.age + 1, ...(contractPatch || {}) }));
     setSerieC2026State({
       customClubIds, rngSeed: Math.floor(Math.random() * 1000000), resultsHistory: {},
       stageId: 'fase1', currentOpponentId: null, hostsSecondLeg: null, groupClubIds: null,
       matchResults: [], accessSecured: false, result: null,
     });
     setPhase('season'); setTab('home');
+    if (marketLogMsg) pushLog(marketLogMsg);
   }
 
   // Fase 2 — grupo de 4 (turno e returno, 6 rodadas). Diferente da Série D:
@@ -375,7 +461,8 @@ export function useCareerController() {
     setStandings(CompetitionEngineV2.freshStandings(groupClubIds));
     setFixtures(CompetitionEngineV2.buildLeagueFixtures(groupClubIds, true)); // Art. 17 — turno e returno
     setRound(0);
-    setDayIndex(0);
+    // dayIndex NÃO reseta — mesma temporada da 1ª fase que acabou de terminar
+    // (ver comentário equivalente em beginSerieD2026Tie sobre o salário mensal).
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setSerieC2026State(prev => ({ ...prev, stageId: 'fase2', groupClubIds, matchResults: [], result: null }));
@@ -397,7 +484,7 @@ export function useCareerController() {
     setStandings(CompetitionEngineV2.freshStandings([userClubId, opponentId]));
     setFixtures([[[homeLeg1, awayLeg1]], [[awayLeg1, homeLeg1]]]);
     setRound(0);
-    setDayIndex(0);
+    // dayIndex NÃO reseta — mesma temporada da 2ª fase que acabou de terminar.
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setSerieC2026State(prev => ({ ...prev, stageId: 'fase3_final', currentOpponentId: opponentId, hostsSecondLeg, matchResults: [], result: null }));
@@ -410,19 +497,37 @@ export function useCareerController() {
   // campeão/vice) vai pra Série B de verdade; meio de tabela repete a Série C.
   function exitSerieC2026Season() {
     const outcome = serieC2026State?.result?.outcomeType;
-    if (outcome === 'relegated') { startNewSerieD2026Season(); return; }
-    if (['promoted', 'finalist', 'champion', 'runner_up'].includes(outcome)) { startSerieB2026Season(); return; }
-    startSerieC2026Season();
+    const opts = (u) => ({ effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, wantsTransfer: u.wantsTransfer }, logMsg: u.logMsg });
+    if (outcome === 'relegated') {
+      const u = computeSeasonContractUpdate('serie_c_2026', false); // mudança de divisão — sem mercado
+      startNewSerieD2026Season(opts(u));
+      return;
+    }
+    if (['promoted', 'finalist', 'champion', 'runner_up'].includes(outcome)) {
+      const u = computeSeasonContractUpdate('serie_c_2026', false);
+      startSerieB2026Season(u.customClubIdsOverride, opts(u));
+      return;
+    }
+    const u = computeSeasonContractUpdate('serie_c_2026', true);
+    if (u.targetFamily === 'serie_b_2026') {
+      // Transferência de mercado levou pra um tier acima mesmo sem acesso
+      // esportivo (ver generateTransferOffers/computeDemandScore).
+      startSerieB2026Season(u.customClubIdsOverride, opts(u));
+      return;
+    }
+    startSerieC2026Season(u.customClubIdsOverride, opts(u));
   }
 
   // ---- Série B 2026 — entrada, playoff de acesso, e saída de temporada ----
-  function startSerieB2026Season(customClubIdsOverride) {
+  function startSerieB2026Season(customClubIdsOverride, opts = {}) {
+    const { effectiveClubId = userClubId, contractPatch = null, logMsg: marketLogMsg = null } = opts;
     setSeasonYear(y => y + 1);
     setEconomyState(e => applyAnnualEconomyUpdate(e)); // upkeep de imóveis + retorno de investimento, uma vez por temporada
+    if (effectiveClubId !== userClubId) setUserClubId(effectiveClubId); // transferência de mercado mudou de clube
     let customClubIds = customClubIdsOverride;
     if (!customClubIds) {
       const dropIndex = Math.floor(Math.random() * SERIE_B_2026_CLUBS.length);
-      customClubIds = SERIE_B_2026_CLUBS.map((name, i) => (i === dropIndex ? userClubId : name));
+      customClubIds = SERIE_B_2026_CLUBS.map((name, i) => (i === dropIndex ? effectiveClubId : name));
       pushLog(`Acesso à Série B 2026! Você assume o lugar de ${SERIE_B_2026_CLUBS[dropIndex]} entre os 20 clubes reais.`);
     }
     const cfg = {
@@ -438,9 +543,10 @@ export function useCareerController() {
     setDayIndex(0);
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
-    setPlayer(p => ({ ...p, age: p.age + 1 }));
+    setPlayer(p => ({ ...p, age: p.age + 1, ...(contractPatch || {}) }));
     setSerieB2026State({ customClubIds, matchResults: [], result: null, playoffOpponentId: null, playoffHostsSecondLeg: null, playoffAmIBetterSeed: null, playoffMatchResults: [] });
     setPhase('season'); setTab('home');
+    if (marketLogMsg) pushLog(marketLogMsg);
   }
 
   function beginSerieB2026Playoff(opponentId, hostsSecondLeg, amIBetterSeed) {
@@ -456,7 +562,7 @@ export function useCareerController() {
     setStandings(CompetitionEngineV2.freshStandings([userClubId, opponentId]));
     setFixtures([[[homeLeg1, awayLeg1]], [[awayLeg1, homeLeg1]]]);
     setRound(0);
-    setDayIndex(0);
+    // dayIndex NÃO reseta — mesma temporada da fase de liga que acabou de terminar.
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
     setSerieB2026State(prev => ({ ...prev, playoffOpponentId: opponentId, playoffHostsSecondLeg: hostsSecondLeg, playoffAmIBetterSeed: amIBetterSeed, playoffMatchResults: [], result: null }));
@@ -466,19 +572,35 @@ export function useCareerController() {
 
   function exitSerieB2026Season() {
     const outcome = serieB2026State?.result?.outcomeType;
-    if (outcome === 'relegated') { startSerieC2026Season(); return; }
-    if (outcome === 'promoted_direct' || outcome === 'promoted_playoff') { startSerieA2026Season(); return; }
-    startSerieB2026Season();
+    const opts = (u) => ({ effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, wantsTransfer: u.wantsTransfer }, logMsg: u.logMsg });
+    if (outcome === 'relegated') {
+      const u = computeSeasonContractUpdate('serie_b_2026', false);
+      startSerieC2026Season(u.customClubIdsOverride, opts(u));
+      return;
+    }
+    if (outcome === 'promoted_direct' || outcome === 'promoted_playoff') {
+      const u = computeSeasonContractUpdate('serie_b_2026', false);
+      startSerieA2026Season(u.customClubIdsOverride, opts(u));
+      return;
+    }
+    const u = computeSeasonContractUpdate('serie_b_2026', true);
+    if (u.targetFamily === 'serie_a_2026') {
+      startSerieA2026Season(u.customClubIdsOverride, opts(u));
+      return;
+    }
+    startSerieB2026Season(u.customClubIdsOverride, opts(u));
   }
 
   // ---- Série A 2026 — entrada e saída de temporada (topo da pirâmide) ----
-  function startSerieA2026Season(customClubIdsOverride) {
+  function startSerieA2026Season(customClubIdsOverride, opts = {}) {
+    const { effectiveClubId = userClubId, contractPatch = null, logMsg: marketLogMsg = null } = opts;
     setSeasonYear(y => y + 1);
     setEconomyState(e => applyAnnualEconomyUpdate(e)); // upkeep de imóveis + retorno de investimento, uma vez por temporada
+    if (effectiveClubId !== userClubId) setUserClubId(effectiveClubId); // transferência de mercado mudou de clube
     let customClubIds = customClubIdsOverride;
     if (!customClubIds) {
       const dropIndex = Math.floor(Math.random() * SERIE_A_2026_CLUBS.length);
-      customClubIds = SERIE_A_2026_CLUBS.map((name, i) => (i === dropIndex ? userClubId : name));
+      customClubIds = SERIE_A_2026_CLUBS.map((name, i) => (i === dropIndex ? effectiveClubId : name));
       pushLog(`Acesso à Série A 2026! Você assume o lugar de ${SERIE_A_2026_CLUBS[dropIndex]} entre os 20 clubes reais — o topo do futebol brasileiro.`);
     }
     const cfg = {
@@ -494,15 +616,23 @@ export function useCareerController() {
     setDayIndex(0);
     setFitnessState({ condition: 100 });
     setStats({ apps: 0, goals: 0, assists: 0, ratingSum: 0 });
-    setPlayer(p => ({ ...p, age: p.age + 1 }));
+    setPlayer(p => ({ ...p, age: p.age + 1, ...(contractPatch || {}) }));
     setSerieA2026State({ customClubIds, matchResults: [], result: null });
     setPhase('season'); setTab('home');
+    if (marketLogMsg) pushLog(marketLogMsg);
   }
 
   function exitSerieA2026Season() {
     const outcome = serieA2026State?.result?.outcomeType;
-    if (outcome === 'relegated') { startSerieB2026Season(); return; }
-    startSerieA2026Season();
+    const opts = (u) => ({ effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, wantsTransfer: u.wantsTransfer }, logMsg: u.logMsg });
+    if (outcome === 'relegated') {
+      const u = computeSeasonContractUpdate('serie_a_2026', false);
+      startSerieB2026Season(u.customClubIdsOverride, opts(u));
+      return;
+    }
+    // Topo da pirâmide — mercado nunca sobe tier a partir daqui (TIER_ORDER acaba em serie_a_2026).
+    const u = computeSeasonContractUpdate('serie_a_2026', true);
+    startSerieA2026Season(u.customClubIdsOverride, opts(u));
   }
 
   function togglePicker() { setShowPicker(s => !s); }

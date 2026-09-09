@@ -341,7 +341,16 @@ const TRAININGS = [
   { id: 'free_kick', name: 'Cobrança de falta', effects: { finalizacao: 0.5, passe: 0.35, fisico: 0.15 } },
 ];
 
-const BASE_TRAINING_GAIN = 0.9; // "pontos de treino" totais distribuídos por sessão, antes da desaceleração
+// Recalibrado de 0.9 pra 2.0 — o valor original, combinado com temporadas
+// curtas (Série D: grupo + mata-mata somam bem menos dias de treino que uma
+// pré-temporada real) e a curva de desaceleração já existente, produzia
+// crescimento de OVR quase imperceptível mesmo jogando bem (simulado: +2 OVR
+// em 3 temporadas treinando todo dia — bateu o relato real do jogador).
+// 2.0 foi escolhido testando cenários reais (ver simulate-ovr-growth): dá
+// evolução perceptível por temporada sem virar rampa artificial — ainda
+// passa pela mesma desaceleração perto do potencial, então continua parando
+// de subir se ele já está perto do teto dele.
+const BASE_TRAINING_GAIN = 2.0; // "pontos de treino" totais distribuídos por sessão, antes da desaceleração
 
 /* ============================================================================
    INTENSIDADE / CARGA SEMANAL — MVP do sistema de treinamento profissional
@@ -364,9 +373,18 @@ const WEEKLY_LOAD_SAFE_THRESHOLD = 45; // abaixo disso, carga acumulada não pen
 function individualVarianceModifier() { return (v) => v * (0.8 + Math.random() * 0.4); }
 // Carga alta reduz o quanto a sessão rende — fadiga real reduzindo resposta ao
 // treino, além (não em vez) da condição física do dia.
+//
+// Recalibrado: o piso original (0.35, ou seja -65% no ganho) travava
+// PERMANENTEMENTE quem treinava todo dia sem nunca descansar deliberadamente
+// — o padrão de jogo mais óbvio pra quem quer evoluir rápido — porque
+// weeklyLoad satura em ~3 sessões e só decai em dias de descanso explícito.
+// Isso reproduzia sozinho o "demora muito pra subir" reportado (simulado:
+// +2 OVR em 3 temporadas de Série D com esse piso, batendo o relato real).
+// Piso mais suave ainda desestimula treino contínuo sem periodização, mas
+// não paralisa quem simplesmente joga sem gerenciar uma mecânica invisível.
 function trainingLoadPenalty(weeklyLoad) {
   const over = Math.max(0, (weeklyLoad || 0) - WEEKLY_LOAD_SAFE_THRESHOLD);
-  return clamp(1 - over / 80, 0.35, 1);
+  return clamp(1 - over / 160, 0.6, 1);
 }
 function applyWeeklyLoad(weeklyLoad, intensity) {
   return clamp((weeklyLoad || 0) + WEEKLY_LOAD_PER_SESSION * intensity.loadMultiplier, 0, 100);
