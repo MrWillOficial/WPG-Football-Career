@@ -8,7 +8,7 @@ import { sortStandings } from '../engines/match/matchEngine.js';
 import { COPINHA_OWN_ID, COPINHA_OWN_NAME } from '../engines/competition/copinhaEngine.js';
 
 export function CareerApp() {
-  const { loaded, setLoaded, academyState, advanceAcademyWeek, phase, setPhase, tab, setTab, player, setPlayer, seasonYear, setSeasonYear, competition, setCompetition, standings, setStandings, fixtures, setFixtures, round, setRound, userClubId, setUserClubId, stats, setStats, log, setLog, promotionResult, setPromotionResult, seasonHistory, setSeasonHistory, seasonStartSnapshot, setSeasonStartSnapshot, trainPick, setTrainPick, showPicker, setShowPicker, pendingWeek, setPendingWeek, lifeState, setLifeState, interviewHistory, setInterviewHistory, pendingLifeEvent, setPendingLifeEvent, dayIndex, setDayIndex, stageDayIndex, setStageDayIndex, fitnessState, setFitnessState, trainingSkipStreak, setTrainingSkipStreak, matchHistory, setMatchHistory, worldState, setWorldState, economyState, setEconomyState, pendingContractDecision, setPendingContractDecision, socialState, handleSocialPublish, handleSocialComment, serieD2026Demo, setSerieD2026Demo, serieC2026State, setSerieC2026State, serieB2026State, setSerieB2026State, serieA2026State, setSerieA2026State, transferNews, setTransferNews, pushLog, startCareer, chooseClub, redrawSerieD2026GroupsForNewSeason, exitSerieD2026Demo, beginSerieD2026Tie, startNewSerieD2026Season, startSerieC2026Season, beginSerieC2026Fase2, beginSerieC2026Final, exitSerieC2026Season, startSerieB2026Season, beginSerieB2026Playoff, exitSerieB2026Season, startSerieA2026Season, exitSerieA2026Season, togglePicker, advanceTrainingDay, advanceRecoveryDay, playWeek, continueAfterMatch, chooseLifePosture, requestTransfer, requestLoan, handleInvest, handleWithdrawInvestments, handleBuyProperty, finalizeNextSeason, continueNextSeason, resolveContractDecision, resetCareer, copinhaState, beginCopinhaMatch, continueCopinhaMatch, finishCopinha } = useCareerController();
+  const { loaded, setLoaded, academyState, advanceAcademyWeek, phase, setPhase, tab, setTab, player, setPlayer, seasonYear, setSeasonYear, competition, setCompetition, standings, setStandings, fixtures, setFixtures, round, setRound, userClubId, setUserClubId, stats, setStats, log, setLog, promotionResult, setPromotionResult, seasonHistory, setSeasonHistory, seasonStartSnapshot, setSeasonStartSnapshot, trainPick, setTrainPick, showPicker, setShowPicker, pendingWeek, setPendingWeek, lifeState, setLifeState, interviewHistory, setInterviewHistory, pendingLifeEvent, setPendingLifeEvent, dayIndex, setDayIndex, stageDayIndex, setStageDayIndex, fitnessState, setFitnessState, trainingSkipStreak, setTrainingSkipStreak, matchHistory, setMatchHistory, worldState, setWorldState, economyState, setEconomyState, pendingContractDecision, setPendingContractDecision, socialState, handleSocialPublish, handleSocialComment, serieD2026Demo, setSerieD2026Demo, serieC2026State, setSerieC2026State, serieB2026State, setSerieB2026State, serieA2026State, setSerieA2026State, transferNews, setTransferNews, pushLog, startCareer, chooseClub, chooseShirtNumber, redrawSerieD2026GroupsForNewSeason, exitSerieD2026Demo, beginSerieD2026Tie, startNewSerieD2026Season, startSerieC2026Season, beginSerieC2026Fase2, beginSerieC2026Final, exitSerieC2026Season, startSerieB2026Season, beginSerieB2026Playoff, exitSerieB2026Season, startSerieA2026Season, exitSerieA2026Season, togglePicker, advanceTrainingDay, advanceRecoveryDay, playWeek, continueAfterMatch, chooseLifePosture, requestTransfer, requestLoan, handleInvest, handleWithdrawInvestments, handleBuyProperty, finalizeNextSeason, continueNextSeason, resolveContractDecision, resetCareer, copinhaState, beginCopinhaMatch, continueCopinhaMatch, finishCopinha } = useCareerController();
   if (!loaded) return null;
   const activeClubsMap = (userClubId && competition) ? getActiveClubsMap(competition, userClubId) : CLUBS_MAP;
   const club = userClubId ? activeClubsMap[userClubId] : null;
@@ -45,6 +45,7 @@ export function CareerApp() {
             <HomeScreen
               player={player} club={club} competition={competition} round={round} totalRounds={fixtures.length}
               fixtures={fixtures} log={log} dayType={dayType} condition={fitnessState.condition} matchHistory={matchHistory} clubsMap={activeClubsMap} stats={stats} economyState={economyState}
+              standings={standings} seasonStartSnapshot={seasonStartSnapshot} lifeState={lifeState} interviewHistory={interviewHistory}
               trainPick={trainPick} showPicker={showPicker}
               onTogglePicker={togglePicker}
               onSelectTrainingActivity={(id, intensityId) => advanceTrainingDay('train', id, intensityId)}
@@ -52,13 +53,14 @@ export function CareerApp() {
               onSkipTraining={() => advanceTrainingDay('skip')}
               onAdvanceRecovery={advanceRecoveryDay}
               onPlay={playWeek}
-              dayIndex={dayIndex} seasonYear={seasonYear}
+              onOpenFeed={() => setTab('carreira')}
+              dayIndex={dayIndex} stageDayIndex={stageDayIndex} seasonYear={seasonYear}
             />
           )}
           {tab === 'carreira' && <CareiraScreen competition={competition} round={round} totalRounds={fixtures.length} stats={stats} log={log} />}
           {tab === 'mundo' && <MundoScreen competition={competition} standings={sortStandings(standings, competition.tiebreakers)} userClubId={userClubId} matchHistory={matchHistory} clubsMap={activeClubsMap} transferNews={transferNews} />}
           {tab === 'profile' && <PlayerProfileScreen player={player} club={club} socialState={socialState} stats={stats} log={log} transferNews={transferNews} seasonYear={seasonYear} />}
-          {tab === 'life' && <LifeScreen player={player} club={club} socialState={socialState} socialPosts={socialState.posts} onPublish={handleSocialPublish} onComment={handleSocialComment} interviewHistory={interviewHistory} />}
+          {tab === 'life' && <LifeScreen player={player} club={club} socialState={socialState} socialPosts={socialState.posts} onPublish={handleSocialPublish} onComment={handleSocialComment} interviewHistory={interviewHistory} onChooseShirtNumber={chooseShirtNumber} />}
           {tab === 'voce' && <VoceScreen player={player} club={club} lifeState={lifeState} economyState={economyState} onReset={resetCareer} onRequestTransfer={requestTransfer} onRequestLoan={requestLoan} onInvest={handleInvest} onWithdrawInvestments={handleWithdrawInvestments} onBuyProperty={handleBuyProperty} />}
         </WPGShell>
       )}

@@ -4,15 +4,36 @@ import { SOCIAL_TONES } from '../../engines/life/socialEngine.js';
 import { ATTR_LABELS } from '../../engines/player/playerEngine.js';
 import { computeBuyoutClause } from '../../engines/economy/contractsEconomy.js';
 import { computePersonalityProfile, POSTURE_LABELS } from '../../engines/life/lifeCalendarFitness.jsx';
+import { isShirtNumberAvailable } from '../../data/players/shirtNumbers.js';
 
 const POSTURE_ICONS = { agressivo: '🔥', confiante: '💪', sossegado: '🧘', desleixado: '😅' };
 const POSTURE_ORDER = ['agressivo', 'confiante', 'sossegado', 'desleixado'];
+
+// Configurável pelo jogador -- considera os números já ocupados no elenco do
+// clube atual (hoje sempre nenhum, ver shirtNumbers.js). Uma vez escolhido,
+// vira só exibição; trocar depois é regra de clube/temporada, fora de escopo.
+function ShirtNumberPicker({ club, onChoose }) {
+  const [value, setValue] = useState('');
+  const parsed = value === '' ? null : Number(value);
+  const available = parsed != null && isShirtNumberAvailable(club, parsed);
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
+      <input type="number" min={1} max={99} value={value} onChange={e => setValue(e.target.value)} placeholder="Nº"
+        style={{ width: 48, padding: '4px 6px', fontSize: 12, background: THEME.cardElevated, border: `1px solid ${THEME.border}`, color: THEME.text, borderRadius: 6 }} />
+      <button disabled={!available} onClick={() => { onChoose(parsed); setValue(''); }}
+        style={{ padding: '4px 10px', fontSize: 11, fontWeight: 700, background: available ? THEME.orange : THEME.cardElevated, color: available ? THEME.bg : THEME.textFaint, border: 'none', borderRadius: 6 }}>
+        Confirmar
+      </button>
+      {parsed != null && !available && <span style={{ fontSize: 10, color: THEME.red }}>Ocupado</span>}
+    </div>
+  );
+}
 
 function Metric({ label, value, tone = THEME.green }) {
   return <div style={{ marginBottom: 9 }}><div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: THEME.textSecondary, marginBottom: 4 }}><span>{label}</span><b style={{ color: THEME.text }}>{Math.round(value)}</b></div><div style={{ height: 5, background: THEME.cardElevated }}><div style={{ width: `${Math.max(0, Math.min(100, value))}%`, height: '100%', background: tone }} /></div></div>;
 }
 
-function LifeScreen({ player, club, socialState, socialPosts, onPublish, onComment, interviewHistory }) {
+function LifeScreen({ player, club, socialState, socialPosts, onPublish, onComment, interviewHistory, onChooseShirtNumber }) {
   const [commentTarget, setCommentTarget] = useState(null);
   const [selectedTone, setSelectedTone] = useState(null);
   const [section, setSection] = useState('overview');
@@ -81,7 +102,15 @@ function LifeScreen({ player, club, socialState, socialPosts, onPublish, onComme
       <div className="life-grid">
         <aside className="life-left">
           <Card><div className="wpg-section-label">Minha imagem</div><div className="life-reputation-ring" style={{ '--pct': socialState.reputation }}><b className="mono">{socialState.reputation}<small>REPUTAÇÃO</small></b></div><Metric label="Torcida" value={socialState.relationships.crowd} /><Metric label="Treinador" value={socialState.relationships.coach} /><Metric label="Vestiário" value={socialState.relationships.dressingRoom} /><Metric label="Mídia" value={socialState.relationships.media} /><Metric label="Diretoria" value={socialState.relationships.board} tone={THEME.gold} /></Card>
-          <Card><div className="wpg-section-label">Identidade</div><p className="life-small">Camisa: <b>{player.shirtNumber ?? 'Pendente oficial'}</b></p><p className="life-small">Seguidores: <b>{(socialState.followers || 0).toLocaleString('pt-BR')}</b></p><p className="life-small">Polêmica: <b>{socialState.controversy}</b></p><p className="life-small">Respeito: <b>{socialState.respect}</b></p></Card>
+          <Card>
+            <div className="wpg-section-label">Identidade</div>
+            {player.shirtNumber != null
+              ? <p className="life-small">Camisa: <b>{player.shirtNumber}</b></p>
+              : <div className="life-small">Camisa: <b>a escolher</b>{onChooseShirtNumber && <ShirtNumberPicker club={club} onChoose={onChooseShirtNumber} />}</div>}
+            <p className="life-small">Seguidores: <b>{(socialState.followers || 0).toLocaleString('pt-BR')}</b></p>
+            <p className="life-small">Polêmica: <b>{socialState.controversy}</b></p>
+            <p className="life-small">Respeito: <b>{socialState.respect}</b></p>
+          </Card>
         </aside>
 
         <main className="life-feed">

@@ -14,6 +14,7 @@ import { computeClubEffectiveStrength, getMatchContext, historyForCompetition } 
 import { advanceOfficialWorldDivisions } from '../engines/world/officialWorldSeason.js';
 import { appendSystemPost, commentOnSocialPost, createSocialState, publishSocialPost, syncSocialToPlayer } from '../engines/life/socialEngine.js';
 import { createPlayerRegistration } from '../data/players/playerRegistration.js';
+import { isShirtNumberAvailable } from '../data/players/shirtNumbers.js';
 import { generateTransferNews } from '../ui/screens/world.jsx';
 export const STORAGE_KEY = 'slice-v2';
 
@@ -335,6 +336,15 @@ export function useCareerController() {
       functions: profile.functions, archetype: profile.archetype, specialization: profile.specialization,
       registeredClub: null, currentClub: null, playerSource: 'career_created',
       attrs, potential, overall, age: 16, careerPhase: 'academy', academyStatus: 'youth_player', salarySource: 'pending_official', salaryStatus: 'pending_official', reputation: 5, weeklyLoad: 0, shirtNumber: null, registration: createPlayerRegistration({ shirtNumberStatus: 'pending_official' }), contract: null, loan: null, wantsTransfer: false, wantsLoan: false,
+      // Aparência -- estrutura pronta pra escolha futura (o jogador poderá
+      // trocar entre várias ilustrações/estilos disponíveis); hoje só existe
+      // uma opção, então nenhuma UI de seleção é necessária ainda, mas a
+      // Central e o perfil nunca devem depender de um id fixo aqui.
+      appearanceId: 'default',
+      // Dados físicos -- reservados pra quando o jogo passar a usá-los (podem
+      // futuramente influenciar arquétipo/gameplay); null/[] até lá, nunca
+      // um valor inventado.
+      height: null, weight: null, dominantFoot: null, secondaryPositions: [],
     });
     setAcademyState({ week: 0, totalWeeks: 26, matches: 0, goals: 0, assists: 0 });
     const freshSocial = createSocialState({ reputation: 5 });
@@ -373,6 +383,18 @@ export function useCareerController() {
     });
     setPhase('season'); setTab('home');
     pushLog(`${player.name} assinou com o ${ALL_CLUBS_MAP[clubId].name} para disputar o ${cfg.name}.`);
+  }
+
+  // Escolha de número de camisa -- configurável pelo jogador, considerando
+  // os números já ocupados no elenco do clube atual (ver shirtNumbers.js:
+  // hoje nenhum clube modela elenco individual, então tudo de 1-99 fica
+  // disponível até a coleta oficial de elenco existir). "official" aqui
+  // significa "confirmado no registro deste clube/temporada", não uma fonte
+  // externa -- o jogador é fictício, então não há CBF pra validar contra.
+  function chooseShirtNumber(number) {
+    const currentClub = userClubId && competition ? getActiveClubsMap(competition, userClubId)[userClubId] : null;
+    if (!isShirtNumberAvailable(currentClub, number)) return;
+    setPlayer(p => ({ ...p, shirtNumber: number, registration: { ...p.registration, shirtNumber: number, shirtNumberStatus: 'official', source: 'official' } }));
   }
 
   // Sorteio SIMULADO dos grupos pra temporadas seguintes (2027+) — só 2026
@@ -1624,5 +1646,5 @@ export function useCareerController() {
   const roundToDay = competition ? buildRoundToDay(fixtures.length, competition.calendar_pattern) : {};
   const dayType = competition ? getDayType(stageDayIndex, roundToDay) : null;
 
-  return { loaded, setLoaded, socialState, handleSocialPublish, handleSocialComment, academyState, advanceAcademyWeek, phase, setPhase, tab, setTab, player, setPlayer, seasonYear, setSeasonYear, competition, setCompetition, standings, setStandings, fixtures, setFixtures, round, setRound, userClubId, setUserClubId, stats, setStats, log, setLog, promotionResult, setPromotionResult, seasonHistory, setSeasonHistory, seasonStartSnapshot, setSeasonStartSnapshot, trainPick, setTrainPick, showPicker, setShowPicker, pendingWeek, setPendingWeek, lifeState, setLifeState, interviewHistory, setInterviewHistory, pendingLifeEvent, setPendingLifeEvent, dayIndex, setDayIndex, stageDayIndex, setStageDayIndex, fitnessState, setFitnessState, trainingSkipStreak, setTrainingSkipStreak, matchHistory, setMatchHistory, worldState, setWorldState, economyState, setEconomyState, pendingContractDecision, setPendingContractDecision, serieD2026Demo, setSerieD2026Demo, serieC2026State, setSerieC2026State, serieB2026State, setSerieB2026State, serieA2026State, setSerieA2026State, transferNews, setTransferNews, pushLog, startCareer, chooseClub, redrawSerieD2026GroupsForNewSeason, exitSerieD2026Demo, beginSerieD2026Tie, startNewSerieD2026Season, startSerieC2026Season, beginSerieC2026Fase2, beginSerieC2026Final, exitSerieC2026Season, startSerieB2026Season, beginSerieB2026Playoff, exitSerieB2026Season, startSerieA2026Season, exitSerieA2026Season, togglePicker, advanceTrainingDay, advanceRecoveryDay, playWeek, continueAfterMatch, chooseLifePosture, requestTransfer, requestLoan, handleInvest, handleWithdrawInvestments, handleBuyProperty, finalizeNextSeason, continueNextSeason, resolveContractDecision, resetCareer, copinhaState, beginCopinhaMatch, continueCopinhaMatch, finishCopinha };
+  return { loaded, setLoaded, socialState, handleSocialPublish, handleSocialComment, academyState, advanceAcademyWeek, phase, setPhase, tab, setTab, player, setPlayer, seasonYear, setSeasonYear, competition, setCompetition, standings, setStandings, fixtures, setFixtures, round, setRound, userClubId, setUserClubId, stats, setStats, log, setLog, promotionResult, setPromotionResult, seasonHistory, setSeasonHistory, seasonStartSnapshot, setSeasonStartSnapshot, trainPick, setTrainPick, showPicker, setShowPicker, pendingWeek, setPendingWeek, lifeState, setLifeState, interviewHistory, setInterviewHistory, pendingLifeEvent, setPendingLifeEvent, dayIndex, setDayIndex, stageDayIndex, setStageDayIndex, fitnessState, setFitnessState, trainingSkipStreak, setTrainingSkipStreak, matchHistory, setMatchHistory, worldState, setWorldState, economyState, setEconomyState, pendingContractDecision, setPendingContractDecision, serieD2026Demo, setSerieD2026Demo, serieC2026State, setSerieC2026State, serieB2026State, setSerieB2026State, serieA2026State, setSerieA2026State, transferNews, setTransferNews, pushLog, startCareer, chooseClub, chooseShirtNumber, redrawSerieD2026GroupsForNewSeason, exitSerieD2026Demo, beginSerieD2026Tie, startNewSerieD2026Season, startSerieC2026Season, beginSerieC2026Fase2, beginSerieC2026Final, exitSerieC2026Season, startSerieB2026Season, beginSerieB2026Playoff, exitSerieB2026Season, startSerieA2026Season, exitSerieA2026Season, togglePicker, advanceTrainingDay, advanceRecoveryDay, playWeek, continueAfterMatch, chooseLifePosture, requestTransfer, requestLoan, handleInvest, handleWithdrawInvestments, handleBuyProperty, finalizeNextSeason, continueNextSeason, resolveContractDecision, resetCareer, copinhaState, beginCopinhaMatch, continueCopinhaMatch, finishCopinha };
 }

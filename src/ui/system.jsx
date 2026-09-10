@@ -160,9 +160,13 @@ function FormaDots({ results, size = 16 }) {
 function ClubMonogram({ club, size = 44 }) {
   const branding = club.branding || { type: 'monogram', text: club.name.slice(0, 2).toUpperCase() };
 
-  // Caminho já preparado: quando um clube tiver branding.type === 'licensed' com
-  // um escudo real (via Data Importer), basta renderizar a imagem aqui — nenhum
-  // componente que consome <ClubMonogram club={...} /> precisa mudar.
+  // Identidade official/generic: quando um clube tiver branding.type ===
+  // 'licensed' com um escudo cujo uso seja verificado (via Data Importer),
+  // basta renderizar a imagem aqui — nenhum componente que consome
+  // <ClubMonogram club={...} /> precisa mudar. Até lá (e pra qualquer clube
+  // sem asset com uso permitido), cai automaticamente no monograma genérico
+  // abaixo, no padrão visual do WPG. Nunca inserir aqui um escudo achado na
+  // internet sem verificar a origem/condições de uso.
   if (branding.type === 'licensed' && branding.logo) {
     return <img src={branding.logo} alt={club.name} style={{ width: size, height: size, objectFit: 'contain', flexShrink: 0 }} />;
   }
