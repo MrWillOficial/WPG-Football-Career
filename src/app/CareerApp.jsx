@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCareerController } from './useCareerController.js';
-import { AcademyScreen, CareiraScreen, ClubSelectScreen, ContractDecisionScreen, CopinhaIntroScreen, CopinhaResultScreen, CreateScreen, GlobalStyle, HomeScreen, LifeEventScreen, MatchScreen, MundoScreen, SeasonEndScreen, SerieA2026ResultScreen, SerieB2026ResultScreen, SerieC2026ResultScreen, SerieD2026ResultScreen, VoceScreen, WPGShell, LifeScreen, PlayerProfileScreen } from '../ui/WPGUI.jsx';
+import { AcademyScreen, CareiraScreen, ClubSelectScreen, ContractDecisionScreen, CopinhaIntroScreen, CopinhaResultScreen, CreateScreen, GlobalStyle, HomeScreen, LifeEventScreen, MatchScreen, MundoScreen, SeasonEndScreen, SerieA2026ResultScreen, SerieB2026ResultScreen, SerieC2026ResultScreen, SerieD2026ResultScreen, WPGShell, LifeScreen, PlayerProfileScreen } from '../ui/WPGUI.jsx';
 import { ALL_CLUBS_MAP, getActiveClubsMap } from '../data/competitions/brazil2026.js';
 import { CLUBS_MAP } from '../data/_mock/mockData.js';
 import { buildRoundToDay, getDayType } from '../engines/life/lifeCalendarFitness.jsx';
@@ -57,11 +57,18 @@ export function CareerApp() {
               dayIndex={dayIndex} stageDayIndex={stageDayIndex} seasonYear={seasonYear}
             />
           )}
+          {/* CALENDÁRIO -- rodada atual + histórico completo (destino do "VER TODOS" da Central) */}
           {tab === 'carreira' && <CareiraScreen competition={competition} round={round} totalRounds={fixtures.length} stats={stats} log={log} />}
           {tab === 'mundo' && <MundoScreen competition={competition} standings={sortStandings(standings, competition.tiebreakers)} userClubId={userClubId} matchHistory={matchHistory} clubsMap={activeClubsMap} transferNews={transferNews} />}
-          {tab === 'profile' && <PlayerProfileScreen player={player} club={club} socialState={socialState} stats={stats} log={log} transferNews={transferNews} seasonYear={seasonYear} />}
+          {/* CARREIRA -- perfil, atributos, contrato e finanças organizados em abas, sem ocupar uma área principal cada um */}
+          {tab === 'profile' && (
+            <PlayerProfileScreen
+              player={player} club={club} socialState={socialState} stats={stats} log={log} transferNews={transferNews} seasonYear={seasonYear}
+              lifeState={lifeState} economyState={economyState}
+              onRequestTransfer={requestTransfer} onRequestLoan={requestLoan} onInvest={handleInvest} onWithdrawInvestments={handleWithdrawInvestments} onBuyProperty={handleBuyProperty} onReset={resetCareer}
+            />
+          )}
           {tab === 'life' && <LifeScreen player={player} club={club} socialState={socialState} socialPosts={socialState.posts} onPublish={handleSocialPublish} onComment={handleSocialComment} interviewHistory={interviewHistory} onChooseShirtNumber={chooseShirtNumber} />}
-          {tab === 'voce' && <VoceScreen player={player} club={club} lifeState={lifeState} economyState={economyState} onReset={resetCareer} onRequestTransfer={requestTransfer} onRequestLoan={requestLoan} onInvest={handleInvest} onWithdrawInvestments={handleWithdrawInvestments} onBuyProperty={handleBuyProperty} />}
         </WPGShell>
       )}
 

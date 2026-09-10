@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { AttrBar, Badge, Card, ClubMonogram, THEME } from '../system.jsx';
 import { SOCIAL_TONES } from '../../engines/life/socialEngine.js';
 import { ATTR_LABELS } from '../../engines/player/playerEngine.js';
-import { computeBuyoutClause } from '../../engines/economy/contractsEconomy.js';
+import { computeBuyoutClause, computeNetWorth, INVESTMENT_AMOUNTS, INVESTMENT_SEASONAL_RETURN, PROPERTY_OPTIONS } from '../../engines/economy/contractsEconomy.js';
 import { computePersonalityProfile, POSTURE_LABELS } from '../../engines/life/lifeCalendarFitness.jsx';
 import { isShirtNumberAvailable } from '../../data/players/shirtNumbers.js';
 
@@ -130,18 +130,19 @@ function LifeScreen({ player, club, socialState, socialPosts, onPublish, onComme
   </div>;
 }
 
-const PROFILE_TABS = [['overview', 'Visão Geral'], ['atributos', 'Atributos'], ['contrato', 'Contrato'], ['estatisticas', 'Estatísticas'], ['noticias', 'Notícias']];
+const PROFILE_TABS = [['overview', 'Visão Geral'], ['atributos', 'Atributos'], ['contrato', 'Contrato'], ['financas', 'Finanças'], ['estatisticas', 'Estatísticas'], ['noticias', 'Notícias']];
 // salaryStatus nunca é 'oficial de verdade' pra jogadores criados na carreira —
 // só existe pra deixar claro, em toda tela que mostra o valor, que é uma
 // estimativa do motor econômico, nunca um número pesquisado/confirmado.
 const SALARY_STATUS_LABELS = { official: 'Oficial', estimated_pending_official: 'Estimado (pendente oficial)' };
 
-function PlayerProfileScreen({ player, club, socialState, stats, log, transferNews, seasonYear }) {
+function PlayerProfileScreen({ player, club, socialState, stats, log, transferNews, seasonYear, lifeState, economyState, onRequestTransfer, onRequestLoan, onInvest, onWithdrawInvestments, onBuyProperty, onReset }) {
   const [tab, setTab] = useState('overview');
   const attrs = Object.entries(player.attrs || {});
   const apps = stats?.apps || 0;
   const avgRating = apps > 0 ? (stats.ratingSum / apps).toFixed(1) : '—';
   const buyout = player.contract ? computeBuyoutClause(player.contract, player, seasonYear) : null;
+  const netWorth = economyState ? computeNetWorth(economyState) : 0;
 
   return <div className="screen-page profile-page">
     <div className="profile-hero"><div className="profile-avatar"><span>{player.name?.slice(0,1) || 'W'}</span></div><div className="profile-main"><div className="wpg-kicker">CARREIRA › PERFIL</div><h1 className="display profile-name">{player.name} <span>#{player.shirtNumber ?? '—'}</span></h1><p>{player.detailedPosition || player.position} · {club?.name || 'Sem clube'} · {player.age} anos</p><div className="profile-meta"><span>Camisa <b>{player.shirtNumber ?? 'pendente oficial'}</b></span><span>Potencial <b>{player.potential ? `${Math.round(Math.min(...Object.values(player.potential)))}–${Math.round(Math.max(...Object.values(player.potential)))}` : '—'}</b></span></div></div><div className="profile-side"><div className="ovr-ring" style={{ '--pct': (player.overall / 99) * 100 }}><b>{Math.round(player.overall)}<span>OVERALL</span></b></div></div></div>
@@ -180,7 +181,89 @@ function PlayerProfileScreen({ player, club, socialState, stats, log, transferNe
           <p className="profile-row">Multa rescisória (estimada) <b>R$ {buyout?.toLocaleString('pt-BR')}</b></p>
         </> : <div className="life-empty">Ainda sem contrato profissional — jogador da base, sem clube registrado formalmente.</div>}
         {player.loan && <p className="life-small" style={{ marginTop: 10 }}>Empréstimo ativo: <b>{player.loan.toClubId}</b></p>}
+        {(onRequestTransfer || onRequestLoan) && (
+          <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
+            {onRequestTransfer && <button onClick={onRequestTransfer} disabled={!!player.wantsTransfer} style={{ flex: 1, padding: '11px 0', fontSize: 12, fontWeight: 700, border: `1px solid ${THEME.gold}`, background: 'transparent', color: THEME.gold, opacity: player.wantsTransfer ? 0.4 : 1 }}>
+              {player.wantsTransfer ? 'PEDIDO FEITO' : 'PEDIR TRANSFERÊNCIA'}
+            </button>}
+            {onRequestLoan && <button onClick={onRequestLoan} disabled={!!player.wantsLoan} style={{ flex: 1, padding: '11px 0', fontSize: 12, fontWeight: 700, border: `1px solid ${THEME.cardElevated}`, background: 'transparent', color: THEME.textSecondary, opacity: player.wantsLoan ? 0.4 : 1 }}>
+              {player.wantsLoan ? 'PEDIDO FEITO' : 'PEDIR EMPRÉSTIMO'}
+            </button>}
+          </div>
+        )}
       </Card>
+    )}
+
+    {tab === 'financas' && economyState && (
+      <>
+        <Card elevated style={{ marginBottom: 10, textAlign: 'center' }}>
+          <p style={{ fontSize: 11, color: THEME.textSecondary }}>Patrimônio líquido</p>
+          <p className="display" style={{ fontSize: 26, fontWeight: 700, color: THEME.gold }}>R$ {netWorth.toLocaleString('pt-BR')}</p>
+          <p style={{ fontSize: 11, color: THEME.textSecondary, marginTop: 2 }}>conta + investimentos + imóveis</p>
+        </Card>
+        <Card style={{ marginBottom: 10 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+            <span style={{ fontSize: 13, color: THEME.textSecondary }}>Saldo em conta</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: THEME.gold }}>R$ {economyState.balance.toLocaleString('pt-BR')}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 13, color: THEME.textSecondary }}>Investido (rende {Math.round(INVESTMENT_SEASONAL_RETURN * 100)}%/temporada)</span>
+            <span style={{ fontSize: 13, fontWeight: 700 }}>R$ {economyState.investments.toLocaleString('pt-BR')}</span>
+          </div>
+          {onInvest && (
+            <div style={{ display: 'flex', gap: 6, marginTop: 10, marginBottom: economyState.investments > 0 ? 8 : 0 }}>
+              {INVESTMENT_AMOUNTS.map(amount => (
+                <button key={amount} onClick={() => onInvest(amount)} disabled={amount > economyState.balance}
+                  style={{ flex: 1, padding: '8px 0', fontSize: 11, fontWeight: 700, border: `1px solid ${THEME.cardElevated}`, background: 'transparent', color: amount > economyState.balance ? THEME.textSecondary : THEME.gold, opacity: amount > economyState.balance ? 0.4 : 1 }}>
+                  +R$ {(amount / 1000)}mil
+                </button>
+              ))}
+            </div>
+          )}
+          {onWithdrawInvestments && economyState.investments > 0 && (
+            <button onClick={onWithdrawInvestments} style={{ width: '100%', padding: '8px 0', fontSize: 11, fontWeight: 700, border: 'none', background: 'transparent', color: THEME.textSecondary, textDecoration: 'underline' }}>
+              Sacar tudo (R$ {economyState.investments.toLocaleString('pt-BR')})
+            </button>
+          )}
+        </Card>
+        <Card style={{ marginBottom: 10 }}>
+          <p style={{ fontSize: 13, color: THEME.textSecondary, marginBottom: 8 }}>Imóveis {economyState.properties.length > 0 ? `(${economyState.properties.length})` : ''}</p>
+          {economyState.properties.map(p => (
+            <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+              <span style={{ fontSize: 12 }}>{p.name}</span>
+              <span style={{ fontSize: 12, color: THEME.textSecondary }}>manutenção R$ {p.upkeep.toLocaleString('pt-BR')}/temp.</span>
+            </div>
+          ))}
+          {onBuyProperty && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: economyState.properties.length > 0 ? 10 : 0 }}>
+              {PROPERTY_OPTIONS.map(opt => (
+                <button key={opt.id} onClick={() => onBuyProperty(opt.id)} disabled={opt.cost > economyState.balance}
+                  style={{ display: 'flex', justifyContent: 'space-between', padding: '9px 10px', fontSize: 12, border: `1px solid ${THEME.cardElevated}`, background: 'transparent', color: opt.cost > economyState.balance ? THEME.textSecondary : THEME.text, opacity: opt.cost > economyState.balance ? 0.4 : 1 }}>
+                  <span>{opt.name}</span>
+                  <span style={{ fontWeight: 700 }}>R$ {opt.cost.toLocaleString('pt-BR')}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </Card>
+        {lifeState && (
+          <Card style={{ marginBottom: 10 }}>
+            <div className="wpg-section-label">VIDA FORA DE CAMPO</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+              <span style={{ fontSize: 13, color: THEME.textSecondary }}>Fãs</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: THEME.gold }}>{lifeState.fans}</span>
+            </div>
+            <AttrBar label="Treinador" value={lifeState.relations.coach} />
+            <AttrBar label="Torcida" value={lifeState.relations.crowd} />
+            <AttrBar label="Mídia" value={lifeState.relations.media} />
+          </Card>
+        )}
+        {onReset && (
+          <button onClick={onReset} style={{ width: '100%', padding: '10px 0', background: 'transparent', border: 'none', color: THEME.textSecondary, fontSize: 12 }}>
+            Reiniciar carreira
+          </button>
+        )}
+      </>
     )}
 
     {tab === 'estatisticas' && (

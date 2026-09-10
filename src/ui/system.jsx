@@ -171,25 +171,30 @@ function ClubMonogram({ club, size = 44 }) {
     return <img src={branding.logo} alt={club.name} style={{ width: size, height: size, objectFit: 'contain', flexShrink: 0 }} />;
   }
 
+  // Genérico = escudo fictício no padrão WPG (forma + cor do clube +
+  // monograma), nunca uma cópia do brasão real. Isso é seguro de usar pra
+  // qualquer clube, licenciado ou não -- é só identidade visual nossa.
   const text = branding.text || club.name.slice(0, 2).toUpperCase();
   return (
-    <div className="display" style={{
-      width: size, height: size, borderRadius: size * 0.24, background: club.color, color: '#fff',
-      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.36, flexShrink: 0,
-      border: '1px solid rgba(255,255,255,0.12)',
-    }}>
-      {text}
-    </div>
+    <svg width={size} height={size} viewBox="0 0 100 100" style={{ flexShrink: 0 }} role="img" aria-label={club.name}>
+      <path d="M50 4 92 18v28c0 28-18 42-42 50C26 88 8 74 8 46V18Z" fill={club.color} stroke="rgba(255,255,255,0.32)" strokeWidth="3" />
+      <text x="50" y="60" fontFamily="'Anton', sans-serif" fontSize="38" fill="#fff" textAnchor="middle">{text}</text>
+    </svg>
   );
 }
 
+// 5 áreas principais (direção aprovada da Central) -- perfil, atributos,
+// contrato e finanças ficam organizados DENTRO de Carreira (ver
+// PlayerProfileScreen em life.jsx), sem ocupar uma aba inteira cada um.
+// 'carreira' virou Calendário (rodada + histórico); 'profile' virou Carreira
+// (identidade/progressão/contrato/finanças) -- ids mantidos pra não mexer
+// no resto do app, só o rótulo e o que cada um renderiza mudaram.
 const NAV_ITEMS = [
-  { id: 'home', icon: '⌂', label: 'Visão Geral' },
-  { id: 'profile', icon: '◉', label: 'Perfil do Jogador' },
-  { id: 'carreira', icon: '▣', label: 'Carreira' },
+  { id: 'home', icon: '⌂', label: 'Início' },
+  { id: 'profile', icon: '▣', label: 'Carreira' },
+  { id: 'carreira', icon: '▤', label: 'Calendário' },
   { id: 'mundo', icon: '◈', label: 'Mundo' },
-  { id: 'life', icon: '✦', label: 'Life' },
-  { id: 'voce', icon: '●', label: 'Finanças' },
+  { id: 'life', icon: '✦', label: 'Vida' },
 ];
 
 const WPG_NAV_GROUPS = [
