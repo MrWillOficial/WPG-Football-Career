@@ -211,4 +211,4 @@ function advanceOtherDivisions(clubDivision, excludeFamily) {
 }
 
 
-export { poisson, simulateScore, resolveUserInvolvement, resolvePlayerGoalsAssists, generateLeagueFixtures, generateFixtures, freshStandings, sortStandings, resolveRound, computePromotionRelegation, simulateParallelSeason, applyDivisionResult, advanceOtherDivisions };
+export { poisson, simulateScore, resolveUserInvolvement, resolvePlayerGoalsAssists, generateLeagueFixtures, generateFixtures, freshStandings, sortStandings, resolveRound, computePromotionRelegation, simulateParallelSeason, applyDivisionResult, advanceOtherDivisions, MATCH_RATING_BASELINE };

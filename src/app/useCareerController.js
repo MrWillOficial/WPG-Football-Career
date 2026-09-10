@@ -6,7 +6,7 @@ import { ATTR_LABELS, DETAILED_POSITION_MAP, TRAININGS, TRAINING_INTENSITIES, ap
 import { SERIE_D_2026_ASSIGNMENT, SERIE_D_2026_CLUB_IDS, SERIE_D_2026_NEXT_STAGE, SERIE_D_2026_STAGE_LABELS, SERIE_D_2026_TIEBREAK_CHAIN, resolveSerieD2026UpTo } from '../data/competitions/serieD2026.js';
 import { TIER_ORDER, applyAnnualEconomyUpdate, buyProperty, clubSeasonDecision, computeBuyoutClause, computeReleaseCompensation, computeSalary, evaluatePlayerStatus, generateLoanOffer, generateTransferOffers, investAmount, makeContract, resolvePlayerSalary, withdrawAllInvestments } from '../engines/economy/contractsEconomy.js';
 import { CompetitionEngineV2 } from '../engines/competition/CompetitionEngineV2.js';
-import { COPINHA_OWN_ID, COPINHA_OWN_NAME, COPINHA_ROUND_LABELS, COPINHA_TOTAL_ROUNDS, drawCopinhaOpponents, evaluateCopinhaScouting, pickScoutedClub } from '../engines/competition/copinhaEngine.js';
+import { COPINHA_OWN_ID, COPINHA_OWN_NAME, COPINHA_ROUND_LABELS, COPINHA_TOTAL_ROUNDS, drawCopinhaOpponents, evaluateCopinhaScouting, guaranteeCopinhaAppearance, pickScoutedClub } from '../engines/competition/copinhaEngine.js';
 import { SERIE_C_2026_CLUBS, SERIE_C_2026_FASE1_TIEBREAK_CHAIN, SERIE_C_2026_FASE2_TIEBREAK_CHAIN, resolveSerieC2026UpTo } from '../data/competitions/serieC2026.js';
 import { applyLifeChoice, applyMatchCost, applyRestRecovery, applyTrainingCost, buildRoundToDay, crossedMilestone, crossesNewMonth, describeMatchPerformance, findEligibleLifeEvent, getDayType, matchModifier, MILESTONE_APPS_THRESHOLDS, MILESTONE_GOALS_THRESHOLDS } from '../engines/life/lifeCalendarFitness.jsx';
 import { CLUBS_MAP } from '../data/_mock/mockData.js';
@@ -47,6 +47,14 @@ export function useCareerController() {
   const [academyState, setAcademyState] = useState({ week: 0, totalWeeks: 26, matches: 0, goals: 0, assists: 0 });
   // Copinha: { round, opponents: [3 nomes reais], stats: {apps,goals,assists,ratingSum}, roundsWon, pendingMatch: {userMatchInfo}|null, result: {tier,label,scoutedClub}|null }
   const [copinhaState, setCopinhaState] = useState(null);
+  // Convite pra Copa Júnior NO MEIO da carreira (não mais só pré-clube) --
+  // mesma forma do copinhaState acima, com 'status' marcando onde está no
+  // ciclo: 'invited' (aguardando aceitar/recusar) | 'active' (jogando) |
+  // null (nada pendente). Ver maybeTriggerCopaJuniorInvite().
+  const [copaJuniorMidState, setCopaJuniorMidState] = useState(null);
+  // dayIndex a partir do qual um novo convite pode voltar a ser sorteado --
+  // evita spam logo depois de um convite (aceito, recusado ou concluído).
+  const [copaJuniorCooldownUntilDay, setCopaJuniorCooldownUntilDay] = useState(0);
   const [seasonStartSnapshot, setSeasonStartSnapshot] = useState(null);
 
   const [trainPick, setTrainPick] = useState(null);
@@ -144,6 +152,8 @@ export function useCareerController() {
           setPendingLifeEvent(d.pendingLifeEvent || null);
           setPendingContractDecision(d.pendingContractDecision || null);
           setCopinhaState(d.copinhaState || null);
+          setCopaJuniorMidState(d.copaJuniorMidState || null);
+          setCopaJuniorCooldownUntilDay(d.copaJuniorCooldownUntilDay || 0);
         }
       } catch (e) { /* nada salvo ainda */ }
       setLoaded(true);
@@ -152,9 +162,9 @@ export function useCareerController() {
 
   useEffect(() => {
     if (!loaded) return;
-    const d = { phase, player, seasonYear, competition, standings, fixtures, round, userClubId, stats, log, promotionResult, seasonHistory, seasonStartSnapshot, lifeState, interviewHistory, dayIndex, stageDayIndex, fitnessState, trainingSkipStreak, matchHistory, economyState, worldState, academyState, socialState, serieD2026Demo, serieC2026State, serieB2026State, serieA2026State, pendingWeek, pendingLifeEvent, pendingContractDecision, copinhaState };
+    const d = { phase, player, seasonYear, competition, standings, fixtures, round, userClubId, stats, log, promotionResult, seasonHistory, seasonStartSnapshot, lifeState, interviewHistory, dayIndex, stageDayIndex, fitnessState, trainingSkipStreak, matchHistory, economyState, worldState, academyState, socialState, serieD2026Demo, serieC2026State, serieB2026State, serieA2026State, pendingWeek, pendingLifeEvent, pendingContractDecision, copinhaState, copaJuniorMidState, copaJuniorCooldownUntilDay };
     appStorage.set(STORAGE_KEY, JSON.stringify(d)).catch(() => {});
-  }, [loaded, phase, player, seasonYear, competition, standings, fixtures, round, userClubId, stats, log, promotionResult, seasonHistory, seasonStartSnapshot, lifeState, interviewHistory, dayIndex, stageDayIndex, fitnessState, trainingSkipStreak, matchHistory, economyState, worldState, academyState, socialState, serieD2026Demo, serieC2026State, serieB2026State, serieA2026State, pendingWeek, pendingLifeEvent, pendingContractDecision, copinhaState]);
+  }, [loaded, phase, player, seasonYear, competition, standings, fixtures, round, userClubId, stats, log, promotionResult, seasonHistory, seasonStartSnapshot, lifeState, interviewHistory, dayIndex, stageDayIndex, fitnessState, trainingSkipStreak, matchHistory, economyState, worldState, academyState, socialState, serieD2026Demo, serieC2026State, serieB2026State, serieA2026State, pendingWeek, pendingLifeEvent, pendingContractDecision, copinhaState, copaJuniorMidState, copaJuniorCooldownUntilDay]);
 
   const pushLog = useCallback((msg) => setLog(prev => [msg, ...prev].slice(0, 30)), []);
 
@@ -230,18 +240,20 @@ export function useCareerController() {
   // Copinha" sintética (overall = do próprio jogador, nunca reivindica ser a
   // base de um clube real). Condição física fixa em 100 -- evento avulso
   // curto, não vale a pena encadear com o Fitness Engine da temporada.
-  function resolveCopinhaRound(round, opponents) {
+  function resolveCopinhaRound(round, opponents, appsSoFar = 0) {
     const opponentId = opponents[round];
     const clubsMapForMatch = { ...ALL_CLUBS_MAP, [COPINHA_OWN_ID]: { id: COPINHA_OWN_ID, name: COPINHA_OWN_NAME, overall: player.overall } };
     const isUserHome = Math.random() < 0.5;
     const fixtures = isUserHome ? [[COPINHA_OWN_ID, opponentId]] : [[opponentId, COPINHA_OWN_ID]];
     const standingsMap = freshStandings([COPINHA_OWN_ID, opponentId]);
     const { userMatchInfo } = resolveRound(fixtures, clubsMapForMatch, standingsMap, COPINHA_OWN_ID, player, round, 'copinha_2026', 100);
-    return userMatchInfo;
+    // Garantia de oportunidade (ver copinhaEngine.js) -- só age na última
+    // rodada e só se nenhuma aparição aconteceu até aqui.
+    return guaranteeCopinhaAppearance(userMatchInfo, player, player.overall, { alreadyAppeared: appsSoFar > 0, isFinalRound: round === COPINHA_TOTAL_ROUNDS - 1 });
   }
 
   function beginCopinhaMatch() {
-    const userMatchInfo = resolveCopinhaRound(copinhaState.round, copinhaState.opponents);
+    const userMatchInfo = resolveCopinhaRound(copinhaState.round, copinhaState.opponents, copinhaState.stats.apps);
     setCopinhaState(cs => ({ ...cs, pendingMatch: { userMatchInfo } }));
     setPhase('copinha-match');
   }
@@ -265,7 +277,7 @@ export function useCareerController() {
       setPhase('copinha-result');
     } else {
       const nextRound = copinhaState.round + 1;
-      const nextMatchInfo = resolveCopinhaRound(nextRound, copinhaState.opponents);
+      const nextMatchInfo = resolveCopinhaRound(nextRound, copinhaState.opponents, nextStats.apps);
       setCopinhaState(cs => ({ ...cs, round: nextRound, roundsWon: nextRoundsWon, stats: nextStats, pendingMatch: { userMatchInfo: nextMatchInfo } }));
     }
   }
@@ -309,6 +321,101 @@ export function useCareerController() {
     if (!result || result.tier === 'normal') { setPhase('club-select'); return; }
     if (result.tier === 'serie_d_forte') {
       pushLog(`Copinha: sua campanha chamou a atenção do ${ALL_CLUBS_MAP[result.scoutedClub]?.name || result.scoutedClub} -- convite direto, sem passar pela lista de interessados.`);
+      chooseClub(result.scoutedClub);
+      return;
+    }
+    const familyMap = {
+      serie_c: ['serie_c_2026', SERIE_C_2026_CLUBS, 'Brasileirão Série C 2026 — 1ª Fase'],
+      serie_b: ['serie_b_2026', SERIE_B_2026_CLUBS, 'Brasileirão Série B 2026'],
+      serie_a: ['serie_a_2026', SERIE_A_2026_CLUBS, 'Brasileirão Série A 2026'],
+    };
+    const [family, clubNames, competitionName] = familyMap[result.tier];
+    enterProLeagueAsRookieViaCopinha(family, clubNames, competitionName, result.scoutedClub);
+  }
+
+  // ---- COPA JÚNIOR NO MEIO DA CARREIRA ----
+  // Mesma ideia/engine da Copinha pré-carreira (mata-mata de 3 rodadas,
+  // olheiro avalia rodadas vencidas + nota média), mas repetível DURANTE a
+  // carreira profissional -- porta de saída pro ciclo "OVR baixo -> poucos
+  // minutos -> pouco desempenho -> nunca observado -> continua OVR baixo".
+  // Sempre uma DECISÃO (aceitar/recusar o convite), nunca automático --
+  // ver CopaJuniorInviteScreen. Não mexe em XP/evolução/potencial/OVR nem
+  // na fórmula de escalação da liga -- só cria uma vitrine adicional com
+  // garantia de UMA oportunidade de avaliação (ver guaranteeCopinhaAppearance
+  // em copinhaEngine.js), nunca titularidade nem chance garantida toda partida.
+  const COPA_JUNIOR_MID_DAILY_CHANCE = 0.02; // ~2% por dia de treino em Série D/C
+  const COPA_JUNIOR_MID_COOLDOWN_DAYS = 20; // evita o convite repetir logo em seguida
+  const COPA_JUNIOR_MID_MAX_AGE = 20; // mesma faixa etária da Copa São Paulo real (categoria de base)
+
+  // Chamado a cada dia de treino resolvido (mesmo ponto que já checa vida/
+  // entrevista) -- só dispara quando nada mais está acontecendo naquele dia.
+  function maybeTriggerCopaJuniorInvite() {
+    if (copaJuniorMidState) return false; // já tem convite/campanha em andamento
+    if (!competition || !['serie_d_2026', 'serie_c_2026'].includes(competition.family)) return false;
+    if (player.age > COPA_JUNIOR_MID_MAX_AGE) return false;
+    if (dayIndex < copaJuniorCooldownUntilDay) return false;
+    if (Math.random() >= COPA_JUNIOR_MID_DAILY_CHANCE) return false;
+    setCopaJuniorMidState({ status: 'invited' });
+    setPhase('copa-junior-invite');
+    return true;
+  }
+
+  function declineCopaJuniorInvite() {
+    pushLog('Você recusou o convite para a Copa Júnior e seguiu focado no seu clube atual.');
+    setCopaJuniorMidState(null);
+    setCopaJuniorCooldownUntilDay(dayIndex + COPA_JUNIOR_MID_COOLDOWN_DAYS);
+    setPhase('season'); setTab('home');
+  }
+
+  function acceptCopaJuniorInvite() {
+    const opponents = drawCopinhaOpponents([SERIE_D_2026_CLUB_IDS, SERIE_C_2026_CLUBS, SERIE_B_2026_CLUBS, SERIE_A_2026_CLUBS], ALL_CLUBS_MAP);
+    pushLog('Você aceitou o convite e vai defender uma equipe na Copa Júnior.');
+    const userMatchInfo = resolveCopinhaRound(0, opponents, 0);
+    setCopaJuniorMidState({ status: 'active', round: 0, opponents, stats: { apps: 0, goals: 0, assists: 0, ratingSum: 0 }, roundsWon: 0, pendingMatch: { userMatchInfo }, result: null });
+    setPhase('copa-junior-mid-match');
+  }
+
+  function continueCopaJuniorMidMatch() {
+    const { userMatchInfo } = copaJuniorMidState.pendingMatch;
+    const isUserWin = userMatchInfo.isUserHome ? userMatchInfo.gh > userMatchInfo.ga : userMatchInfo.ga > userMatchInfo.gh;
+    const nextStats = {
+      apps: copaJuniorMidState.stats.apps + (userMatchInfo.calledUp ? 1 : 0),
+      goals: copaJuniorMidState.stats.goals + (userMatchInfo.calledUp ? userMatchInfo.goals : 0),
+      assists: copaJuniorMidState.stats.assists + (userMatchInfo.calledUp ? userMatchInfo.assists : 0),
+      ratingSum: copaJuniorMidState.stats.ratingSum + (userMatchInfo.calledUp ? userMatchInfo.rating : 0),
+    };
+    const nextRoundsWon = copaJuniorMidState.roundsWon + (isUserWin ? 1 : 0);
+    pushLog(`Copa Júnior — ${COPINHA_ROUND_LABELS[copaJuniorMidState.round]}: ${userMatchInfo.home} ${userMatchInfo.gh}x${userMatchInfo.ga} ${userMatchInfo.away}${userMatchInfo.calledUp ? ` (nota ${userMatchInfo.rating.toFixed(1)})` : ' (você ficou no banco)'}.`);
+
+    if (!isUserWin || nextRoundsWon >= COPINHA_TOTAL_ROUNDS) {
+      const tier = evaluateCopinhaScouting({ roundsWon: nextRoundsWon, ...nextStats });
+      const scoutedClub = pickScoutedClub(tier.id, { serie_d_forte: SERIE_D_2026_CLUB_IDS, serie_c: SERIE_C_2026_CLUBS, serie_b: SERIE_B_2026_CLUBS, serie_a: SERIE_A_2026_CLUBS, clubsMap: ALL_CLUBS_MAP });
+      setCopaJuniorMidState(cs => ({ ...cs, status: 'result', roundsWon: nextRoundsWon, stats: nextStats, pendingMatch: null, result: { tier: tier.id, label: tier.label, championRun: isUserWin, scoutedClub } }));
+      setPhase('copa-junior-mid-result');
+    } else {
+      const nextRound = copaJuniorMidState.round + 1;
+      const nextMatchInfo = resolveCopinhaRound(nextRound, copaJuniorMidState.opponents, nextStats.apps);
+      setCopaJuniorMidState(cs => ({ ...cs, round: nextRound, roundsWon: nextRoundsWon, stats: nextStats, pendingMatch: { userMatchInfo: nextMatchInfo } }));
+    }
+  }
+
+  // Ao contrário da Copinha pré-carreira (o jogador ainda não tinha clube),
+  // aqui ele já tem um -- "observado" precisa virar uma mudança de clube de
+  // verdade, não uma assinatura do zero. Reaproveita exatamente as mesmas
+  // funções que a Copinha original já usa pra "aterrissar" num clube/divisão
+  // (chooseClub pra Série D, enterProLeagueAsRookieViaCopinha pras demais) --
+  // mesmo efeito de uma transferência imediata, sem inventar um motor novo.
+  function finishCopaJuniorMid() {
+    const { result } = copaJuniorMidState;
+    setCopaJuniorMidState(null);
+    setCopaJuniorCooldownUntilDay(dayIndex + COPA_JUNIOR_MID_COOLDOWN_DAYS);
+    if (!result || result.tier === 'normal') {
+      pushLog('Copa Júnior: sua campanha não chamou a atenção de olheiros desta vez. Você volta ao seu clube.');
+      setPhase('season'); setTab('home');
+      return;
+    }
+    if (result.tier === 'serie_d_forte') {
+      pushLog(`Copa Júnior: sua campanha chamou a atenção do ${ALL_CLUBS_MAP[result.scoutedClub]?.name || result.scoutedClub} — você vai jogar por eles.`);
       chooseClub(result.scoutedClub);
       return;
     }
@@ -1027,6 +1134,9 @@ export function useCareerController() {
     }
     setDayIndex(d => d + 1);
     setStageDayIndex(d => d + 1);
+    // Convite pra Copa Júnior -- só tenta quando nada mais (evento de vida
+    // por falta de treino, acima) já decidiu o destino deste dia.
+    maybeTriggerCopaJuniorInvite();
   }
 
   // Dia de recuperação (o seguinte a uma partida): recuperação automática, sem
@@ -1678,5 +1788,5 @@ export function useCareerController() {
   const roundToDay = competition ? buildRoundToDay(fixtures.length, competition.calendar_pattern) : {};
   const dayType = competition ? getDayType(stageDayIndex, roundToDay) : null;
 
-  return { loaded, setLoaded, socialState, handleSocialPublish, handleSocialComment, academyState, advanceAcademyWeek, phase, setPhase, tab, setTab, player, setPlayer, seasonYear, setSeasonYear, competition, setCompetition, standings, setStandings, fixtures, setFixtures, round, setRound, userClubId, setUserClubId, stats, setStats, log, setLog, promotionResult, setPromotionResult, seasonHistory, setSeasonHistory, seasonStartSnapshot, setSeasonStartSnapshot, trainPick, setTrainPick, showPicker, setShowPicker, pendingWeek, setPendingWeek, lifeState, setLifeState, interviewHistory, setInterviewHistory, pendingLifeEvent, setPendingLifeEvent, dayIndex, setDayIndex, stageDayIndex, setStageDayIndex, fitnessState, setFitnessState, trainingSkipStreak, setTrainingSkipStreak, matchHistory, setMatchHistory, worldState, setWorldState, economyState, setEconomyState, pendingContractDecision, setPendingContractDecision, serieD2026Demo, setSerieD2026Demo, serieC2026State, setSerieC2026State, serieB2026State, setSerieB2026State, serieA2026State, setSerieA2026State, transferNews, setTransferNews, pushLog, startCareer, chooseClub, chooseShirtNumber, redrawSerieD2026GroupsForNewSeason, exitSerieD2026Demo, beginSerieD2026Tie, startNewSerieD2026Season, startSerieC2026Season, beginSerieC2026Fase2, beginSerieC2026Final, exitSerieC2026Season, startSerieB2026Season, beginSerieB2026Playoff, exitSerieB2026Season, startSerieA2026Season, exitSerieA2026Season, togglePicker, advanceTrainingDay, advanceRecoveryDay, playWeek, continueAfterMatch, chooseLifePosture, requestTransfer, requestLoan, requestRaise, handleInvest, handleWithdrawInvestments, handleBuyProperty, finalizeNextSeason, continueNextSeason, resolveContractDecision, resetCareer, copinhaState, beginCopinhaMatch, continueCopinhaMatch, finishCopinha };
+  return { loaded, setLoaded, socialState, handleSocialPublish, handleSocialComment, academyState, advanceAcademyWeek, phase, setPhase, tab, setTab, player, setPlayer, seasonYear, setSeasonYear, competition, setCompetition, standings, setStandings, fixtures, setFixtures, round, setRound, userClubId, setUserClubId, stats, setStats, log, setLog, promotionResult, setPromotionResult, seasonHistory, setSeasonHistory, seasonStartSnapshot, setSeasonStartSnapshot, trainPick, setTrainPick, showPicker, setShowPicker, pendingWeek, setPendingWeek, lifeState, setLifeState, interviewHistory, setInterviewHistory, pendingLifeEvent, setPendingLifeEvent, dayIndex, setDayIndex, stageDayIndex, setStageDayIndex, fitnessState, setFitnessState, trainingSkipStreak, setTrainingSkipStreak, matchHistory, setMatchHistory, worldState, setWorldState, economyState, setEconomyState, pendingContractDecision, setPendingContractDecision, serieD2026Demo, setSerieD2026Demo, serieC2026State, setSerieC2026State, serieB2026State, setSerieB2026State, serieA2026State, setSerieA2026State, transferNews, setTransferNews, pushLog, startCareer, chooseClub, chooseShirtNumber, redrawSerieD2026GroupsForNewSeason, exitSerieD2026Demo, beginSerieD2026Tie, startNewSerieD2026Season, startSerieC2026Season, beginSerieC2026Fase2, beginSerieC2026Final, exitSerieC2026Season, startSerieB2026Season, beginSerieB2026Playoff, exitSerieB2026Season, startSerieA2026Season, exitSerieA2026Season, togglePicker, advanceTrainingDay, advanceRecoveryDay, playWeek, continueAfterMatch, chooseLifePosture, requestTransfer, requestLoan, requestRaise, handleInvest, handleWithdrawInvestments, handleBuyProperty, finalizeNextSeason, continueNextSeason, resolveContractDecision, resetCareer, copinhaState, beginCopinhaMatch, continueCopinhaMatch, finishCopinha, copaJuniorMidState, declineCopaJuniorInvite, acceptCopaJuniorInvite, continueCopaJuniorMidMatch, finishCopaJuniorMid };
 }

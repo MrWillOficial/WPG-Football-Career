@@ -20,6 +20,9 @@
    mesmo motor já usado pela liga) fica em useCareerController.js.
 ============================================================================ */
 
+import { resolvePlayerGoalsAssists, MATCH_RATING_BASELINE } from '../match/matchEngine.js';
+import { clamp } from '../player/playerEngine.js';
+
 const COPINHA_OWN_ID = 'copinha_selecao';
 const COPINHA_OWN_NAME = 'Seleção da Copinha';
 const COPINHA_TOTAL_ROUNDS = 3;
@@ -83,4 +86,25 @@ function pickScoutedClub(tierId, pools) {
   return list[Math.floor(Math.random() * list.length)];
 }
 
-export { COPINHA_OWN_ID, COPINHA_OWN_NAME, COPINHA_TOTAL_ROUNDS, COPINHA_ROUND_LABELS, COPINHA_TIERS, drawCopinhaOpponents, evaluateCopinhaScouting, pickScoutedClub };
+// GARANTIA DE OPORTUNIDADE — não titularidade, não chance garantida em toda
+// partida. Cada rodada continua rolando resolveUserInvolvement normalmente
+// (esse motor não é tocado aqui); isso só reage ao resultado JÁ simulado:
+// se o jogador chega na ÚLTIMA rodada da campanha sem ter pisado em campo
+// nenhuma vez, ele entra como substituto nessa rodada final -- nunca antes,
+// nunca como titular, nunca garantido em mais de uma rodada. O objetivo é
+// só impedir "passou a Copinha inteira sem ser visto uma vez", que é o que
+// torna a campanha inteira incapaz de gerar qualquer avaliação de olheiro
+// (evaluateCopinhaScouting depende de ratingSum/apps -- sem nenhuma
+// aparição, nunca haveria amostra pra avaliar).
+function guaranteeCopinhaAppearance(userMatchInfo, player, clubOverall, { alreadyAppeared, isFinalRound }) {
+  if (!isFinalRound || alreadyAppeared || !userMatchInfo || userMatchInfo.calledUp) return userMatchInfo;
+  const rating = clamp(MATCH_RATING_BASELINE + (player.overall - clubOverall) / 25 + (Math.random() - 0.5) * 2, 2, 10);
+  const teamGoals = userMatchInfo.isUserHome ? userMatchInfo.gh : userMatchInfo.ga;
+  const { goals, assists } = resolvePlayerGoalsAssists(player, teamGoals);
+  const finalRating = clamp(rating + goals * 0.35 + assists * 0.15, 2, 10);
+  // started:false + enteredMinute no 2º tempo -- entrada como substituto,
+  // nunca reescrevendo o placar (já simulado sem essa participação).
+  return { ...userMatchInfo, calledUp: true, rating: finalRating, goals, assists, started: false, enteredMinute: Math.floor(60 + Math.random() * 25) };
+}
+
+export { COPINHA_OWN_ID, COPINHA_OWN_NAME, COPINHA_TOTAL_ROUNDS, COPINHA_ROUND_LABELS, COPINHA_TIERS, drawCopinhaOpponents, evaluateCopinhaScouting, pickScoutedClub, guaranteeCopinhaAppearance };

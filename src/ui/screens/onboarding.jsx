@@ -185,4 +185,52 @@ function CopinhaResultScreen({ copinhaState, onContinue }) {
   );
 }
 
-export { AcademyScreen, CreateScreen, ClubSelectScreen, CopinhaIntroScreen, CopinhaResultScreen };
+/* ============================================================================
+   TELAS — Copa Júnior no meio da carreira (convite repetível, não mais só
+   pré-clube) -- ver useCareerController.js pro porquê e o gatilho.
+============================================================================ */
+
+function CopaJuniorInviteScreen({ player, onAccept, onDecline }) {
+  return (
+    <div style={{ padding: 24, maxWidth: 420, margin: '0 auto', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <Card elevated style={{ padding: 24, textAlign: 'center' }}>
+        <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase' }}>Oportunidade de carreira</p>
+        <h1 className="display" style={{ fontSize: 24, fontWeight: 700, margin: '8px 0 12px' }}>Convite para a Copa Júnior</h1>
+        <p style={{ color: THEME.textSecondary, fontSize: 13, lineHeight: 1.6 }}>
+          {player.name}, você foi convidado para integrar o elenco de uma equipe que vai disputar a Copa Júnior. São {COPINHA_TOTAL_ROUNDS} jogos eliminatórios contra times de todo o país.
+        </p>
+        <p style={{ color: THEME.textSecondary, fontSize: 13, lineHeight: 1.6, marginTop: 10 }}>
+          Não há garantia de titularidade — a escalação de cada jogo continua sendo decidida em campo. O que a competição garante é uma vitrine maior: se você chegar ao fim da campanha sem ter entrado nenhuma vez, terá pelo menos uma chance como substituto antes do fim.
+        </p>
+        <p style={{ color: THEME.textFaint, fontSize: 12, lineHeight: 1.6, marginTop: 10 }}>
+          Aceitar não altera seu vínculo atual — você só volta ao seu clube se nenhum olheiro se interessar.
+        </p>
+        <button className="display" onClick={onAccept} style={{ marginTop: 20, padding: '15px 0', width: '100%', fontWeight: 700, fontSize: 16, background: THEME.gold, color: THEME.bg, border: 'none' }}>ACEITAR CONVITE</button>
+        <button onClick={onDecline} style={{ marginTop: 10, padding: '13px 0', width: '100%', fontWeight: 700, fontSize: 13, background: 'transparent', color: THEME.textSecondary, border: `1px solid ${THEME.cardElevated}` }}>RECUSAR</button>
+      </Card>
+    </div>
+  );
+}
+
+function CopaJuniorMidResultScreen({ copaJuniorMidState, onContinue }) {
+  const { stats, roundsWon, result } = copaJuniorMidState;
+  const avgRating = stats.apps ? (stats.ratingSum / stats.apps).toFixed(1) : '—';
+  const clubName = result.scoutedClub ? (ALL_CLUBS_MAP[result.scoutedClub]?.name || result.scoutedClub) : null;
+  return (
+    <div style={{ padding: 24, maxWidth: 420, margin: '0 auto', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <Card elevated style={{ padding: 24, textAlign: 'center' }}>
+        <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase' }}>Copa Júnior — fim de participação</p>
+        <h1 className="display" style={{ fontSize: 22, fontWeight: 700, margin: '8px 0 6px', color: result.tier === 'normal' ? THEME.text : THEME.gold }}>{COPINHA_TIER_HEADLINES[result.tier]}</h1>
+        <p style={{ color: THEME.textSecondary, fontSize: 13 }}>{roundsWon} de {COPINHA_TOTAL_ROUNDS} rodadas vencidas · {stats.apps} jogo(s) · {stats.goals} gol(s) · {stats.assists} assistência(s) · nota média {avgRating}</p>
+        {clubName ? (
+          <p style={{ marginTop: 14, fontSize: 14 }}>O <b style={{ color: THEME.gold }}>{clubName}</b> te observou e você vai jogar por eles a partir de agora.</p>
+        ) : (
+          <p style={{ marginTop: 14, fontSize: 14 }}>Nenhum olheiro de peso apareceu desta vez — você volta ao seu clube.</p>
+        )}
+        <button className="display" onClick={onContinue} style={{ marginTop: 20, padding: '15px 0', width: '100%', fontWeight: 700, fontSize: 16, background: THEME.gold, color: THEME.bg, border: 'none' }}>CONTINUAR</button>
+      </Card>
+    </div>
+  );
+}
+
+export { AcademyScreen, CreateScreen, ClubSelectScreen, CopinhaIntroScreen, CopinhaResultScreen, CopaJuniorInviteScreen, CopaJuniorMidResultScreen };
