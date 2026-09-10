@@ -499,7 +499,10 @@ export function useCareerController() {
   }
 
   function startCareer(name, position) {
-    const base = () => 32 + Math.random() * 14;
+    // Overall inicial médio ~50 (era ~39) -- mesma variação de 14 pontos de
+    // antes, só recentrada pra cima, a pedido do usuário. Não mexe em
+    // potencial/deceleração/treino (fila separada).
+    const base = () => 43 + Math.random() * 14;
     const detailedPosition = DETAILED_POSITION_MAP[position] ? position : null;
     const legacyPosition = detailedPosition ? detailedPositionToLegacy(detailedPosition) : position;
     const attrs = { finalizacao: base(), passe: base(), velocidade: base(), defesa: base(), fisico: base() };
