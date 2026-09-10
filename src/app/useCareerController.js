@@ -111,7 +111,7 @@ export function useCareerController() {
         const res = await appStorage.get(STORAGE_KEY);
         if (res && res.value) {
           const d = JSON.parse(res.value);
-          setPhase(d.phase); setPlayer(d.player ? { age: 17, reputation: 5, contract: null, loan: null, wantsTransfer: false, wantsLoan: false, ...d.player } : d.player); setSeasonYear(d.seasonYear);
+          setPhase(d.phase); setPlayer(d.player ? { age: 17, reputation: 5, contract: null, loan: null, wantsTransfer: false, wantsLoan: false, wantsRaise: false, ...d.player } : d.player); setSeasonYear(d.seasonYear);
           setCompetition(d.competition); setStandings(d.standings || {});
           setFixtures(d.fixtures || []); setRound(d.round || 0);
           setUserClubId(d.userClubId); setStats(d.stats); setLog(d.log || []);
@@ -335,7 +335,7 @@ export function useCareerController() {
       id: `career-${Date.now()}`, name, displayName: name, position: legacyPosition, detailedPosition,
       functions: profile.functions, archetype: profile.archetype, specialization: profile.specialization,
       registeredClub: null, currentClub: null, playerSource: 'career_created',
-      attrs, potential, overall, age: 16, careerPhase: 'academy', academyStatus: 'youth_player', salarySource: 'pending_official', salaryStatus: 'pending_official', reputation: 5, weeklyLoad: 0, shirtNumber: null, registration: createPlayerRegistration({ shirtNumberStatus: 'pending_official' }), contract: null, loan: null, wantsTransfer: false, wantsLoan: false,
+      attrs, potential, overall, age: 16, careerPhase: 'academy', academyStatus: 'youth_player', salarySource: 'pending_official', salaryStatus: 'pending_official', reputation: 5, weeklyLoad: 0, shirtNumber: null, registration: createPlayerRegistration({ shirtNumberStatus: 'pending_official' }), contract: null, loan: null, wantsTransfer: false, wantsLoan: false, wantsRaise: false,
       // Aparência -- estrutura pronta pra escolha futura (o jogador poderá
       // trocar entre várias ilustrações/estilos disponíveis); hoje só existe
       // uma opção, então nenhuma UI de seleção é necessária ainda, mas a
@@ -436,16 +436,17 @@ export function useCareerController() {
       if (seasonYear + 1 >= player.loan.returnSeason) {
         return {
           effectiveClubId: player.loan.parentClubId, targetFamily: player.loan.parentFamily || family, customClubIdsOverride: null,
-          contract: player.loan.parentContract, loan: null, wantsTransfer: false, wantsLoan: false,
+          contract: player.loan.parentContract, loan: null, wantsTransfer: false, wantsLoan: false, wantsRaise: false,
           logMsg: `Fim do empréstimo. Você retorna ao ${ALL_CLUBS_MAP[player.loan.parentClubId]?.name || 'clube de origem'}.`,
         };
       }
       // Ainda no meio do empréstimo — segue jogando pelo clube emprestador,
       // sem reavaliar mercado nem contrato (o vínculo real é com o clube de
-      // origem, intocado até o retorno).
+      // origem, intocado até o retorno). Aumento também não se aplica aqui —
+      // quem paga o salário é o contrato original com o clube de origem.
       return {
         effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
-        contract: player.contract, loan: player.loan, wantsTransfer: false, wantsLoan: false, logMsg: null,
+        contract: player.contract, loan: player.loan, wantsTransfer: false, wantsLoan: false, wantsRaise: false, logMsg: null,
       };
     }
 
@@ -468,6 +469,27 @@ export function useCareerController() {
       return expired ? makeContract(userClubId, computeSalary(family, status), seasonYear + 1, 2) : player.contract;
     };
     const makeLoan = (offer) => ({ parentClubId: userClubId, parentFamily: family, parentContract: contractOnFile, loanClubId: offer.clubId, returnSeason: seasonYear + 1 + offer.durationSeasons });
+    // Pedido de aumento (botão "PEDIR AUMENTO") -- não é oferta de mercado,
+    // é o próprio clube reavaliando o salário atual contra o que
+    // computeSalary já diria pro status ATUAL do jogador (mesma fórmula
+    // usada em toda renovação, nenhum critério novo inventado). Só se aplica
+    // quando o jogador FICA no clube por decisão normal (não faz sentido
+    // "pedir aumento" no mesmo ciclo em que também pediu pra sair, então só
+    // é avaliado no fallback onde nenhum pedido de saída está em jogo).
+    // Resolvido na hora — aceito ou recusado — não fica "pendente" como
+    // transferência/empréstimo, porque não há mercado externo pra esperar.
+    const applyRaiseIfRequested = (contract) => {
+      if (!player.wantsRaise) return { contract, raiseLogMsg: null };
+      const fairSalary = computeSalary(family, status);
+      if (fairSalary > contract.salary) {
+        return { contract: { ...contract, salary: fairSalary }, raiseLogMsg: `Pedido de aumento aceito! Novo salário: R$ ${fairSalary.toLocaleString('pt-BR')}/mês.` };
+      }
+      return { contract, raiseLogMsg: 'O clube avaliou seu desempenho e recusou o pedido de aumento — seu salário já reflete sua posição no elenco.' };
+    };
+    // Quando o clube resolve vender/dispensar/emprestar em vez de só
+    // renovar, o pedido de aumento não chega a ser avaliado (o vínculo
+    // muda antes) — só avisa, em vez de sumir sem explicação.
+    const raiseSkippedNote = (msg) => player.wantsRaise ? `${msg} Seu pedido de aumento não chegou a ser avaliado.` : msg;
 
     if (allowMarket) {
       // Pedido do JOGADOR (botões "PEDIR TRANSFERÊNCIA"/"PEDIR EMPRÉSTIMO")
@@ -480,14 +502,14 @@ export function useCareerController() {
           return {
             effectiveClubId: offer.clubId, targetFamily: offer.family, customClubIdsOverride: customOverrideFor(offer.family),
             contract: makeContract(offer.clubId, offer.proposedSalary, seasonYear + 1, offer.proposedDuration),
-            loan: null, wantsTransfer: false, wantsLoan: !!player.wantsLoan,
+            loan: null, wantsTransfer: false, wantsLoan: !!player.wantsLoan, wantsRaise: false,
             logMsg: `Transferência aceita! Você assinou com o ${offer.clubName}.`,
           };
         }
         // Sem proposta desta vez — o pedido segue registrado, tenta de novo na próxima temporada.
         return {
           effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
-          contract: renewIfExpired(), loan: null, wantsTransfer: true, wantsLoan: !!player.wantsLoan,
+          contract: renewIfExpired(), loan: null, wantsTransfer: true, wantsLoan: !!player.wantsLoan, wantsRaise: !!player.wantsRaise,
           logMsg: 'Você pediu transferência, mas nenhuma proposta chegou desta vez. O pedido continua registrado.',
         };
       }
@@ -497,13 +519,13 @@ export function useCareerController() {
         if (offer) {
           return {
             effectiveClubId: offer.clubId, targetFamily: family, customClubIdsOverride: null,
-            contract: contractOnFile, loan: makeLoan(offer), wantsTransfer: false, wantsLoan: false,
+            contract: contractOnFile, loan: makeLoan(offer), wantsTransfer: false, wantsLoan: false, wantsRaise: false,
             logMsg: `Empréstimo aceito! Você joga pelo ${offer.clubName} nesta temporada.`,
           };
         }
         return {
           effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
-          contract: renewIfExpired(), loan: null, wantsTransfer: false, wantsLoan: true,
+          contract: renewIfExpired(), loan: null, wantsTransfer: false, wantsLoan: true, wantsRaise: !!player.wantsRaise,
           logMsg: 'Você pediu empréstimo, mas nenhuma proposta chegou desta vez. O pedido continua registrado.',
         };
       }
@@ -520,8 +542,8 @@ export function useCareerController() {
           return {
             effectiveClubId: offer.clubId, targetFamily: offer.family, customClubIdsOverride: customOverrideFor(offer.family),
             contract: makeContract(offer.clubId, offer.proposedSalary, seasonYear + 1, offer.proposedDuration),
-            loan: null, wantsTransfer: false, wantsLoan: false,
-            logMsg: `O ${ALL_CLUBS_MAP[userClubId]?.name} avaliou negociar sua saída e aceitou uma proposta: você assinou com o ${offer.clubName}.`,
+            loan: null, wantsTransfer: false, wantsLoan: false, wantsRaise: false,
+            logMsg: raiseSkippedNote(`O ${ALL_CLUBS_MAP[userClubId]?.name} avaliou negociar sua saída e aceitou uma proposta: você assinou com o ${offer.clubName}.`),
           };
         }
       }
@@ -535,14 +557,16 @@ export function useCareerController() {
           return {
             effectiveClubId: offer.clubId, targetFamily: offer.family, customClubIdsOverride: customOverrideFor(offer.family),
             contract: makeContract(offer.clubId, offer.proposedSalary, seasonYear + 1, offer.proposedDuration),
-            loan: null, wantsTransfer: false, wantsLoan: false,
-            logMsg: `Dispensado pelo ${oldClubName} (compensação de R$ ${compensation.toLocaleString('pt-BR')} recebida). Assinou com o ${offer.clubName}.`,
+            loan: null, wantsTransfer: false, wantsLoan: false, wantsRaise: false,
+            logMsg: raiseSkippedNote(`Dispensado pelo ${oldClubName} (compensação de R$ ${compensation.toLocaleString('pt-BR')} recebida). Assinou com o ${offer.clubName}.`),
           };
         }
-        // Sem interessados — o clube reconsidera e renova.
+        // Sem interessados — o clube reconsidera e renova já pelo salário
+        // justo pro status atual (um aumento pendente já sai atendido por
+        // tabela, já que é a mesma fórmula que applyRaiseIfRequested usaria).
         return {
           effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
-          contract: makeContract(userClubId, computeSalary(family, status), seasonYear + 1, 2), loan: null, wantsTransfer: false, wantsLoan: false,
+          contract: makeContract(userClubId, computeSalary(family, status), seasonYear + 1, 2), loan: null, wantsTransfer: false, wantsLoan: false, wantsRaise: false,
           logMsg: `O ${oldClubName} avaliou dispensar você, mas não houve interessados — contrato renovado.`,
         };
       }
@@ -552,21 +576,20 @@ export function useCareerController() {
         if (offer) {
           return {
             effectiveClubId: offer.clubId, targetFamily: family, customClubIdsOverride: null,
-            contract: contractOnFile, loan: makeLoan(offer), wantsTransfer: false, wantsLoan: false,
-            logMsg: `O ${ALL_CLUBS_MAP[userClubId]?.name} avaliou que você precisa de minutos e fechou um empréstimo: você joga pelo ${offer.clubName} nesta temporada.`,
+            contract: contractOnFile, loan: makeLoan(offer), wantsTransfer: false, wantsLoan: false, wantsRaise: false,
+            logMsg: raiseSkippedNote(`O ${ALL_CLUBS_MAP[userClubId]?.name} avaliou que você precisa de minutos e fechou um empréstimo: você joga pelo ${offer.clubName} nesta temporada.`),
           };
         }
         // Sem clube interessado em pegar emprestado — cai no fallback abaixo.
       }
 
       // decision === 'renew' | 'keep_as_is' (ou 'offer_loan' sem oferta) —
-      // nada de mercado pra resolver; só garante que o contrato nunca fica
-      // com data vencida.
-      const nextContract = renewIfExpired();
+      // nada de mercado pra resolver a não ser um eventual pedido de aumento.
+      const { contract: nextContract, raiseLogMsg } = applyRaiseIfRequested(renewIfExpired());
       return {
         effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
-        contract: nextContract, loan: null, wantsTransfer: false, wantsLoan: false,
-        logMsg: nextContract !== player.contract ? `Contrato renovado com o ${ALL_CLUBS_MAP[userClubId]?.name || 'clube'}.` : null,
+        contract: nextContract, loan: null, wantsTransfer: false, wantsLoan: false, wantsRaise: false,
+        logMsg: raiseLogMsg || (nextContract !== player.contract ? `Contrato renovado com o ${ALL_CLUBS_MAP[userClubId]?.name || 'clube'}.` : null),
       };
     }
 
@@ -574,11 +597,11 @@ export function useCareerController() {
     // mercado não é avaliado neste ciclo (mesma precedência do antigo
     // continueNextSeason), mas o contrato ainda não pode ficar vencido, e um
     // pedido pendente não pode ser apagado por uma virada que nem chegou a
-    // avaliá-lo — preserva `wantsTransfer`/`wantsLoan` como estão.
+    // avaliá-lo — preserva `wantsTransfer`/`wantsLoan`/`wantsRaise` como estão.
     const divisionChangeContract = renewIfExpired();
     return {
       effectiveClubId: userClubId, targetFamily: family, customClubIdsOverride: null,
-      contract: divisionChangeContract, loan: null, wantsTransfer: !!player.wantsTransfer, wantsLoan: !!player.wantsLoan,
+      contract: divisionChangeContract, loan: null, wantsTransfer: !!player.wantsTransfer, wantsLoan: !!player.wantsLoan, wantsRaise: !!player.wantsRaise,
       logMsg: divisionChangeContract !== player.contract ? `Contrato renovado com o ${ALL_CLUBS_MAP[userClubId]?.name || 'clube'}.` : null,
     };
   }
@@ -587,7 +610,7 @@ export function useCareerController() {
   // funções startXSeason esperam em `opts` — usado por toda saída de
   // temporada (Série D/C/B/A), evita repetir a mesma forma 8 vezes.
   function contractOpts(u) {
-    return { effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, loan: u.loan, wantsTransfer: u.wantsTransfer, wantsLoan: u.wantsLoan }, logMsg: u.logMsg };
+    return { effectiveClubId: u.effectiveClubId, contractPatch: { contract: u.contract, loan: u.loan, wantsTransfer: u.wantsTransfer, wantsLoan: u.wantsLoan, wantsRaise: u.wantsRaise }, logMsg: u.logMsg };
   }
 
   // Sai da tela de resultado — sempre continua a carreira pra próxima
@@ -1411,7 +1434,7 @@ export function useCareerController() {
   }
 
   function chooseLifePosture(postureId) {
-    const { event, resumePhase, resetSkipStreak, setsTransferRequest, setsLoanRequest } = pendingLifeEvent;
+    const { event, resumePhase, resetSkipStreak, setsTransferRequest, setsLoanRequest, setsRaiseRequest } = pendingLifeEvent;
     const effects = applyLifeChoice(event, postureId);
     if (effects) {
       setLifeState(prev => ({
@@ -1426,10 +1449,13 @@ export function useCareerController() {
       pushLog(`Entrevista: você respondeu de forma ${postureId}.`);
     }
     if (resetSkipStreak) setTrainingSkipStreak(0);
-    // O pedido em si (transferência/empréstimo) só é REGISTRADO aqui — quem
-    // decide se ele vira algo real é clubSeasonDecision, na próxima transição.
+    // O pedido em si (transferência/empréstimo/aumento) só é REGISTRADO aqui
+    // — quem decide se ele vira algo real é clubSeasonDecision (transfer-
+    // ência/empréstimo) ou applyRaiseIfRequested (aumento), na próxima
+    // transição de temporada.
     if (setsTransferRequest) setPlayer(p => ({ ...p, wantsTransfer: true }));
     if (setsLoanRequest) setPlayer(p => ({ ...p, wantsLoan: true }));
+    if (setsRaiseRequest) setPlayer(p => ({ ...p, wantsRaise: true }));
     setPendingLifeEvent(null);
     setPhase(resumePhase);
     if (resumePhase === 'season') setTab('home');
@@ -1444,6 +1470,12 @@ export function useCareerController() {
   function requestLoan() {
     const event = findEligibleLifeEvent({ type: 'behavior', action: 'loan_request' });
     if (event) setPendingLifeEvent({ event, resumePhase: 'season', setsLoanRequest: true });
+    setPhase('life-event'); setTab('home');
+  }
+
+  function requestRaise() {
+    const event = findEligibleLifeEvent({ type: 'behavior', action: 'raise_request' });
+    if (event) setPendingLifeEvent({ event, resumePhase: 'season', setsRaiseRequest: true });
     setPhase('life-event'); setTab('home');
   }
 
@@ -1646,5 +1678,5 @@ export function useCareerController() {
   const roundToDay = competition ? buildRoundToDay(fixtures.length, competition.calendar_pattern) : {};
   const dayType = competition ? getDayType(stageDayIndex, roundToDay) : null;
 
-  return { loaded, setLoaded, socialState, handleSocialPublish, handleSocialComment, academyState, advanceAcademyWeek, phase, setPhase, tab, setTab, player, setPlayer, seasonYear, setSeasonYear, competition, setCompetition, standings, setStandings, fixtures, setFixtures, round, setRound, userClubId, setUserClubId, stats, setStats, log, setLog, promotionResult, setPromotionResult, seasonHistory, setSeasonHistory, seasonStartSnapshot, setSeasonStartSnapshot, trainPick, setTrainPick, showPicker, setShowPicker, pendingWeek, setPendingWeek, lifeState, setLifeState, interviewHistory, setInterviewHistory, pendingLifeEvent, setPendingLifeEvent, dayIndex, setDayIndex, stageDayIndex, setStageDayIndex, fitnessState, setFitnessState, trainingSkipStreak, setTrainingSkipStreak, matchHistory, setMatchHistory, worldState, setWorldState, economyState, setEconomyState, pendingContractDecision, setPendingContractDecision, serieD2026Demo, setSerieD2026Demo, serieC2026State, setSerieC2026State, serieB2026State, setSerieB2026State, serieA2026State, setSerieA2026State, transferNews, setTransferNews, pushLog, startCareer, chooseClub, chooseShirtNumber, redrawSerieD2026GroupsForNewSeason, exitSerieD2026Demo, beginSerieD2026Tie, startNewSerieD2026Season, startSerieC2026Season, beginSerieC2026Fase2, beginSerieC2026Final, exitSerieC2026Season, startSerieB2026Season, beginSerieB2026Playoff, exitSerieB2026Season, startSerieA2026Season, exitSerieA2026Season, togglePicker, advanceTrainingDay, advanceRecoveryDay, playWeek, continueAfterMatch, chooseLifePosture, requestTransfer, requestLoan, handleInvest, handleWithdrawInvestments, handleBuyProperty, finalizeNextSeason, continueNextSeason, resolveContractDecision, resetCareer, copinhaState, beginCopinhaMatch, continueCopinhaMatch, finishCopinha };
+  return { loaded, setLoaded, socialState, handleSocialPublish, handleSocialComment, academyState, advanceAcademyWeek, phase, setPhase, tab, setTab, player, setPlayer, seasonYear, setSeasonYear, competition, setCompetition, standings, setStandings, fixtures, setFixtures, round, setRound, userClubId, setUserClubId, stats, setStats, log, setLog, promotionResult, setPromotionResult, seasonHistory, setSeasonHistory, seasonStartSnapshot, setSeasonStartSnapshot, trainPick, setTrainPick, showPicker, setShowPicker, pendingWeek, setPendingWeek, lifeState, setLifeState, interviewHistory, setInterviewHistory, pendingLifeEvent, setPendingLifeEvent, dayIndex, setDayIndex, stageDayIndex, setStageDayIndex, fitnessState, setFitnessState, trainingSkipStreak, setTrainingSkipStreak, matchHistory, setMatchHistory, worldState, setWorldState, economyState, setEconomyState, pendingContractDecision, setPendingContractDecision, serieD2026Demo, setSerieD2026Demo, serieC2026State, setSerieC2026State, serieB2026State, setSerieB2026State, serieA2026State, setSerieA2026State, transferNews, setTransferNews, pushLog, startCareer, chooseClub, chooseShirtNumber, redrawSerieD2026GroupsForNewSeason, exitSerieD2026Demo, beginSerieD2026Tie, startNewSerieD2026Season, startSerieC2026Season, beginSerieC2026Fase2, beginSerieC2026Final, exitSerieC2026Season, startSerieB2026Season, beginSerieB2026Playoff, exitSerieB2026Season, startSerieA2026Season, exitSerieA2026Season, togglePicker, advanceTrainingDay, advanceRecoveryDay, playWeek, continueAfterMatch, chooseLifePosture, requestTransfer, requestLoan, requestRaise, handleInvest, handleWithdrawInvestments, handleBuyProperty, finalizeNextSeason, continueNextSeason, resolveContractDecision, resetCareer, copinhaState, beginCopinhaMatch, continueCopinhaMatch, finishCopinha };
 }

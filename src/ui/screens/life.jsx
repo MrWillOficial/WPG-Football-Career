@@ -136,7 +136,7 @@ const PROFILE_TABS = [['overview', 'Visão Geral'], ['atributos', 'Atributos'], 
 // estimativa do motor econômico, nunca um número pesquisado/confirmado.
 const SALARY_STATUS_LABELS = { official: 'Oficial', estimated_pending_official: 'Estimado (pendente oficial)' };
 
-function PlayerProfileScreen({ player, club, socialState, stats, log, transferNews, seasonYear, lifeState, economyState, onRequestTransfer, onRequestLoan, onInvest, onWithdrawInvestments, onBuyProperty, onReset }) {
+function PlayerProfileScreen({ player, club, socialState, stats, log, transferNews, seasonYear, lifeState, economyState, onRequestTransfer, onRequestLoan, onRequestRaise, onInvest, onWithdrawInvestments, onBuyProperty, onReset }) {
   const [tab, setTab] = useState('overview');
   const attrs = Object.entries(player.attrs || {});
   const apps = stats?.apps || 0;
@@ -181,9 +181,14 @@ function PlayerProfileScreen({ player, club, socialState, stats, log, transferNe
           <p className="profile-row">Multa rescisória (estimada) <b>R$ {buyout?.toLocaleString('pt-BR')}</b></p>
         </> : <div className="life-empty">Ainda sem contrato profissional — jogador da base, sem clube registrado formalmente.</div>}
         {player.loan && <p className="life-small" style={{ marginTop: 10 }}>Empréstimo ativo: <b>{player.loan.toClubId}</b></p>}
+        {onRequestRaise && player.contract && (
+          <button onClick={onRequestRaise} disabled={!!player.wantsRaise} style={{ width: '100%', padding: '11px 0', fontSize: 12, fontWeight: 700, marginTop: 14, border: `1px solid ${THEME.gold}`, background: 'transparent', color: THEME.gold, opacity: player.wantsRaise ? 0.4 : 1 }}>
+            {player.wantsRaise ? 'PEDIDO FEITO — RESPOSTA NA PRÓXIMA TEMPORADA' : 'PEDIR AUMENTO'}
+          </button>
+        )}
         {(onRequestTransfer || onRequestLoan) && (
-          <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
-            {onRequestTransfer && <button onClick={onRequestTransfer} disabled={!!player.wantsTransfer} style={{ flex: 1, padding: '11px 0', fontSize: 12, fontWeight: 700, border: `1px solid ${THEME.gold}`, background: 'transparent', color: THEME.gold, opacity: player.wantsTransfer ? 0.4 : 1 }}>
+          <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+            {onRequestTransfer && <button onClick={onRequestTransfer} disabled={!!player.wantsTransfer} style={{ flex: 1, padding: '11px 0', fontSize: 12, fontWeight: 700, border: `1px solid ${THEME.cardElevated}`, background: 'transparent', color: THEME.textSecondary, opacity: player.wantsTransfer ? 0.4 : 1 }}>
               {player.wantsTransfer ? 'PEDIDO FEITO' : 'PEDIR TRANSFERÊNCIA'}
             </button>}
             {onRequestLoan && <button onClick={onRequestLoan} disabled={!!player.wantsLoan} style={{ flex: 1, padding: '11px 0', fontSize: 12, fontWeight: 700, border: `1px solid ${THEME.cardElevated}`, background: 'transparent', color: THEME.textSecondary, opacity: player.wantsLoan ? 0.4 : 1 }}>

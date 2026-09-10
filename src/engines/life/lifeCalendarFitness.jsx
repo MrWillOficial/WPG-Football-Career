@@ -150,6 +150,17 @@ const LIFE_EVENTS = [
     ],
   },
   {
+    id: 'requested_raise',
+    trigger: { type: 'behavior', condition: 'raise_request' },
+    prompt: 'Você procura a diretoria pra pedir um aumento salarial.',
+    options: [
+      { posture: 'agressivo', label: 'Exigir um valor à altura do que vem entregando', effects: { relations: { coach: -3, crowd: -1, media: 1 }, fans: 0 } },
+      { posture: 'confiante', label: 'Apresentar seus números e pedir revisão', effects: { relations: { coach: 0, crowd: 1, media: 0 }, fans: 1 } },
+      { posture: 'sossegado', label: 'Pedir com calma, sem ultimato', effects: { relations: { coach: 1, crowd: 0, media: 0 }, fans: 0 } },
+      { posture: 'desleixado', label: 'Jogar a conversa pro empresário resolver', effects: { relations: { coach: -1, crowd: 0, media: 0 }, fans: 0 } },
+    ],
+  },
+  {
     id: 'bad_rating_criticized',
     trigger: { type: 'match_performance', condition: 'bad_rating' },
     // Duas leituras diferentes pro mesmo "jogo ruim": sem nenhuma participação
@@ -226,6 +237,7 @@ const LIFE_CONDITION_EVALUATORS = {
   training_skip_streak: (ctx) => ctx.type === 'behavior' && ctx.skipStreak >= 3,
   transfer_request: (ctx) => ctx.type === 'behavior' && ctx.action === 'transfer_request',
   loan_request: (ctx) => ctx.type === 'behavior' && ctx.action === 'loan_request',
+  raise_request: (ctx) => ctx.type === 'behavior' && ctx.action === 'raise_request',
   milestone_apps: (ctx) => ctx.type === 'career_milestone' && ctx.kind === 'apps',
   milestone_goals: (ctx) => ctx.type === 'career_milestone' && ctx.kind === 'goals',
 };
