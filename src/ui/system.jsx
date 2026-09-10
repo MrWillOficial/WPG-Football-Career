@@ -80,7 +80,11 @@ function GlobalStyle() {
       @media (max-width: 800px) {
         .wpg-sidebar { display: none; }
         .wpg-main { width: 100%; margin-left: 0; }
-        .wpg-topbar { padding: 0 16px; height: 54px; }
+        .wpg-topbar { padding: 0 16px; height: 42px; }
+        .wpg-breadcrumb-brand { display: none; }
+        .wpg-breadcrumb strong { font-size: 12px; }
+        .wpg-season-pill { gap: 8px; font-size: 10px; }
+        .wpg-season-pill b { font-size: 11px; }
         .screen-page { width: calc(100% - 28px); padding: 18px 0 92px; }
         .wpg-mobile-nav { position: fixed; display: flex; left: 10px; right: 10px; bottom: 10px; height: 64px; background: linear-gradient(160deg, ${THEME.cardElevated}, ${THEME.panel}); border: 1px solid ${THEME.border}; border-radius: 20px; z-index: 30; box-shadow: 0 16px 40px -12px rgba(0,0,0,.6); }
         .wpg-mobile-nav button { flex: 1; background: transparent; border: 0; color: ${THEME.textFaint}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 9px; font-weight: 600; letter-spacing: 0.02em; }
@@ -263,7 +267,7 @@ function WPGShell({ active, onChange, player, club, seasonYear, children }) {
       </aside>
       <main className="wpg-main">
         <header className="wpg-topbar">
-          <div className="wpg-breadcrumb">WPG PROJECT &nbsp;›&nbsp; <strong>{NAV_ITEMS.find(n => n.id === active)?.label || 'Carreira'}</strong></div>
+          <div className="wpg-breadcrumb"><span className="wpg-breadcrumb-brand">WPG PROJECT &nbsp;›&nbsp; </span><strong>{NAV_ITEMS.find(n => n.id === active)?.label || 'Carreira'}</strong></div>
           <div className="wpg-season-pill"><span>{club?.name || 'CARREIRA'}</span><b>{seasonYear}</b></div>
         </header>
         {children}

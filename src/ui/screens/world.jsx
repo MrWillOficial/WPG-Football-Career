@@ -9,21 +9,23 @@ function CareiraScreen({ competition, round, totalRounds, stats, log }) {
   const avgRating = stats.apps ? (stats.ratingSum / stats.apps).toFixed(1) : '-';
   return (
     <div className="screen-page">
-      <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5 }}>TEMPORADA ATUAL</p>
-      <h1 className="display" style={{ fontSize: 26, fontWeight: 700, marginBottom: 14 }}>{competition.name}</h1>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, marginBottom: 2 }}>
+        <p style={{ color: THEME.orange, fontSize: 10, fontWeight: 700, letterSpacing: 1, fontFamily: THEME.fontMono, textTransform: 'uppercase' }}>RODADA {Math.min(round + 1, totalRounds)} DE {totalRounds}</p>
+      </div>
+      <h1 className="display" style={{ fontSize: 20, fontWeight: 700, marginBottom: 10, lineHeight: 1.1 }}>{competition.name}</h1>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 18 }}>
-        <Card elevated><p style={{ fontSize: 11, color: THEME.textSecondary }}>Jogos</p><p className="display" style={{ fontSize: 28, fontWeight: 700, color: THEME.gold }}>{stats.apps}</p></Card>
-        <Card elevated><p style={{ fontSize: 11, color: THEME.textSecondary }}>Gols</p><p className="display" style={{ fontSize: 28, fontWeight: 700, color: THEME.gold }}>{stats.goals}</p></Card>
-        <Card elevated><p style={{ fontSize: 11, color: THEME.textSecondary }}>Assistências</p><p className="display" style={{ fontSize: 28, fontWeight: 700, color: THEME.gold }}>{stats.assists}</p></Card>
-        <Card elevated><p style={{ fontSize: 11, color: THEME.textSecondary }}>Nota média</p><p className="display" style={{ fontSize: 28, fontWeight: 700, color: THEME.gold }}>{avgRating}</p></Card>
+      {/* Resumo da temporada -- chips numa linha, não 4 cards de KPI */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
+        <span style={{ display: 'flex', alignItems: 'baseline', gap: 5, fontSize: 11, color: THEME.textSecondary, background: `${THEME.card}99`, borderRadius: 20, padding: '6px 12px' }}><b style={{ fontFamily: THEME.fontMono, color: THEME.text, fontSize: 15 }}>{stats.apps}</b> jogos</span>
+        <span style={{ display: 'flex', alignItems: 'baseline', gap: 5, fontSize: 11, color: THEME.textSecondary, background: `${THEME.card}99`, borderRadius: 20, padding: '6px 12px' }}><b style={{ fontFamily: THEME.fontMono, color: THEME.orange, fontSize: 15 }}>{stats.goals}</b> gols</span>
+        <span style={{ display: 'flex', alignItems: 'baseline', gap: 5, fontSize: 11, color: THEME.textSecondary, background: `${THEME.card}99`, borderRadius: 20, padding: '6px 12px' }}><b style={{ fontFamily: THEME.fontMono, color: THEME.text, fontSize: 15 }}>{stats.assists}</b> assist.</span>
+        <span style={{ display: 'flex', alignItems: 'baseline', gap: 5, fontSize: 11, color: THEME.textSecondary, background: `${THEME.card}99`, borderRadius: 20, padding: '6px 12px' }}><b style={{ fontFamily: THEME.fontMono, color: THEME.text, fontSize: 15 }}>{avgRating}</b> nota média</span>
       </div>
 
-      <p style={{ fontSize: 11, color: THEME.textSecondary, fontWeight: 700, letterSpacing: 0.5, marginBottom: 8 }}>RODADA {Math.min(round + 1, totalRounds)} DE {totalRounds}</p>
-      <p style={{ fontSize: 11, color: THEME.textSecondary, fontWeight: 700, letterSpacing: 0.5, margin: '18px 0 8px' }}>HISTÓRICO DE ACONTECIMENTOS</p>
-      <Card style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {log.length === 0 && <p style={{ fontSize: 13, color: THEME.textSecondary }}>Nenhum acontecimento ainda.</p>}
-        {log.map((l, i) => <p key={i} style={{ fontSize: 13, color: THEME.textSecondary }}>• {l}</p>)}
+      <p style={{ fontSize: 10, color: THEME.textFaint, fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 8 }}>Histórico de acontecimentos</p>
+      <Card style={{ display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden' }}>
+        {log.length === 0 && <p style={{ fontSize: 12, color: THEME.textSecondary, padding: 14 }}>Nenhum acontecimento ainda.</p>}
+        {log.map((l, i) => <p key={i} style={{ fontSize: 12, color: THEME.textSecondary, margin: 0, padding: '10px 14px', borderBottom: i < log.length - 1 ? `1px solid ${THEME.cardElevated}` : 'none' }}>{l}</p>)}
       </Card>
     </div>
   );
@@ -79,8 +81,7 @@ function MundoScreen({ competition, standings, userClubId, matchHistory, clubsMa
   const total = standings.length;
   return (
     <div className="screen-page">
-      <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5 }}>MUNDO</p>
-      <h1 className="display" style={{ fontSize: 26, fontWeight: 700, marginBottom: 14 }}>{competition.name}</h1>
+      <h1 className="display" style={{ fontSize: 20, fontWeight: 700, marginTop: 4, marginBottom: 10, lineHeight: 1.1 }}>{competition.name}</h1>
 
       <div style={{ display: 'grid', gridTemplateColumns: '18px minmax(0, 1fr) 20px 20px 28px 30px 78px', columnGap: 5, fontSize: 10, color: THEME.textSecondary, fontWeight: 700, padding: '0 8px 6px' }}>
         <span style={{ textAlign: 'center' }}>POS</span><span>CLUBE</span><span style={{ textAlign: 'right' }}>J</span><span style={{ textAlign: 'right' }}>V</span><span style={{ textAlign: 'right' }}>SG</span><span style={{ textAlign: 'right' }}>PTS</span><span style={{ textAlign: 'right' }}>FORMA</span>
@@ -119,13 +120,13 @@ function MundoScreen({ competition, standings, userClubId, matchHistory, clubsMa
       </div>
 
       {transferNews && transferNews.length > 0 && (
-        <div style={{ marginTop: 24 }}>
-          <p style={{ fontSize: 11, color: THEME.textSecondary, fontWeight: 700, letterSpacing: 0.5, marginBottom: 8 }}>💰 MERCADO DA BOLA</p>
-          {transferNews.map(n => (
-            <Card key={n.id} style={{ marginBottom: 8 }}>
-              <p style={{ fontSize: 12, color: THEME.text }}>{n.text}</p>
-            </Card>
-          ))}
+        <div style={{ marginTop: 18 }}>
+          <p style={{ fontSize: 10, color: THEME.textFaint, fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 8 }}>Mercado da bola</p>
+          <Card style={{ display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden' }}>
+            {transferNews.map((n, i) => (
+              <p key={n.id} style={{ fontSize: 12, color: THEME.text, margin: 0, padding: '10px 14px', borderBottom: i < transferNews.length - 1 ? `1px solid ${THEME.cardElevated}` : 'none' }}>{n.text}</p>
+            ))}
+          </Card>
         </div>
       )}
     </div>

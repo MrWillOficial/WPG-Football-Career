@@ -149,18 +149,38 @@ body { background: var(--bg); }
   .profile-grid { grid-template-columns: 1fr 1fr; }
   .profile-grid > .wpg-card:last-child { grid-column: 1/-1; }
 }
+/* Abaixo de 800px é onde o jogo realmente é jogado (a Central já assume
+   isso) -- as telas de Life/Carreira compactam pro mesmo padrão: banner de
+   identidade vira uma linha fina, não um cartaz. Nada de card gigante só
+   pra mostrar uma letra grande. */
 @media (max-width: 800px) {
-  .life-player-banner, .profile-hero { grid-template-columns: 1fr; min-height: 0; border-radius: 16px; }
-  .life-player-art, .profile-avatar { height: 150px; font-size: 80px; }
-  .life-main, .profile-main { padding: 20px; }
-  .life-name, .profile-name { font-size: 32px; }
-  .life-stats { border-left: 0; border-top: 1px solid var(--border-soft); }
-  .life-grid { grid-template-columns: 1fr; }
+  .life-player-banner, .profile-hero { grid-template-columns: auto 1fr auto; min-height: 0; border-radius: 14px; align-items: center; padding: 10px 14px; gap: 10px; }
+  .life-player-art, .profile-avatar { height: 40px; width: 40px; border-radius: 10px; font-size: 18px; align-items: center; flex-shrink: 0; }
+  .life-player-main, .profile-main { padding: 0; }
+  .life-name, .profile-name { font-size: 15px; margin: 0; line-height: 1.25; }
+  .life-name span, .profile-name span { font-size: 11px; }
+  .life-meta { font-size: 10px; }
+  .life-quote { display: none; }
+  .profile-meta { display: none; }
+  .life-player-main .wpg-kicker { display: none; }
+  .life-player-banner .life-stats { display: none; }
+  .wpg-kicker { font-size: 8px; }
+  .life-stats { grid-template-columns: repeat(3, 1fr); border-left: 1px solid var(--border-soft); border-top: 0; background: transparent; flex-shrink: 0; }
+  .life-stats div { padding: 0 8px; border-right: 1px solid var(--border-soft); }
+  .life-stats b { font-size: 13px; }
+  .life-stats span { font-size: 7px; margin-top: 2px; }
+  .profile-side { border-left: 0; padding: 0; flex-shrink: 0; }
+  .ovr-ring, .life-reputation-ring { width: 44px; height: 44px; padding: 3px; margin: 0; }
+  .ovr-ring b, .life-reputation-ring b { font-size: 12px; }
+  .ovr-ring span, .life-reputation-ring small { display: none; }
+  .life-grid { grid-template-columns: 1fr; gap: 10px; }
   .life-right { grid-column: auto; display: flex; }
-  .life-tabs { overflow: auto; }
-  .life-tabs button { min-width: 108px; }
+  .life-tabs { overflow: auto; margin: 10px 0; padding: 3px; }
+  .life-tabs button { min-width: max-content; padding: 8px 11px; font-size: 10px; }
   .life-tone-grid.compact { grid-template-columns: repeat(2, 1fr); }
-  .profile-grid { grid-template-columns: 1fr; }
-  .profile-side { border-left: 0; padding: 18px 0 4px; }
-  .ovr-ring { width: 104px; height: 104px; }
+  .life-tone { min-height: 60px; }
+  .profile-grid { grid-template-columns: 1fr; gap: 8px; }
+  .profile-pitch { height: 80px; margin-bottom: 8px; font-size: 18px; }
+  .life-feed-title h2 { font-size: 16px; }
+  .life-feed-title span { display: none; }
 }
