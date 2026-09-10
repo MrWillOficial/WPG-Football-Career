@@ -30,7 +30,7 @@ export function CareerApp() {
       {phase === 'copinha-intro' && player && <CopinhaIntroScreen player={player} onStart={beginCopinhaMatch} />}
       {phase === 'copinha-match' && copinhaState?.pendingMatch && (
         <MatchScreen
-          key={`copinha-${copinhaState.round}`}
+          key={`copinha-${copinhaState.stage}-${copinhaState.stage === 'group' ? copinhaState.groupMatchIndex : copinhaState.knockoutRound}`}
           match={copinhaState.pendingMatch.userMatchInfo}
           clubsMap={{ ...ALL_CLUBS_MAP, [COPINHA_OWN_ID]: { id: COPINHA_OWN_ID, name: COPINHA_OWN_NAME, overall: player.overall } }}
           preMatchCondition={100}
@@ -42,7 +42,7 @@ export function CareerApp() {
       {phase === 'copa-junior-invite' && player && <CopaJuniorInviteScreen player={player} onAccept={acceptCopaJuniorInvite} onDecline={declineCopaJuniorInvite} />}
       {phase === 'copa-junior-mid-match' && copaJuniorMidState?.pendingMatch && (
         <MatchScreen
-          key={`copa-junior-mid-${copaJuniorMidState.round}`}
+          key={`copa-junior-mid-${copaJuniorMidState.stage}-${copaJuniorMidState.stage === 'group' ? copaJuniorMidState.groupMatchIndex : copaJuniorMidState.knockoutRound}`}
           match={copaJuniorMidState.pendingMatch.userMatchInfo}
           clubsMap={{ ...ALL_CLUBS_MAP, [COPINHA_OWN_ID]: { id: COPINHA_OWN_ID, name: COPINHA_OWN_NAME, overall: player.overall } }}
           preMatchCondition={100}

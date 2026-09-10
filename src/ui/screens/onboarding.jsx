@@ -4,7 +4,16 @@ import { DETAILED_POSITIONS, TRAININGS, TRAINING_INTENSITIES } from '../../engin
 import { SERIE_D_2026_CLUBS_MAP } from '../../data/competitions/serieD2026.js';
 import { formatDateBrNumeric, getAcademyCalendarDate } from '../../engines/life/lifeCalendarFitness.jsx';
 import { ALL_CLUBS_MAP } from '../../data/competitions/brazil2026.js';
-import { COPINHA_TOTAL_ROUNDS } from '../../engines/competition/copinhaEngine.js';
+import { COPA_SP_GROUP_OPPONENTS, COPA_SP_KNOCKOUT_LABELS, COPA_SP_KNOCKOUT_ROUNDS } from '../../engines/competition/copinhaEngine.js';
+
+// Descreve até onde a campanha foi (fase de grupos ou mata-mata) a partir de
+// groupQualified/knockoutRoundsWon -- usado nas duas telas de resultado
+// (pré-carreira e Copa Júnior do meio de carreira).
+function describeCopaSPProgress({ groupQualified, knockoutRoundsWon }) {
+  if (!groupQualified) return 'Não passou da fase de grupos';
+  if (knockoutRoundsWon >= COPA_SP_KNOCKOUT_ROUNDS) return 'Campeão da Copa São Paulo!';
+  return `Eliminado: ${COPA_SP_KNOCKOUT_LABELS[knockoutRoundsWon]}`;
+}
 /* ============================================================================
    TELAS — Criar / Escolher clube
 ============================================================================ */
@@ -149,7 +158,7 @@ function CopinhaIntroScreen({ player, onStart }) {
         <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase' }}>Antes de escolher seu clube</p>
         <h1 className="display" style={{ fontSize: 26, fontWeight: 700, margin: '8px 0 12px' }}>Copa São Paulo de Futebol Júnior</h1>
         <p style={{ color: THEME.textSecondary, fontSize: 13, lineHeight: 1.6 }}>
-          {player.name}, você foi convidado a defender uma seleção de base na Copinha antes de assinar seu primeiro contrato profissional. São {COPINHA_TOTAL_ROUNDS} jogos eliminatórios contra times de todo o país — perder qualquer um encerra sua participação. Um bom torneio pode chamar a atenção de olheiros de divisões maiores; um torneio discreto não muda nada, e você segue normalmente pra escolha de um clube da Série D.
+          {player.name}, você foi convidado a defender uma seleção de base na Copinha antes de assinar seu primeiro contrato profissional. Primeiro uma fase de grupos (4 times, {COPA_SP_GROUP_OPPONENTS} jogos) — os 2 primeiros avançam pro mata-mata de jogo único, do qual só sai campeão quem vencer {COPA_SP_KNOCKOUT_ROUNDS} rodadas seguidas. Um bom torneio pode chamar a atenção de olheiros de divisões maiores; um torneio discreto não muda nada, e você segue normalmente pra escolha de um clube da Série D.
         </p>
         <button className="display" onClick={onStart} style={{ marginTop: 20, padding: '15px 0', width: '100%', fontWeight: 700, fontSize: 16, background: THEME.gold, color: THEME.bg, border: 'none' }}>COMEÇAR A COPINHA</button>
       </Card>
@@ -165,7 +174,7 @@ const COPINHA_TIER_HEADLINES = {
   serie_a: 'Observado para a Série A!',
 };
 function CopinhaResultScreen({ copinhaState, onContinue }) {
-  const { stats, roundsWon, result } = copinhaState;
+  const { stats, result } = copinhaState;
   const avgRating = stats.apps ? (stats.ratingSum / stats.apps).toFixed(1) : '—';
   const clubName = result.scoutedClub ? (ALL_CLUBS_MAP[result.scoutedClub]?.name || result.scoutedClub) : null;
   return (
@@ -173,7 +182,7 @@ function CopinhaResultScreen({ copinhaState, onContinue }) {
       <Card elevated style={{ padding: 24, textAlign: 'center' }}>
         <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase' }}>Copinha — fim de participação</p>
         <h1 className="display" style={{ fontSize: 24, fontWeight: 700, margin: '8px 0 6px', color: result.tier === 'normal' ? THEME.text : THEME.gold }}>{COPINHA_TIER_HEADLINES[result.tier]}</h1>
-        <p style={{ color: THEME.textSecondary, fontSize: 13 }}>{roundsWon} de {COPINHA_TOTAL_ROUNDS} rodadas vencidas · {stats.goals} gol(s) · {stats.assists} assistência(s) · nota média {avgRating}</p>
+        <p style={{ color: THEME.textSecondary, fontSize: 13 }}>{describeCopaSPProgress(result)} · {stats.goals} gol(s) · {stats.assists} assistência(s) · nota média {avgRating}</p>
         {clubName ? (
           <p style={{ marginTop: 14, fontSize: 14 }}>Você vai assinar direto com o <b style={{ color: THEME.gold }}>{clubName}</b>.</p>
         ) : (
@@ -197,7 +206,7 @@ function CopaJuniorInviteScreen({ player, onAccept, onDecline }) {
         <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase' }}>Oportunidade de carreira</p>
         <h1 className="display" style={{ fontSize: 24, fontWeight: 700, margin: '8px 0 12px' }}>Convite para a Copa Júnior</h1>
         <p style={{ color: THEME.textSecondary, fontSize: 13, lineHeight: 1.6 }}>
-          {player.name}, você foi convidado para integrar o elenco de uma equipe que vai disputar a Copa Júnior. São {COPINHA_TOTAL_ROUNDS} jogos eliminatórios contra times de todo o país.
+          {player.name}, você foi convidado para integrar o elenco de uma equipe que vai disputar a Copa São Paulo. Primeiro uma fase de grupos (4 times, {COPA_SP_GROUP_OPPONENTS} jogos) — os 2 primeiros avançam pro mata-mata de jogo único, do qual só sai campeão quem vencer {COPA_SP_KNOCKOUT_ROUNDS} rodadas seguidas.
         </p>
         <p style={{ color: THEME.textSecondary, fontSize: 13, lineHeight: 1.6, marginTop: 10 }}>
           Não há garantia de titularidade — a escalação de cada jogo continua sendo decidida em campo. O que a competição garante é uma vitrine maior: se você chegar ao fim da campanha sem ter entrado nenhuma vez, terá pelo menos uma chance como substituto antes do fim.
@@ -213,15 +222,15 @@ function CopaJuniorInviteScreen({ player, onAccept, onDecline }) {
 }
 
 function CopaJuniorMidResultScreen({ copaJuniorMidState, onContinue }) {
-  const { stats, roundsWon, result } = copaJuniorMidState;
+  const { stats, result } = copaJuniorMidState;
   const avgRating = stats.apps ? (stats.ratingSum / stats.apps).toFixed(1) : '—';
   const clubName = result.scoutedClub ? (ALL_CLUBS_MAP[result.scoutedClub]?.name || result.scoutedClub) : null;
   return (
     <div style={{ padding: 24, maxWidth: 420, margin: '0 auto', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <Card elevated style={{ padding: 24, textAlign: 'center' }}>
-        <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase' }}>Copa Júnior — fim de participação</p>
+        <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase' }}>Copa São Paulo — fim de participação</p>
         <h1 className="display" style={{ fontSize: 22, fontWeight: 700, margin: '8px 0 6px', color: result.tier === 'normal' ? THEME.text : THEME.gold }}>{COPINHA_TIER_HEADLINES[result.tier]}</h1>
-        <p style={{ color: THEME.textSecondary, fontSize: 13 }}>{roundsWon} de {COPINHA_TOTAL_ROUNDS} rodadas vencidas · {stats.apps} jogo(s) · {stats.goals} gol(s) · {stats.assists} assistência(s) · nota média {avgRating}</p>
+        <p style={{ color: THEME.textSecondary, fontSize: 13 }}>{describeCopaSPProgress(result)} · {stats.apps} jogo(s) · {stats.goals} gol(s) · {stats.assists} assistência(s) · nota média {avgRating}</p>
         {clubName ? (
           <p style={{ marginTop: 14, fontSize: 14 }}>O <b style={{ color: THEME.gold }}>{clubName}</b> te observou e você vai jogar por eles a partir de agora.</p>
         ) : (
