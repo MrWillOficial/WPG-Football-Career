@@ -35,6 +35,10 @@ function pickScorer(club) {
   return getRosterPlayerName(weighted[weighted.length - 1].player);
 }
 
+// Cada passo carrega `kind` pra tela decidir o balão certo (cor/ícone) --
+// 'whistle' (apito inicial/final, sem minuto) ou um evento com minuto e um
+// kind que diz de quem foi (mine/team/opponent), sem duplicar a lógica de
+// quem fez o quê (isso já vem decidido aqui, a tela só pinta).
 function buildMatchSteps(match, clubsMap) {
   const used = [];
   const genMinute = () => { let m; do { m = 4 + Math.floor(Math.random() * 86); } while (used.includes(m)); used.push(m); return m; };
@@ -51,27 +55,37 @@ function buildMatchSteps(match, clubsMap) {
   const teammateGoals = userTeamGoals - personalGoals; // gols do SEU time que não foram seus
 
   if (match.calledUp) {
-    for (let i = 0; i < match.goals; i++) events.push({ min: genMinute(), text: 'Gol seu! ⚽' });
-    for (let i = 0; i < match.assists; i++) events.push({ min: genMinute(), text: 'Assistência sua.' });
+    for (let i = 0; i < match.goals; i++) events.push({ min: genMinute(), kind: 'goal-mine', text: 'Gol seu!' });
+    for (let i = 0; i < match.assists; i++) events.push({ min: genMinute(), kind: 'assist-mine', text: 'Assistência sua.' });
   }
 
   // Gols do seu time que não foram seus — antes desapareciam da narração.
   for (let i = 0; i < teammateGoals; i++) {
-    events.push({ min: genMinute(), text: `Gol do ${userClub.name}: ${pickScorer(userClub)}.` });
+    events.push({ min: genMinute(), kind: 'goal-team', text: `Gol do ${userClub.name}: ${pickScorer(userClub)}.` });
   }
 
   // Narração dos gols do adversário — puramente narrativa, não altera gh/ga
   // nem qualquer resultado já calculado pelo Match Engine.
   for (let i = 0; i < opponentGoals; i++) {
-    events.push({ min: genMinute(), text: `Gol do ${opponentClub.name}: ${pickScorer(opponentClub)}.` });
+    events.push({ min: genMinute(), kind: 'goal-opponent', text: `Gol do ${opponentClub.name}: ${pickScorer(opponentClub)}.` });
   }
 
   events.sort((a, b) => a.min - b.min);
-  const steps = ['Apito inicial.'];
-  events.forEach(e => steps.push(`${e.min}' — ${e.text}`));
-  steps.push('Apito final.');
+  const steps = [{ kind: 'whistle', text: 'Apito inicial.' }];
+  events.forEach(e => steps.push(e));
+  steps.push({ kind: 'whistle', text: 'Apito final.' });
   return steps;
 }
+
+// Ícone + cor do balão por tipo de evento -- gol seu em destaque (laranja,
+// bola), assistência sua em verde, gol do time em texto neutro, gol do
+// adversário em vermelho discreto. 'whistle' não passa por aqui (sem balão).
+const EVENT_STYLE = {
+  'goal-mine': { color: THEME.orange, icon: '⚽' },
+  'assist-mine': { color: THEME.green, icon: '🅰️' },
+  'goal-team': { color: THEME.steel, icon: '⚽' },
+  'goal-opponent': { color: THEME.red, icon: '⚽' },
+};
 
 function MatchScreen({ match, clubsMap, preMatchCondition, onContinue }) {
   const [steps] = useState(() => buildMatchSteps(match, clubsMap));
@@ -96,10 +110,22 @@ function MatchScreen({ match, clubsMap, preMatchCondition, onContinue }) {
       </p>
       <p className="display" style={{ textAlign: 'center', fontSize: 30, margin: '4px 0 24px' }}>{match.away}</p>
 
-      <Card elevated style={{ minHeight: 120 }}>
-        {steps.slice(0, shown).map((s, i) => (
-          <p key={i} style={{ fontSize: 13, color: i === shown - 1 ? THEME.text : THEME.textSecondary, marginBottom: 6 }}>{s}</p>
-        ))}
+      <Card elevated style={{ minHeight: 120, display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {steps.slice(0, shown).map((s, i) => {
+          const isLast = i === shown - 1;
+          if (s.kind === 'whistle') {
+            return (
+              <p key={i} style={{ textAlign: 'center', fontSize: 12, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase', color: isLast ? THEME.textSecondary : THEME.textFaint, margin: '2px 0' }}>{s.text}</p>
+            );
+          }
+          const style = EVENT_STYLE[s.kind] || { color: THEME.textSecondary, icon: '•' };
+          return (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, opacity: isLast ? 1 : 0.75 }}>
+              <span className="mono" style={{ flexShrink: 0, minWidth: 38, textAlign: 'center', fontSize: 13, fontWeight: 700, color: THEME.bg, background: style.color, borderRadius: 20, padding: '3px 8px' }}>{s.min}'</span>
+              <span style={{ fontSize: 14, color: isLast ? THEME.text : THEME.textSecondary, lineHeight: 1.3 }}>{style.icon} {s.text}</span>
+            </div>
+          );
+        })}
       </Card>
 
       {done && (

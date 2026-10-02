@@ -4,20 +4,25 @@
    primeiro clube profissional) quanto pra um convite repetível NO MEIO da
    carreira (ver maybeTriggerCopaJuniorInvite em useCareerController.js).
 
-   Formato: um grupo de 4 (o lado do jogador + 3 clubes reais, turno único —
-   3 jogos) seguido de mata-mata de jogo único a partir das oitavas de final
-   até a decisão, se o jogador se classificar entre os 2 primeiros do grupo.
-   Só o grupo/chave do PRÓPRIO jogador é simulado em detalhe (mesma
-   abstração já usada pros grupos da Série D: o torneio real tem 128+ times
-   e vários grupos simultâneos, mas só o que envolve o jogador importa pra
-   história dele) -- os outros jogos do grupo entram no cálculo real de
-   classificação via resolveRound (mesmo motor da liga), não são inventados.
+   Formato: um grupo de 4 (o clube que te convidou pro teste + 3 clubes reais,
+   turno único -- 3 jogos) seguido de mata-mata de jogo único a partir das
+   oitavas de final até a decisão, se o jogador se classificar entre os 2
+   primeiros do grupo. Só o grupo/chave do PRÓPRIO jogador é simulado em
+   detalhe (mesma abstração já usada pros grupos da Série D: o torneio real
+   tem 128+ times e vários grupos simultâneos, mas só o que envolve o jogador
+   importa pra história dele) -- os outros jogos do grupo entram no cálculo
+   real de classificação via resolveRound (mesmo motor da liga), não são
+   inventados.
 
-   O lado do jogador é uma "Seleção da Copinha" sintética, NUNCA reivindicando
-   ser a base de nenhum clube real específico (evitaria inventar afiliação
-   que a coleta de imprensa não confirmou). Adversários são clubes REAIS já
-   cadastrados no jogo (Séries D/C/B/A 2026, com os mesmos overalls
-   sintéticos que já existem em brazil2026.js/serieD2026.js/serieC2026.js).
+   O jogador entra como TESTE DE APTIDÃO (peneira) de um clube real já
+   cadastrado no jogo (Séries D/C/B/A 2026) -- não mais uma seleção sintética
+   anônima. O clube "da casa" é sorteado igual aos adversários, com o mesmo
+   overall que já existe em brazil2026.js/serieD2026.js/serieC2026.js (o
+   motor de partida já reage normalmente à diferença entre o overall do
+   jogador e o do clube -- um garoto fraco testando num clube mais forte tem
+   mais dificuldade de ser escalado, exatamente como em qualquer outro clube
+   do jogo). Se o olheiro aprovar o jogador no fim, pode ser o PRÓPRIO clube
+   que convidou (fez sentido te chamar) ou um maior, dependendo do tier.
 
    Resultado deliberadamente raro: só uma campanha genuinamente boa (passar
    do grupo E avançar no mata-mata, com nota média sustentada) gera
@@ -25,47 +30,55 @@
    seguir num clube da Série D) continua sendo o desfecho mais comum de
    propósito, pra não trivializar "sempre começa de baixo".
 
-   Este módulo é só a camada PURA (sorteio de adversários, avaliação de
-   olheiro, escolha do clube de destino, garantia de oportunidade) -- a
-   orquestração de estado/fases e a resolução de cada partida em si (via
-   resolveRound do matchEngine, o mesmo motor já usado pela liga) fica em
-   useCareerController.js.
+   Este módulo é só a camada PURA (sorteio de clube da casa/adversários,
+   avaliação de olheiro, escolha do clube de destino, garantia de
+   oportunidade) -- a orquestração de estado/fases e a resolução de cada
+   partida em si (via resolveRound do matchEngine, o mesmo motor já usado
+   pela liga) fica em useCareerController.js.
 ============================================================================ */
 
 import { generateLeagueFixtures, resolvePlayerGoalsAssists, sortStandings, MATCH_RATING_BASELINE } from '../match/matchEngine.js';
 import { clamp } from '../player/playerEngine.js';
 
-const COPINHA_OWN_ID = 'copinha_selecao';
-const COPINHA_OWN_NAME = 'Seleção da Copinha';
-
-const COPA_SP_GROUP_OPPONENTS = 3; // + a Seleção da Copinha = grupo de 4
+const COPA_SP_GROUP_OPPONENTS = 3; // + o clube da casa = grupo de 4
 const COPA_SP_GROUP_QUALIFY = 2; // top 2 do grupo avançam
 const COPA_SP_GROUP_TIEBREAKERS = ['pts', 'v', 'sg', 'gp'];
 const COPA_SP_KNOCKOUT_LABELS = ['Oitavas de final', 'Quartas de final', 'Semifinal', 'Final'];
 const COPA_SP_KNOCKOUT_ROUNDS = COPA_SP_KNOCKOUT_LABELS.length;
 
+// Sorteia o clube que te convidou pro teste -- um clube real qualquer entre
+// as 4 divisões já cadastradas. `excludeIds` deixa de fora o clube atual do
+// jogador no convite do meio de carreira (não faz sentido seu próprio clube
+// "te convidar pra um teste").
+function drawCopaSPHomeClub(clubPools, excludeIds = []) {
+  const pool = clubPools.flat().filter(id => !excludeIds.includes(id));
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
 // 3 adversários pro grupo -- aleatórios entre as 4 divisões já cadastradas,
 // sem ordenar por força (turno único de grupo, não mata-mata crescente).
-function drawCopaSPGroupOpponents(clubPools, clubsMap) {
-  const pool = clubPools.flat();
+// Exclui o clube da casa (já é quem o jogador defende, não pode cair contra
+// ele mesmo).
+function drawCopaSPGroupOpponents(clubPools, homeClubId) {
+  const pool = clubPools.flat().filter(id => id !== homeClubId);
   const shuffled = [...pool].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, COPA_SP_GROUP_OPPONENTS);
 }
 
-// Monta o grupo de 4 (jogador + 3 sorteados) e o calendário de turno único
-// (3 rodadas, 1 jogo do jogador por rodada) -- generateLeagueFixtures já
-// devolve turno+returno; o grupo da Copa SP é só turno único, então usa
+// Monta o grupo de 4 (clube da casa + 3 sorteados) e o calendário de turno
+// único (3 rodadas, 1 jogo do jogador por rodada) -- generateLeagueFixtures
+// já devolve turno+returno; o grupo da Copa SP é só turno único, então usa
 // apenas a primeira metade.
-function buildCopaSPGroupFixtures(groupOpponents) {
-  const participantIds = [COPINHA_OWN_ID, ...groupOpponents];
+function buildCopaSPGroupFixtures(homeClubId, groupOpponents) {
+  const participantIds = [homeClubId, ...groupOpponents];
   const fullFixtures = generateLeagueFixtures(participantIds);
   return fullFixtures.slice(0, COPA_SP_GROUP_OPPONENTS);
 }
 
 // 4 adversários pro mata-mata (oitavas -> final), evitando repetir quem já
-// caiu no grupo do jogador -- ordenado por overall crescente (mais fraco
-// nas oitavas, mais forte na decisão), mesma lógica de dificuldade
-// progressiva que o mata-mata já usava.
+// caiu no grupo do jogador ou o próprio clube da casa -- ordenado por
+// overall crescente (mais fraco nas oitavas, mais forte na decisão), mesma
+// lógica de dificuldade progressiva que o mata-mata já usava.
 function drawCopaSPKnockoutOpponents(clubPools, clubsMap, excludeIds = []) {
   const pool = clubPools.flat().filter(id => !excludeIds.includes(id));
   const shuffled = [...pool].sort(() => Math.random() - 0.5);
@@ -104,7 +117,9 @@ function evaluateCopaSPScouting({ groupQualified, knockoutRoundsWon, apps, ratin
 // 'serie_d_forte', restringe aos 25% de overall mais alto da Série D (uma
 // chamada de um clube GRANDE da divisão, não qualquer um) -- pros tiers C/B/A,
 // qualquer um dos 20 clubes reais serve (nenhum tem "força" tão destoante
-// dentro da própria divisão a ponto de precisar filtrar).
+// dentro da própria divisão a ponto de precisar filtrar). Pode calhar de dar
+// o próprio clube que te chamou pro teste -- faz sentido (ele já acreditou
+// em você a ponto de te convidar), então não é excluído da lista.
 function pickScoutedClub(tierId, pools) {
   if (tierId === 'normal') return null;
   if (tierId === 'serie_d_forte') {
@@ -140,17 +155,16 @@ function guaranteeCopinhaAppearance(userMatchInfo, player, clubOverall, { alread
   return { ...userMatchInfo, calledUp: true, rating: finalRating, goals, assists, started: false, enteredMinute: Math.floor(60 + Math.random() * 25) };
 }
 
-// Classificação final do grupo (posição do próprio jogador) -- fina camada
+// Classificação final do grupo (posição do clube da casa) -- fina camada
 // sobre sortStandings (mesmo motor usado em Mundo), só pra achar a posição.
-function getGroupPosition(groupStandings) {
+function getGroupPosition(groupStandings, homeClubId) {
   const sorted = sortStandings(groupStandings, COPA_SP_GROUP_TIEBREAKERS);
-  return sorted.findIndex(r => r.club_id === COPINHA_OWN_ID) + 1;
+  return sorted.findIndex(r => r.club_id === homeClubId) + 1;
 }
 
 export {
-  COPINHA_OWN_ID, COPINHA_OWN_NAME,
   COPA_SP_GROUP_OPPONENTS, COPA_SP_GROUP_QUALIFY, COPA_SP_GROUP_TIEBREAKERS,
   COPA_SP_KNOCKOUT_LABELS, COPA_SP_KNOCKOUT_ROUNDS,
-  drawCopaSPGroupOpponents, buildCopaSPGroupFixtures, drawCopaSPKnockoutOpponents,
+  drawCopaSPHomeClub, drawCopaSPGroupOpponents, buildCopaSPGroupFixtures, drawCopaSPKnockoutOpponents,
   COPINHA_TIERS, evaluateCopaSPScouting, pickScoutedClub, guaranteeCopinhaAppearance, getGroupPosition,
 };

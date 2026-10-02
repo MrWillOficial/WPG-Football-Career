@@ -6,7 +6,7 @@ import { ATTR_LABELS, DETAILED_POSITION_MAP, TRAININGS, TRAINING_INTENSITIES, ap
 import { SERIE_D_2026_ASSIGNMENT, SERIE_D_2026_CLUB_IDS, SERIE_D_2026_NEXT_STAGE, SERIE_D_2026_STAGE_LABELS, SERIE_D_2026_TIEBREAK_CHAIN, resolveSerieD2026UpTo } from '../data/competitions/serieD2026.js';
 import { TIER_ORDER, applyAnnualEconomyUpdate, buyProperty, clubSeasonDecision, computeBuyoutClause, computeReleaseCompensation, computeSalary, evaluatePlayerStatus, generateLoanOffer, generateTransferOffers, investAmount, makeContract, resolvePlayerSalary, withdrawAllInvestments } from '../engines/economy/contractsEconomy.js';
 import { CompetitionEngineV2 } from '../engines/competition/CompetitionEngineV2.js';
-import { COPINHA_OWN_ID, COPINHA_OWN_NAME, COPA_SP_GROUP_OPPONENTS, COPA_SP_GROUP_QUALIFY, COPA_SP_KNOCKOUT_LABELS, COPA_SP_KNOCKOUT_ROUNDS, drawCopaSPGroupOpponents, buildCopaSPGroupFixtures, drawCopaSPKnockoutOpponents, evaluateCopaSPScouting, guaranteeCopinhaAppearance, pickScoutedClub, getGroupPosition } from '../engines/competition/copinhaEngine.js';
+import { COPA_SP_GROUP_OPPONENTS, COPA_SP_GROUP_QUALIFY, COPA_SP_KNOCKOUT_LABELS, COPA_SP_KNOCKOUT_ROUNDS, drawCopaSPHomeClub, drawCopaSPGroupOpponents, buildCopaSPGroupFixtures, drawCopaSPKnockoutOpponents, evaluateCopaSPScouting, guaranteeCopinhaAppearance, pickScoutedClub, getGroupPosition } from '../engines/competition/copinhaEngine.js';
 import { SERIE_C_2026_CLUBS, SERIE_C_2026_FASE1_TIEBREAK_CHAIN, SERIE_C_2026_FASE2_TIEBREAK_CHAIN, resolveSerieC2026UpTo } from '../data/competitions/serieC2026.js';
 import { applyLifeChoice, applyMatchCost, applyRestRecovery, applyTrainingCost, buildRoundToDay, crossedMilestone, crossesNewMonth, describeMatchPerformance, findEligibleLifeEvent, getDayType, matchModifier, MILESTONE_APPS_THRESHOLDS, MILESTONE_GOALS_THRESHOLDS } from '../engines/life/lifeCalendarFitness.jsx';
 import { CLUBS_MAP } from '../data/_mock/mockData.js';
@@ -233,45 +233,53 @@ export function useCareerController() {
   // pura. Reaproveitado tanto pré-carreira (startCopinha, antes do primeiro
   // clube) quanto no convite repetível do meio de carreira (mais abaixo).
 
-  // Monta a campanha do zero (grupo sorteado + calendário do turno único +
-  // classificação zerada) -- estado inicial comum aos dois pontos de entrada.
-  function createCopaSPCampaign() {
+  // Monta a campanha do zero (clube da casa + grupo sorteado + calendário do
+  // turno único + classificação zerada) -- estado inicial comum aos dois
+  // pontos de entrada. `presetHomeClubId` deixa o convite do meio de carreira
+  // sortear o clube da casa NA HORA DO CONVITE (pra já mostrar o nome dele na
+  // tela de aceitar/recusar) e só montar a campanha de verdade se aceitar,
+  // sem sortear de novo -- ver maybeTriggerCopaJuniorInvite mais abaixo. Sem
+  // preset (fluxo pré-carreira), sorteia aqui mesmo.
+  function createCopaSPCampaign(presetHomeClubId) {
     const pools = [SERIE_D_2026_CLUB_IDS, SERIE_C_2026_CLUBS, SERIE_B_2026_CLUBS, SERIE_A_2026_CLUBS];
-    const groupOpponents = drawCopaSPGroupOpponents(pools, ALL_CLUBS_MAP);
-    const groupFixtures = buildCopaSPGroupFixtures(groupOpponents);
-    const groupStandings = freshStandings([COPINHA_OWN_ID, ...groupOpponents]);
+    const homeClubId = presetHomeClubId || drawCopaSPHomeClub(pools);
+    const groupOpponents = drawCopaSPGroupOpponents(pools, homeClubId);
+    const groupFixtures = buildCopaSPGroupFixtures(homeClubId, groupOpponents);
+    const groupStandings = freshStandings([homeClubId, ...groupOpponents]);
     return {
-      stage: 'group', groupOpponents, groupFixtures, groupMatchIndex: 0, groupStandings,
+      homeClubId, stage: 'group', groupOpponents, groupFixtures, groupMatchIndex: 0, groupStandings,
       knockoutOpponents: null, knockoutRound: 0, knockoutRoundsWon: 0, groupQualified: null,
       stats: { apps: 0, goals: 0, assists: 0, ratingSum: 0 }, pendingMatch: null, result: null,
     };
   }
 
   // Resolve UM jogo da campanha (grupo ou mata-mata) reaproveitando o mesmo
-  // Match Engine já validado pela liga (resolveRound) -- o lado do jogador é
-  // a "Seleção da Copinha" sintética (overall = do próprio jogador, nunca
-  // reivindica ser a base de um clube real). Condição física fixa em 100 --
-  // evento avulso, não encadeia com o Fitness Engine da temporada. Devolve
-  // só o resultado do jogo; NÃO decide o que acontece depois (isso é
-  // advanceCopaSPCampaign) -- pra poder ser chamada tanto ao ENTRAR numa
-  // fase nova quanto ao AVANÇAR dentro da mesma fase.
+  // Match Engine já validado pela liga (resolveRound) -- o jogador defende o
+  // clube real que o convidou pro teste (homeClubId), com o overall real
+  // dele já cadastrado (o motor de escalação reage normalmente: testar num
+  // clube mais forte que o jogador dificulta ser escalado, igual em
+  // qualquer outro clube do jogo -- não precisa de regra especial aqui).
+  // Condição física fixa em 100 -- evento avulso, não encadeia com o Fitness
+  // Engine da temporada. Devolve só o resultado do jogo; NÃO decide o que
+  // acontece depois (isso é advanceCopaSPCampaign) -- pra poder ser chamada
+  // tanto ao ENTRAR numa fase nova quanto ao AVANÇAR dentro da mesma fase.
   function resolveCopaSPMatch(state) {
-    const clubsMapForMatch = { ...ALL_CLUBS_MAP, [COPINHA_OWN_ID]: { id: COPINHA_OWN_ID, name: COPINHA_OWN_NAME, overall: player.overall } };
+    const homeClubOverall = ALL_CLUBS_MAP[state.homeClubId]?.overall || player.overall;
     if (state.stage === 'group') {
       const roundFixtures = state.groupFixtures[state.groupMatchIndex];
-      const { newStandings, userMatchInfo } = resolveRound(roundFixtures, clubsMapForMatch, state.groupStandings, COPINHA_OWN_ID, player, state.groupMatchIndex, 'copa_sp_2026', 100);
+      const { newStandings, userMatchInfo } = resolveRound(roundFixtures, ALL_CLUBS_MAP, state.groupStandings, state.homeClubId, player, state.groupMatchIndex, 'copa_sp_2026', 100);
       const isFinalGroupMatch = state.groupMatchIndex === COPA_SP_GROUP_OPPONENTS - 1;
-      const guarded = guaranteeCopinhaAppearance(userMatchInfo, player, player.overall, { alreadyAppeared: state.stats.apps > 0, isFinalRound: isFinalGroupMatch });
+      const guarded = guaranteeCopinhaAppearance(userMatchInfo, player, homeClubOverall, { alreadyAppeared: state.stats.apps > 0, isFinalRound: isFinalGroupMatch });
       return { userMatchInfo: guarded, groupStandingsAfter: newStandings };
     }
     // Mata-mata: jogo único (a Copa SP real não tem ida/volta no mata-mata),
     // então todo jogo é potencialmente o último da campanha.
     const opponentId = state.knockoutOpponents[state.knockoutRound];
     const isUserHome = Math.random() < 0.5;
-    const fixtures = isUserHome ? [[COPINHA_OWN_ID, opponentId]] : [[opponentId, COPINHA_OWN_ID]];
-    const standingsMap = freshStandings([COPINHA_OWN_ID, opponentId]);
-    const { userMatchInfo } = resolveRound(fixtures, clubsMapForMatch, standingsMap, COPINHA_OWN_ID, player, state.knockoutRound, 'copa_sp_2026', 100);
-    const guarded = guaranteeCopinhaAppearance(userMatchInfo, player, player.overall, { alreadyAppeared: state.stats.apps > 0, isFinalRound: true });
+    const fixtures = isUserHome ? [[state.homeClubId, opponentId]] : [[opponentId, state.homeClubId]];
+    const standingsMap = freshStandings([state.homeClubId, opponentId]);
+    const { userMatchInfo } = resolveRound(fixtures, ALL_CLUBS_MAP, standingsMap, state.homeClubId, player, state.knockoutRound, 'copa_sp_2026', 100);
+    const guarded = guaranteeCopinhaAppearance(userMatchInfo, player, homeClubOverall, { alreadyAppeared: state.stats.apps > 0, isFinalRound: true });
     return { userMatchInfo: guarded, groupStandingsAfter: null };
   }
 
@@ -322,13 +330,13 @@ export function useCareerController() {
         return { ...partial, pendingMatch: nextResolved, logMsg: baseLog };
       }
       // fim da fase de grupos -- confere classificação
-      const position = getGroupPosition(groupStandingsAfter);
+      const position = getGroupPosition(groupStandingsAfter, state.homeClubId);
       const qualified = position <= COPA_SP_GROUP_QUALIFY;
       if (!qualified) {
         return finalizeCopaSPResult({ ...state, groupStandings: groupStandingsAfter }, nextStats, false, 0, `${baseLog} Terminou em ${position}º do grupo — não se classificou pro mata-mata.`);
       }
       const pools = [SERIE_D_2026_CLUB_IDS, SERIE_C_2026_CLUBS, SERIE_B_2026_CLUBS, SERIE_A_2026_CLUBS];
-      const knockoutOpponents = drawCopaSPKnockoutOpponents(pools, ALL_CLUBS_MAP, state.groupOpponents);
+      const knockoutOpponents = drawCopaSPKnockoutOpponents(pools, ALL_CLUBS_MAP, [state.homeClubId, ...state.groupOpponents]);
       const partial = { ...state, stage: 'knockout', groupStandings: groupStandingsAfter, groupQualified: true, knockoutOpponents, knockoutRound: 0, stats: nextStats };
       const nextResolved = resolveCopaSPMatch(partial);
       return { ...partial, pendingMatch: nextResolved, logMsg: `${baseLog} Terminou em ${position}º do grupo — classificado pro mata-mata!` };
@@ -442,7 +450,12 @@ export function useCareerController() {
     if (player.age > COPA_JUNIOR_MID_MAX_AGE) return false;
     if (dayIndex < copaJuniorCooldownUntilDay) return false;
     if (Math.random() >= COPA_JUNIOR_MID_DAILY_CHANCE) return false;
-    setCopaJuniorMidState({ status: 'invited' });
+    // Sorteia o clube que te convida JÁ AQUI (não só quando aceitar) pra
+    // CopaJuniorInviteScreen poder mostrar o nome de verdade na decisão --
+    // exclui o clube atual (não faz sentido ele "te convidar pra um teste").
+    const pools = [SERIE_D_2026_CLUB_IDS, SERIE_C_2026_CLUBS, SERIE_B_2026_CLUBS, SERIE_A_2026_CLUBS];
+    const homeClubId = drawCopaSPHomeClub(pools, [userClubId]);
+    setCopaJuniorMidState({ status: 'invited', homeClubId });
     setPhase('copa-junior-invite');
     return true;
   }
@@ -455,8 +468,9 @@ export function useCareerController() {
   }
 
   function acceptCopaJuniorInvite() {
-    pushLog('Você aceitou o convite e vai defender uma equipe na Copa São Paulo.');
-    const campaign = createCopaSPCampaign();
+    const homeClubId = copaJuniorMidState.homeClubId;
+    pushLog(`Você aceitou o convite e vai defender o ${ALL_CLUBS_MAP[homeClubId]?.name || homeClubId} num teste de aptidão na Copa São Paulo.`);
+    const campaign = createCopaSPCampaign(homeClubId);
     const resolved = resolveCopaSPMatch(campaign);
     setCopaJuniorMidState({ ...campaign, pendingMatch: resolved });
     setPhase('copa-junior-mid-match');

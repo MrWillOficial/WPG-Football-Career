@@ -24,9 +24,9 @@ function CreateScreen({ onStart }) {
   return (
     <div style={{ padding: 24, maxWidth: 400, margin: '0 auto', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 24 }}>
       <div>
-        <p style={{ color: THEME.gold, fontSize: 13, fontWeight: 600 }}>RUMO AO BRASILEIRÃO</p>
-        <h1 className="display" style={{ fontSize: 38, fontWeight: 700, lineHeight: 1 }}>Brasileirão Série D 2026</h1>
-        <p style={{ color: THEME.textSecondary, fontSize: 13, marginTop: 8 }}>Crie seu jogador para começar a carreira.</p>
+        <p style={{ color: THEME.gold, fontSize: 13, fontWeight: 700, letterSpacing: 0.5 }}>DO ANONIMATO À LENDA DO FUTEBOL</p>
+        <h1 className="display" style={{ fontSize: 40, fontWeight: 700, lineHeight: 0.98 }}>BEM-VINDO AO ESTRELATO</h1>
+        <p style={{ color: THEME.textSecondary, fontSize: 14, marginTop: 10 }}>Crie seu jogador e comece do zero — tudo o que você vai construir, você vai ganhar em campo.</p>
       </div>
       <div>
         <label style={{ fontSize: 12, color: THEME.textSecondary }}>Nome do jogador</label>
@@ -151,14 +151,22 @@ function ClubSelectScreen({ player, onChoose }) {
    COPINHA — mata-mata curto antes de escolher o primeiro clube profissional.
    Ver copinhaEngine.js pro porquê e a lógica de olheiro.
 ============================================================================ */
-function CopinhaIntroScreen({ player, onStart }) {
+function CopinhaIntroScreen({ player, copinhaState, onStart }) {
+  const homeClub = ALL_CLUBS_MAP[copinhaState?.homeClubId];
+  const homeClubName = homeClub?.name || 'um clube';
   return (
     <div style={{ padding: 24, maxWidth: 420, margin: '0 auto', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <Card elevated style={{ padding: 24, textAlign: 'center' }}>
         <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase' }}>Antes de escolher seu clube</p>
-        <h1 className="display" style={{ fontSize: 26, fontWeight: 700, margin: '8px 0 12px' }}>Copa São Paulo de Futebol Júnior</h1>
-        <p style={{ color: THEME.textSecondary, fontSize: 13, lineHeight: 1.6 }}>
-          {player.name}, você foi convidado a defender uma seleção de base na Copinha antes de assinar seu primeiro contrato profissional. Primeiro uma fase de grupos (4 times, {COPA_SP_GROUP_OPPONENTS} jogos) — os 2 primeiros avançam pro mata-mata de jogo único, do qual só sai campeão quem vencer {COPA_SP_KNOCKOUT_ROUNDS} rodadas seguidas. Um bom torneio pode chamar a atenção de olheiros de divisões maiores; um torneio discreto não muda nada, e você segue normalmente pra escolha de um clube da Série D.
+        <h1 className="display" style={{ fontSize: 26, fontWeight: 700, margin: '8px 0 12px' }}>Teste de aptidão — Copa São Paulo</h1>
+        {homeClub && (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, margin: '0 0 12px' }}>
+            <ClubMonogram club={homeClub} size={28} />
+            <span style={{ fontWeight: 700, fontSize: 15 }}>{homeClubName}</span>
+          </div>
+        )}
+        <p style={{ color: THEME.textSecondary, fontSize: 14, lineHeight: 1.6 }}>
+          {player.name}, o <b style={{ color: THEME.text }}>{homeClubName}</b> te chamou pra um teste de aptidão na categoria de base, na Copa São Paulo, antes de você assinar seu primeiro contrato profissional. Primeiro uma fase de grupos (4 times, {COPA_SP_GROUP_OPPONENTS} jogos) — os 2 primeiros avançam pro mata-mata de jogo único, do qual só sai campeão quem vencer {COPA_SP_KNOCKOUT_ROUNDS} rodadas seguidas. Um bom torneio pode chamar a atenção de olheiros de divisões maiores; um torneio discreto não muda nada, e você segue normalmente pra escolha de um clube da Série D.
         </p>
         <button className="display" onClick={onStart} style={{ marginTop: 20, padding: '15px 0', width: '100%', fontWeight: 700, fontSize: 16, background: THEME.gold, color: THEME.bg, border: 'none' }}>COMEÇAR A COPINHA</button>
       </Card>
@@ -199,19 +207,27 @@ function CopinhaResultScreen({ copinhaState, onContinue }) {
    pré-clube) -- ver useCareerController.js pro porquê e o gatilho.
 ============================================================================ */
 
-function CopaJuniorInviteScreen({ player, onAccept, onDecline }) {
+function CopaJuniorInviteScreen({ player, copaJuniorMidState, onAccept, onDecline }) {
+  const homeClub = ALL_CLUBS_MAP[copaJuniorMidState?.homeClubId];
+  const homeClubName = homeClub?.name || 'Um clube';
   return (
     <div style={{ padding: 24, maxWidth: 420, margin: '0 auto', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <Card elevated style={{ padding: 24, textAlign: 'center' }}>
         <p style={{ color: THEME.gold, fontSize: 12, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase' }}>Oportunidade de carreira</p>
-        <h1 className="display" style={{ fontSize: 24, fontWeight: 700, margin: '8px 0 12px' }}>Convite para a Copa Júnior</h1>
-        <p style={{ color: THEME.textSecondary, fontSize: 13, lineHeight: 1.6 }}>
-          {player.name}, você foi convidado para integrar o elenco de uma equipe que vai disputar a Copa São Paulo. Primeiro uma fase de grupos (4 times, {COPA_SP_GROUP_OPPONENTS} jogos) — os 2 primeiros avançam pro mata-mata de jogo único, do qual só sai campeão quem vencer {COPA_SP_KNOCKOUT_ROUNDS} rodadas seguidas.
+        <h1 className="display" style={{ fontSize: 24, fontWeight: 700, margin: '8px 0 12px' }}>Teste de aptidão na Copa São Paulo</h1>
+        {homeClub && (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, margin: '0 0 12px' }}>
+            <ClubMonogram club={homeClub} size={28} />
+            <span style={{ fontWeight: 700, fontSize: 15 }}>{homeClubName}</span>
+          </div>
+        )}
+        <p style={{ color: THEME.textSecondary, fontSize: 14, lineHeight: 1.6 }}>
+          {player.name}, você foi convidado para integrar o elenco do <b style={{ color: THEME.text }}>{homeClubName}</b> num teste de aptidão na Copa São Paulo. Primeiro uma fase de grupos (4 times, {COPA_SP_GROUP_OPPONENTS} jogos) — os 2 primeiros avançam pro mata-mata de jogo único, do qual só sai campeão quem vencer {COPA_SP_KNOCKOUT_ROUNDS} rodadas seguidas.
         </p>
-        <p style={{ color: THEME.textSecondary, fontSize: 13, lineHeight: 1.6, marginTop: 10 }}>
+        <p style={{ color: THEME.textSecondary, fontSize: 14, lineHeight: 1.6, marginTop: 10 }}>
           Não há garantia de titularidade — a escalação de cada jogo continua sendo decidida em campo. O que a competição garante é uma vitrine maior: se você chegar ao fim da campanha sem ter entrado nenhuma vez, terá pelo menos uma chance como substituto antes do fim.
         </p>
-        <p style={{ color: THEME.textFaint, fontSize: 12, lineHeight: 1.6, marginTop: 10 }}>
+        <p style={{ color: THEME.textFaint, fontSize: 13, lineHeight: 1.6, marginTop: 10 }}>
           Aceitar não altera seu vínculo atual — você só volta ao seu clube se nenhum olheiro se interessar.
         </p>
         <button className="display" onClick={onAccept} style={{ marginTop: 20, padding: '15px 0', width: '100%', fontWeight: 700, fontSize: 16, background: THEME.gold, color: THEME.bg, border: 'none' }}>ACEITAR CONVITE</button>
