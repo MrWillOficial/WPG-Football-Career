@@ -1,0 +1,31 @@
+WPG PROJECT — Football Career Simulation
+==========================================
+
+OPÇÃO 1 — Jogar agora, sem instalar nada (mais fácil)
+------------------------------------------------------
+Abra o arquivo:
+    dist-artifact/wpg-artifact.html
+diretamente no navegador (duplo clique nele). É o jogo inteiro
+empacotado em um único arquivo HTML, com os dados e o progresso salvos
+no próprio navegador (localStorage).
+
+OPÇÃO 2 — Rodar o projeto de verdade (pra mexer no código)
+------------------------------------------------------------
+Pré-requisito: Node.js instalado (https://nodejs.org, versão 18+).
+
+No terminal, dentro desta pasta:
+
+    npm install
+    npm run dev
+
+Depois abra o endereço que aparecer no terminal (geralmente
+http://localhost:5173) no navegador.
+
+Outros comandos úteis:
+    npm run build            -> gera a versão de produção em dist/
+    npm run build:artifact   -> regenera dist-artifact/wpg-artifact.html
+
+Estrutura do projeto
+---------------------
+Veja o README.md na raiz pra entender a organização das pastas
+(engines, data, ui, etc).
